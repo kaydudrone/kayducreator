@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5QCJQYYH49"></script>
 <script>
@@ -10,9 +12,10 @@
   gtag('config', 'G-5QCJQYYH49');
 </script>
 <!-- End Google Analytics -->
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Kay Du | 60 Mountains Challenge</title>
+<meta name="description" content="Kay Du is a Hiking Drone Creator from Malaysia on a mission to summit 60 mountains. Download free GPX trail files and follow the journey." />
+<link rel="canonical" href="https://kayducreator.com" />
+<link rel="preload" as="image" href="images/hero_main.jpg" />
 <!-- Open Graph / Link Preview -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://kayducreator.com" />
@@ -26,6 +29,8 @@
 <meta name="twitter:title" content="Kay Du | 60 Mountains Challenge" />
 <meta name="twitter:description" content="Hiking Drone Creator · Malaysia · Documenting the journey to summit 60 mountains" />
 <meta name="twitter:image" content="https://kayducreator.com/images/kaydu_og.jpg" />
+<link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
+<link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Droid+Serif:wght@400;700&display=swap" rel="stylesheet" />
@@ -669,12 +674,28 @@ footer{
   /* Section typography */
   .title{font-size:clamp(1.7rem,6.5vw,2.4rem)}
   .section-title{font-size:clamp(1.7rem,6.5vw,2.4rem)}
+
+  /* Social / contact buttons — 2 per row on mobile */
+  .contact-links{gap:.6rem}
+  .social-btn{flex:1 1 calc(50% - .3rem);justify-content:center;padding:.72rem .8rem;font-size:.82rem;border-radius:12px}
+  .social-btn span{font-size:.82rem}
+
+  /* Trail action buttons — stack GPX + Video neatly */
+  .trail-actions{gap:.35rem;padding:.65rem .9rem .9rem}
+  .trail-actions .btn{flex:1 1 calc(33% - .25rem);min-width:72px;font-size:.66rem;padding:.45rem .4rem}
+
+  /* Contact card padding */
+  .contact-card{padding:1.4rem 1.2rem}
+  .contact-copy{margin:.7rem 0 1.1rem;font-size:.87rem}
+  .contact-note{font-size:.82rem;margin-top:1rem;padding-top:.9rem}
 }
 
 @media(max-width:400px){
   .beyond-grid{grid-template-columns:1fr}
   .trail-stat .s-val{font-size:.7rem}
   .container{width:calc(100% - 1.5rem)}
+  .social-btn{flex:1 1 100%;justify-content:center}
+  .trail-actions .btn{font-size:.63rem;padding:.4rem .35rem}
 }
 
 /* ── TOUCH-FRIENDLY GALLERY CARDS ── */
@@ -714,6 +735,45 @@ footer{
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+  document.addEventListener('click', function(e) {
+    // GPX download tracking
+    var gpxLink = e.target.closest('a[href$=".gpx"]');
+    if (gpxLink) {
+      var url = gpxLink.getAttribute('href');
+      gtag('event', 'file_download', {
+        file_name: url.split('/').pop(),
+        file_extension: 'gpx',
+        link_url: url
+      });
+    }
+    // Instagram video button tracking
+    var videoLink = e.target.closest('a.btn-ig');
+    if (videoLink) {
+      var videoUrl = videoLink.getAttribute('href');
+      gtag('event', 'video_click', {
+        link_url: videoUrl,
+        link_text: 'Video'
+      });
+    }
+    // Social / contact button tracking
+    var socialLink = e.target.closest('a.social-btn');
+    if (socialLink) {
+      var socialUrl = socialLink.getAttribute('href');
+      var socialText = socialLink.querySelector('span') ? socialLink.querySelector('span').textContent.trim() : 'unknown';
+      var platform = socialUrl.includes('wa.me') ? 'WhatsApp'
+                   : socialUrl.includes('mailto') ? 'Email'
+                   : socialUrl.includes('instagram') ? 'Instagram'
+                   : socialUrl.includes('tiktok') ? 'TikTok'
+                   : socialUrl.includes('xhslink') ? 'RedNote'
+                   : socialText;
+      gtag('event', 'social_click', {
+        platform: platform,
+        link_url: socialUrl
+      });
+    }
+  });
+</script>
 </head>
 <body>
 
@@ -790,7 +850,7 @@ footer{
 
       <!-- Photo left -->
       <div class="about-photo">
-        <img src="images/kk_about.jpg" alt="Kay Du at Mount Kinabalu summit" onerror="this.src='images/kk_1.jpg'">
+        <img src="images/kk_about.jpg" alt="Kay Du at Mount Kinabalu summit" loading="lazy" onerror="this.src='images/kk_1.jpg'">
         <div class="about-photo-label">Mt. Kinabalu · 4,095m</div>
       </div>
 
@@ -870,8 +930,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Pudu_GPX_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/bpFXsrVX6eVeDVPY7?g_st=ic" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DUgAO8skgI9/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/bpFXsrVX6eVeDVPY7?g_st=ic" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DUgAO8skgI9/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -908,8 +968,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Guling_Ayam_GPX_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/dSaHMqXPuKjkDvmy8" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DU2rWLekiD3/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/dSaHMqXPuKjkDvmy8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DU2rWLekiD3/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -946,8 +1006,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Gunung_Lari_Tembakau_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/v8JE4PNdoRHnBQSg8" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DU-mi71kp2s/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/v8JE4PNdoRHnBQSg8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DU-mi71kp2s/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -984,8 +1044,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Besi_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/7qgxqNJPxG3Sqs1S6" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVN9YxzEiQL/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/7qgxqNJPxG3Sqs1S6" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVN9YxzEiQL/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1030,8 +1090,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Gunung_Nuang_Pangsun_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/vJw3GN4PTSjky7XU7" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVZxwehEtg6/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/vJw3GN4PTSjky7XU7" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVZxwehEtg6/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1076,8 +1136,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Kutu_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/fywgZWu2ksCoMd266" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWYv9TMkggA/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/fywgZWu2ksCoMd266" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWYv9TMkggA/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1114,8 +1174,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Sepang_South_Africa_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/qkUKywFCRseUjFpc8" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVvTpatyC9Z/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/qkUKywFCRseUjFpc8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DVvTpatyC9Z/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1155,8 +1215,8 @@ footer{
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             GPX
           </a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/uW9uG5hG3VWg9fjR6" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DV3EQiYyWr7/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/uW9uG5hG3VWg9fjR6" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DV3EQiYyWr7/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1203,8 +1263,8 @@ footer{
               </div>
               <div class="trail-actions">
                 <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Dinding_TarRoad_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/rW5bz6rH13gB2nMN7" target="_blank" rel="noopener">Meeting Point</a>
-                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/rW5bz6rH13gB2nMN7" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
               </div>
             </div>
 
@@ -1221,8 +1281,8 @@ footer{
               </div>
               <div class="trail-actions">
                 <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Dinding_Kazumi_Trail_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/gJgzmwzMd21T6yCy8" target="_blank" rel="noopener">Meeting Point</a>
-                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/gJgzmwzMd21T6yCy8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
               </div>
             </div>
 
@@ -1239,8 +1299,8 @@ footer{
               </div>
               <div class="trail-actions">
                 <span class="btn btn-disabled btn-sm">GPX Coming Soon</span>
-                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/rW5bz6rH13gB2nMN7" target="_blank" rel="noopener">Meeting Point</a>
-                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/rW5bz6rH13gB2nMN7" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWG_RGeEoMi/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
               </div>
             </div>
 
@@ -1263,8 +1323,8 @@ footer{
         </div>
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Tanjung_Tuan_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/9rBYT1Nb46Rvzz83A" target="_blank" rel="noopener">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWpvXOJkkqe/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/9rBYT1Nb46Rvzz83A" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DWpvXOJkkqe/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
@@ -1336,7 +1396,7 @@ footer{
         <p class="contact-copy">Available for brand collaborations, hiking workshops, event coverage, and outdoor content creation across Malaysia.</p>
         <div class="contact-links">
           <!-- WhatsApp -->
-          <a class="social-btn" href="https://wa.me/60199387586" target="_blank" rel="noopener" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+          <a class="social-btn" href="https://wa.me/60199387586" target="_blank" rel="noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
             <span>WhatsApp</span>
           </a>
@@ -1346,16 +1406,16 @@ footer{
             <span>Email</span>
           </a>
           <!-- Instagram -->
-          <a class="social-btn" href="https://www.instagram.com/kaydu_3310" target="_blank" rel="noopener" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+          <a class="social-btn" href="https://www.instagram.com/kaydu_3310" target="_blank" rel="noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             <span>Instagram</span>
           </a>
           <!-- XiaoHongShu -->
-          <a class="social-btn" href="https://xhslink.com/m/4g3jreDiOIy" target="_blank" rel="noopener" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+          <a class="social-btn" href="https://xhslink.com/m/4g3jreDiOIy" target="_blank" rel="noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <span>RedNote 小红书</span>
           </a>
           <!-- TikTok -->
-          <a class="social-btn" href="https://www.tiktok.com/@kaydu3310drone" target="_blank" rel="noopener" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+          <a class="social-btn" href="https://www.tiktok.com/@kaydu3310drone" target="_blank" rel="noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
             <span>TikTok</span>
           </a>
@@ -1367,11 +1427,11 @@ footer{
       </div>
       <div class="photo-collage">
         <div class="col">
-          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Trail view"></div>
-          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Summit group"></div>
+          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Trail view" loading="lazy"></div>
+          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Summit group" loading="lazy"></div>
         </div>
         <div class="col">
-          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape"></div>
+          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape" loading="lazy"></div>
         </div>
       </div>
     </div>
