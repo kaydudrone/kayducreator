@@ -57,6 +57,9 @@ nav{
   background:#1d8aab;
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(255,255,255,.12);
+  /* iOS safe area */
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
 }
 .nav-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .nav-brand{display:flex;align-items:center;gap:.75rem}
@@ -533,6 +536,23 @@ footer{
 }
 .glb-thumb.active,.glb-thumb:hover{opacity:1;border-color:#fff}
 
+/* ── FEATURED REELS ── */
+.reels-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+  align-items:start;
+}
+.reels-grid .instagram-media{
+  border-radius:16px !important;
+  box-shadow:var(--shadow) !important;
+  margin:0 !important;
+  min-width:0 !important;
+  width:100% !important;
+}
+@media(max-width:860px){.reels-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
+@media(max-width:640px){.reels-grid{gap:.85rem}}
+
 /* ── HAMBURGER NAV ── */
 .nav-hamburger{
   display:none;background:none;border:none;cursor:pointer;
@@ -577,44 +597,97 @@ footer{
   .progress-big{font-size:3.5rem}
   .photo-collage{grid-template-columns:1fr}
 }
+
 @media(max-width:640px){
-  .section{padding:56px 0}
-  .masonry{columns:1}
-  .mountains-grid{grid-template-columns:1fr}
-  .hero{min-height:80vh}
-  .hero-inner{padding:40px 0 36px;gap:0}
-  .hero h1{font-size:clamp(2.2rem,9vw,3.2rem)}
-  .hero-desc{font-size:.92rem}
-  .hero-actions{flex-direction:column;align-items:center}
-  .hero-actions .btn{width:100%;max-width:280px;justify-content:center}
-  .kk-row{grid-template-columns:1fr}
-  .trail-actions{flex-wrap:wrap}
-  .trail-actions .btn{flex:1;min-width:0;justify-content:center;font-size:.7rem;padding:.45rem .6rem}
-  .beyond-grid{gap:.85rem}
-  .about-mini-grid{grid-template-columns:1fr 1fr}
-  .permit-badge,.guide-badge{font-size:.5rem;padding:.22rem .5rem}
+  /* Layout */
+  .container{width:calc(100% - 2rem)}
+  .section{padding:48px 0}
+
+  /* Hero */
+  .hero{min-height:85vh}
+  .hero-inner{padding:40px 0 36px}
+  .hero h1{font-size:clamp(2rem,8.5vw,3rem);max-width:18ch}
+  .hero-desc{font-size:.9rem;padding:0 .5rem}
+  .hero-actions{flex-direction:column;align-items:center;gap:.6rem}
+  .hero-actions .btn{width:100%;max-width:260px;justify-content:center;padding:.75rem 1.2rem;min-height:44px}
+  .hero-card{display:none} /* hide stats card on mobile to keep hero clean */
+
+  /* Progress */
   .progress-band{padding:1.2rem 1rem}
   .stat-grid{grid-template-columns:repeat(2,1fr);gap:.5rem}
-  .stat strong{font-size:1.3rem}
+  .stat{padding:.7rem .75rem}
+  .stat strong{font-size:1.25rem}
+
+  /* Masonry gallery */
+  .masonry{columns:1}
+  .gallery-intro{flex-direction:column;gap:1rem}
+
+  /* Trail cards */
+  .mountains-grid{grid-template-columns:1fr}
+  .trail-header{padding:1rem 1rem .75rem}
+  .trail-name{font-size:1.05rem}
+  .trail-stat{padding:.65rem .4rem}
+  .trail-stat .s-val{font-size:.75rem}
+  .trail-stat .s-lbl{font-size:.47rem}
+  .trail-actions{flex-wrap:wrap;padding:.75rem 1rem 1rem;gap:.4rem}
+  .trail-actions .btn{flex:1;min-width:80px;justify-content:center;font-size:.68rem;padding:.5rem .5rem;min-height:40px}
+  .permit-badge,.guide-badge{font-size:.48rem;padding:.2rem .45rem;margin-left:.2rem}
+
+  /* About */
+  .about-mini-grid{grid-template-columns:1fr 1fr}
+  .kk-row{grid-template-columns:1fr}
+
+  /* Beyond grid */
+  .beyond-grid{gap:.85rem}
+  .beyond-name{font-size:.85rem}
+
+  /* Reels */
+  .reels-grid{max-width:100%}
+
+  /* Section typography */
+  .title{font-size:clamp(1.7rem,6.5vw,2.4rem)}
+  .section-title{font-size:clamp(1.7rem,6.5vw,2.4rem)}
 }
+
 @media(max-width:400px){
   .beyond-grid{grid-template-columns:1fr}
-  .trail-stat .s-val{font-size:.72rem}
+  .trail-stat .s-val{font-size:.7rem}
+  .container{width:calc(100% - 1.5rem)}
+}
+
+/* ── TOUCH-FRIENDLY GALLERY CARDS ── */
+/* On touch devices show a permanent subtle tap hint instead of hover overlay */
+@media(hover:none){
+  .beyond-card .beyond-photos::after{
+    content:'Tap to view photos';
+    opacity:1;
+    background:rgba(0,0,0,.28);
+    font-size:.68rem;
+    letter-spacing:.04em;
+  }
+  .beyond-card:active .beyond-photos::after{background:rgba(0,0,0,.5)}
+}
+
+/* Ensure all interactive elements meet 44px min touch target */
+@media(max-width:640px){
+  .btn{min-height:44px}
+  .btn-sm{min-height:38px}
+  .nav-hamburger{padding:.6rem;min-height:44px;min-width:44px;align-items:center}
+  .glb-close{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center}
+  .glb-arrow{width:2.6rem;height:2.6rem}
 }
 
 /* ── MOBILE LIGHTBOX ── */
 @media(max-width:640px){
   .glb-header{padding:.5rem .75rem}
-  .glb-title{font-size:.88rem}
-  .glb-counter{font-size:.72rem;margin-right:.5rem}
-  .glb-close{font-size:1.3rem;padding:.2rem .4rem}
-  .glb-stage{padding:0 2.6rem}
-  .glb-arrow{width:2rem;height:2rem;font-size:1.1rem}
-  .glb-arrow.prev{left:.2rem}
-  .glb-arrow.next{right:.2rem}
-  .glb-img{max-height:calc(100vh - 180px);border-radius:6px}
-  .glb-thumbs{padding:.6rem .75rem;gap:.35rem}
-  .glb-thumb{width:44px;height:44px}
+  .glb-title{font-size:.85rem}
+  .glb-counter{font-size:.7rem;margin-right:.4rem}
+  .glb-stage{padding:0 3rem}
+  .glb-arrow.prev{left:.15rem}
+  .glb-arrow.next{right:.15rem}
+  .glb-img{max-height:calc(100svh - 190px);border-radius:8px}
+  .glb-thumbs{padding:.5rem .75rem;gap:.3rem}
+  .glb-thumb{width:42px;height:42px;border-radius:5px}
 }
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
@@ -631,6 +704,7 @@ footer{
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
+      <li><a href="#reels">Reels</a></li>
       <li><a href="#progress">Challenge</a></li>
       <li><a href="#mountains">GPX Trails</a></li>
       <li><a href="#beyond">Beyond Malaysia</a></li>
@@ -643,6 +717,7 @@ footer{
 </nav>
 <div class="nav-mobile" id="navMobile">
   <a href="#about" class="nav-mobile-link">About</a>
+  <a href="#reels" class="nav-mobile-link">Reels</a>
   <a href="#progress" class="nav-mobile-link">Challenge</a>
   <a href="#mountains" class="nav-mobile-link">GPX Trails</a>
   <a href="#beyond" class="nav-mobile-link">Beyond Malaysia</a>
@@ -712,6 +787,23 @@ footer{
     </div>
   </div>
 </section>
+
+<!-- FEATURED REELS -->
+<section class="section" id="reels" style="padding-top:0;padding-bottom:80px">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:2rem">
+      <div class="eyebrow">Content</div>
+      <h2 class="title">Featured Reels</h2>
+      <p class="text-muted" style="margin-top:.6rem;max-width:540px">Hiking stories, hidden gems & sunrise spots — follow along on Instagram.</p>
+    </div>
+    <div class="reels-grid fade-up">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DR9YuclEpD9/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DLuTjlaSfTU/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOTG_eLEo5E/" data-instgrm-version="14"></blockquote>
+    </div>
+  </div>
+</section>
+<script async src="https://www.instagram.com/embed.js"></script>
 
 <!-- TRAIL CARDS -->
 <section class="section" id="mountains" style="padding-top:0">
@@ -1297,16 +1389,24 @@ document.addEventListener('keydown',e=>{
 // ── HAMBURGER NAV ──────────────────────────────────────────────
 const hamburger = document.getElementById('navHamburger');
 const navMobile = document.getElementById('navMobile');
-hamburger?.addEventListener('click', () => {
+function closeNav(){
+  hamburger?.classList.remove('open');
+  navMobile?.classList.remove('open');
+}
+hamburger?.addEventListener('click', e => {
+  e.stopPropagation();
   hamburger.classList.toggle('open');
   navMobile.classList.toggle('open');
 });
-// Close mobile nav when a link is clicked
+// Close when a link is tapped
 document.querySelectorAll('.nav-mobile-link').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    navMobile.classList.remove('open');
-  });
+  link.addEventListener('click', closeNav);
+});
+// Close when tapping outside the nav
+document.addEventListener('click', e => {
+  if(navMobile?.classList.contains('open') && !navMobile.contains(e.target) && !hamburger.contains(e.target)){
+    closeNav();
+  }
 });
 
 // ── GALLERY LIGHTBOX ──────────────────────────────────────────
