@@ -22,8 +22,7 @@
 <meta property="og:title" content="Kay Du | 60 Mountains Challenge" />
 <meta property="og:description" content="Hiking Drone Creator · Malaysia · Documenting the journey to summit 60 mountains" />
 <meta property="og:image" content="https://kayducreator.com/images/kaydu_og.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Kay Du | 60 Mountains Challenge" />
@@ -31,6 +30,7 @@
 <meta name="twitter:image" content="https://kayducreator.com/images/kaydu_og.jpg" />
 <link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
 <link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
+<meta name="theme-color" content="#1d8aab" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Droid+Serif:wght@400;700&display=swap" rel="stylesheet" />
@@ -62,7 +62,7 @@
   --text:#1a1a1a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -484,6 +484,12 @@ footer{
 /* ── FADE-IN ANIMATION ── */
 .fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .fade-up.visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .fade-up{opacity:1;transform:none;transition:none}
+  .hero-bg{animation:none;transform:scale(1)}
+}
 
 /* ── GALLERY LIGHTBOX ── */
 .beyond-card{cursor:pointer}
@@ -506,7 +512,7 @@ footer{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity .25s;
 }
-#galleryModal.open{opacity:1;pointer-events:all}
+#galleryModal.open{opacity:1;pointer-events:auto}
 
 /* Lightbox header */
 .glb-header{
@@ -656,8 +662,8 @@ footer{
   .trail-stat{padding:.65rem .4rem}
   .trail-stat .s-val{font-size:.75rem}
   .trail-stat .s-lbl{font-size:.47rem}
-  .trail-actions{flex-wrap:wrap;padding:.75rem 1rem 1rem;gap:.4rem}
-  .trail-actions .btn{flex:1;min-width:80px;justify-content:center;font-size:.68rem;padding:.5rem .5rem;min-height:40px}
+  .trail-actions{flex-wrap:wrap;padding:.65rem .9rem .9rem;gap:.35rem}
+  .trail-actions .btn{flex:1 1 calc(33% - .25rem);min-width:72px;justify-content:center;font-size:.66rem;padding:.45rem .4rem;min-height:40px}
   .permit-badge,.guide-badge{font-size:.48rem;padding:.2rem .45rem;margin-left:.2rem}
 
   /* About */
@@ -679,10 +685,6 @@ footer{
   .contact-links{gap:.6rem}
   .social-btn{flex:1 1 calc(50% - .3rem);justify-content:center;padding:.72rem .8rem;font-size:.82rem;border-radius:12px}
   .social-btn span{font-size:.82rem}
-
-  /* Trail action buttons — stack GPX + Video neatly */
-  .trail-actions{gap:.35rem;padding:.65rem .9rem .9rem}
-  .trail-actions .btn{flex:1 1 calc(33% - .25rem);min-width:72px;font-size:.66rem;padding:.45rem .4rem}
 
   /* Contact card padding */
   .contact-card{padding:1.4rem 1.2rem}
