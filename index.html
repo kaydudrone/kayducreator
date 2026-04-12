@@ -259,7 +259,7 @@ nav{
 .progress-label{font-size:1.1rem;font-weight:700;margin-bottom:.2rem}
 .progress-sub{color:var(--muted);font-size:.92rem;margin-bottom:1rem}
 .bar-track{height:10px;border-radius:999px;background:rgba(29,138,171,.12);overflow:hidden}
-.bar-fill{height:100%;width:16.67%;background:linear-gradient(90deg,var(--primary-dark),#3dc4e8);border-radius:999px;transition:width 1s ease}
+.bar-fill{height:100%;width:20%;background:linear-gradient(90deg,var(--primary-dark),#3dc4e8);border-radius:999px;transition:width 1s ease}
 .progress-meta{
   display:flex;justify-content:space-between;margin-top:.55rem;
   font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);
@@ -833,13 +833,13 @@ footer{
 <section id="progress" style="padding:48px 0">
   <div class="container">
     <div class="progress-band fade-up">
-      <div class="progress-big">10<sub>/60</sub></div>
+      <div class="progress-big">12<sub>/60</sub></div>
       <div>
         <div class="eyebrow" style="margin-bottom:.3rem">60 Mountains Challenge</div>
-        <div class="progress-label">16.67% of the journey complete</div>
-        <div class="progress-sub">10 mountains documented with free GPX files for the hiking community.</div>
+        <div class="progress-label">20% of the journey complete</div>
+        <div class="progress-sub">12 mountains documented with free GPX files for the hiking community.</div>
         <div class="bar-track"><div class="bar-fill" id="progress-bar"></div></div>
-        <div class="progress-meta"><span>0 mountains</span><span>16.67% done</span><span>60 mountains</span></div>
+        <div class="progress-meta"><span>0 mountains</span><span>20% done</span><span>60 mountains</span></div>
       </div>
     </div>
   </div>
@@ -1330,6 +1330,46 @@ footer{
         </div>
       </article>
 
+      <!-- 11 Bukit Batu Chondong -->
+      <article class="trail-card">
+        <div class="trail-header">
+          <div class="trail-num">11 · Completed</div>
+          <div class="trail-name">Bukit Batu Chondong</div>
+          <div class="trail-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Selangor</div>
+          <span class="difficulty diff-moderate"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Moderate</span>
+        </div>
+        <div class="trail-stats">
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">1.2 km</span><span class="s-lbl">Distance</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">170 m</span><span class="s-lbl">Elev. Gain</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">289 m</span><span class="s-lbl">Peak</span></div>
+        </div>
+        <div class="trail-actions">
+          <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Batu_Chondong_ByKayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+          <a class="btn btn-outline btn-sm" href="https://share.google/sakaWeGZBQ8MoUKuw" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <span class="btn btn-disabled btn-sm">Video Soon</span>
+        </div>
+      </article>
+
+      <!-- 12 Bukit Madei -->
+      <article class="trail-card">
+        <div class="trail-header">
+          <div class="trail-num">12 · Completed</div>
+          <div class="trail-name">Bukit Madei</div>
+          <div class="trail-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Selangor</div>
+          <span class="difficulty diff-hard"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Hard</span>
+        </div>
+        <div class="trail-stats">
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">9.9 km</span><span class="s-lbl">Distance</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">1,041 m</span><span class="s-lbl">Elev. Gain</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">543 m</span><span class="s-lbl">Peak</span></div>
+        </div>
+        <div class="trail-actions">
+          <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Madei_ByKayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/CsoSr35EW9ivZu4p8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <span class="btn btn-disabled btn-sm">Video Soon</span>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -1444,7 +1484,7 @@ footer{
 <footer>
   <div class="container footer-inner">
     <span>© 2026 Kay Du · So Hikers Malaysia</span>
-    <span>60 Mountains Challenge · 10 / 60 Done</span>
+    <span>60 Mountains Challenge · 12 / 60 Done</span>
   </div>
 </footer>
 
@@ -1459,7 +1499,7 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 window.addEventListener('load', () => {
   setTimeout(() => {
     const bar = document.getElementById('progress-bar');
-    if(bar) bar.style.width = '16.67%';
+    if(bar) bar.style.width = '20%';
   }, 400);
 });
 // Close route modal on Escape key
