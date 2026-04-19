@@ -28,6 +28,49 @@
 <meta name="twitter:title" content="Kay Du | 60 Mountains Challenge" />
 <meta name="twitter:description" content="Hiking Drone Creator · Malaysia · Documenting the journey to summit 60 mountains" />
 <meta name="twitter:image" content="https://kayducreator.com/images/kaydu_og.jpg" />
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://kayducreator.com/#person",
+      "name": "Kay Du",
+      "url": "https://kayducreator.com",
+      "image": "https://kayducreator.com/images/kaydu_og.jpg",
+      "description": "Hiking Drone Creator from Malaysia on a mission to summit 60 mountains, sharing free GPX trail files for the hiking community.",
+      "jobTitle": "Hiking Drone Creator",
+      "nationality": "Malaysian",
+      "sameAs": [
+        "https://www.instagram.com/kaydu_3310",
+        "https://www.tiktok.com/@kaydu3310drone"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://kayducreator.com/#website",
+      "url": "https://kayducreator.com",
+      "name": "Kay Du | 60 Mountains Challenge",
+      "description": "Free GPX trail files for Malaysian mountains. Kay Du is a Hiking Drone Creator documenting a 60 Mountains Challenge across Malaysia.",
+      "author": { "@id": "https://kayducreator.com/#person" },
+      "inLanguage": "en-MY",
+      "keywords": "hiking Malaysia, GPX trails Malaysia, free GPX download, 60 mountains Malaysia, hiking drone creator, Malaysian hiking trails"
+    },
+    {
+      "@type": "SportsOrganization",
+      "name": "So Hikers Malaysia",
+      "url": "https://kayducreator.com",
+      "member": { "@id": "https://kayducreator.com/#person" },
+      "location": {
+        "@type": "Place",
+        "name": "Malaysia",
+        "address": { "@type": "PostalAddress", "addressCountry": "MY" }
+      }
+    }
+  ]
+}
+</script>
 <link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
 <link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
 <meta name="theme-color" content="#1d8aab" />
@@ -1366,7 +1409,7 @@ footer{
         <div class="trail-actions">
           <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Madei_ByKayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
           <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/CsoSr35EW9ivZu4p8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
-          <span class="btn btn-disabled btn-sm">Video Soon</span>
+          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DXS_kxikl-Z/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
         </div>
       </article>
 
