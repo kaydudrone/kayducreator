@@ -397,9 +397,9 @@ nav{
 .route-diff-row{ display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.4rem; }
 
 /* Multi-route badge */
-.route-badge{ display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:600;color:var(--primary);background:color-mix(in srgb,var(--primary) 10%,transparent);border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);border-radius:20px;padding:.2rem .6rem; }
+.route-badge{ display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:600;color:var(--primary);background:var(--primary-light);background:color-mix(in srgb,var(--primary) 10%,transparent);border:1px solid rgba(29,138,171,.25);border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);border-radius:20px;padding:.2rem .6rem; }
 .btn-choose-route{ width:100%;border:none;background:none;border-top:1px solid var(--border);padding:.85rem 1.3rem;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--primary);display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s; }
-.btn-choose-route:hover{ background:color-mix(in srgb,var(--primary) 6%,transparent); }
+.btn-choose-route:hover{ background:var(--primary-light);background:color-mix(in srgb,var(--primary) 6%,transparent); }
 
 /* Route modal */
 .route-modal-overlay{
@@ -452,6 +452,15 @@ nav{
   font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;
   margin-top:.65rem;margin-left:.4rem;
 }
+
+/* ── SECTION LABEL / TITLE / SUB (Beyond Malaysia etc.) ── */
+.section-label{
+  font-family:"DM Mono",monospace;
+  font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--primary);margin-bottom:.75rem;
+}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:.5rem}
+.section-sub{color:var(--muted);font-size:.97rem;line-height:1.7;max-width:540px;margin-bottom:0}
 
 /* ── BEYOND MALAYSIA ── */
 .beyond-grid{
@@ -615,7 +624,7 @@ footer{
 /* ── FEATURED REELS ── */
 .reels-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:1.25rem;
   align-items:start;
 }
@@ -773,7 +782,7 @@ footer{
   .glb-stage{padding:0 3rem}
   .glb-arrow.prev{left:.15rem}
   .glb-arrow.next{right:.15rem}
-  .glb-img{max-height:calc(100svh - 190px);border-radius:8px}
+  .glb-img{max-height:calc(100vh - 190px);max-height:calc(100svh - 190px);border-radius:8px}
   .glb-thumbs{padding:.5rem .75rem;gap:.3rem}
   .glb-thumb{width:42px;height:42px;border-radius:5px}
 }
@@ -927,6 +936,7 @@ footer{
       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DR9YuclEpD9/" data-instgrm-version="14"></blockquote>
       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DLuTjlaSfTU/" data-instgrm-version="14"></blockquote>
       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOTG_eLEo5E/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DW6GRB9EphJ/" data-instgrm-version="14"></blockquote>
     </div>
   </div>
 </section>
@@ -1284,7 +1294,7 @@ footer{
       </article>
 
       <!-- Bukit Dinding Route Modal -->
-      <div class="route-modal-overlay" id="routeModal" onclick="if(event.target===this)this.classList.remove('open')">
+      <div class="route-modal-overlay" id="routeModal" role="dialog" aria-modal="true" aria-label="Choose a route" onclick="if(event.target===this)this.classList.remove('open')">
         <div class="route-modal">
           <div class="route-modal-head">
             <div>
@@ -1733,11 +1743,11 @@ function galleryNav(dir) {
 
 // Inject modal HTML
 document.body.insertAdjacentHTML('beforeend', `
-<div id="galleryModal">
+<div id="galleryModal" role="dialog" aria-modal="true" aria-label="Photo gallery">
   <div class="glb-header">
     <span class="glb-title"></span>
     <span class="glb-counter"></span>
-    <button class="glb-close" onclick="closeGallery()">✕</button>
+    <button class="glb-close" onclick="closeGallery()" aria-label="Close gallery">✕</button>
   </div>
   <div class="glb-stage">
     <button class="glb-arrow prev" onclick="galleryNav(-1)">&#8249;</button>
