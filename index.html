@@ -44,7 +44,9 @@
       "nationality": "Malaysian",
       "sameAs": [
         "https://www.instagram.com/kaydu_3310",
-        "https://www.tiktok.com/@kaydu3310drone"
+        "https://www.tiktok.com/@kaydu3310drone",
+        "https://www.linkedin.com/company/kaydu",
+        "https://xhslink.com/m/4g3jreDiOIy"
       ]
     },
     {
@@ -795,10 +797,13 @@ footer{
     var gpxLink = e.target.closest('a[href$=".gpx"]');
     if (gpxLink) {
       var url = gpxLink.getAttribute('href');
+      var trailCard = gpxLink.closest('.trail-card');
+      var trailName = trailCard && trailCard.querySelector('.trail-name') ? trailCard.querySelector('.trail-name').textContent.trim() : 'unknown';
       gtag('event', 'file_download', {
         file_name: url.split('/').pop(),
         file_extension: 'gpx',
-        link_url: url
+        link_url: url,
+        trail_name: trailName
       });
     }
     // Instagram video button tracking
@@ -1462,7 +1467,7 @@ footer{
       <!-- Mount Kinabalu -->
       <div class="beyond-card" data-gallery="kinabalu">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/kk_20.jpg" alt="Mount Kinabalu" loading="lazy">
+          <img src="images/kk_20.jpg" alt="Mount Kinabalu aerial drone view by Kay Du — Malaysia's highest peak at 4,095m" loading="lazy">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇲🇾</div>
@@ -1476,7 +1481,7 @@ footer{
       <!-- Rinjani -->
       <div class="beyond-card" data-gallery="rinjani">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/rinjani_4.jpg" alt="Gunung Rinjani" loading="lazy">
+          <img src="images/rinjani_4.jpg" alt="Gunung Rinjani hiking trail, Lombok Indonesia — drone footage by Kay Du" loading="lazy">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇮🇩</div>
@@ -1490,7 +1495,7 @@ footer{
       <!-- Bromo + Tumpak Sewu + Ijen combined -->
       <div class="beyond-card" data-gallery="bromo">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/bromo_1.jpg" alt="Bromo · Tumpak Sewu · Ijen" loading="lazy">
+          <img src="images/bromo_1.jpg" alt="Mount Bromo volcanic crater sunrise, East Java Indonesia — drone footage by Kay Du" loading="lazy">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇮🇩</div>
@@ -1520,7 +1525,7 @@ footer{
             <span>WhatsApp</span>
           </a>
           <!-- Email -->
-          <a class="social-btn" href="mailto:dukiatkiong@gmail.com" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+          <a class="social-btn" href="mailto:&#100;&#117;&#107;&#105;&#97;&#116;&#107;&#105;&#111;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span>Email</span>
           </a>
@@ -1541,16 +1546,16 @@ footer{
         </div>
         <div class="contact-note">
           WhatsApp: 019-938 7586<br>
-          Email: dukiatkiong@gmail.com
+          Email: &#100;&#117;&#107;&#105;&#97;&#116;&#107;&#105;&#111;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;
         </div>
       </div>
       <div class="photo-collage">
         <div class="col">
-          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Trail view" loading="lazy"></div>
-          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Summit group" loading="lazy"></div>
+          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Kay Du on a Malaysian hiking trail during the 60 Mountains Challenge" loading="lazy"></div>
+          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Kay Du and fellow hikers at a mountain summit in Malaysia" loading="lazy"></div>
         </div>
         <div class="col">
-          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape" loading="lazy"></div>
+          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape aerial drone shot by Kay Du, hiking creator Malaysia" loading="lazy"></div>
         </div>
       </div>
     </div>
