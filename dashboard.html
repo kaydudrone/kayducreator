@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kay Du — Creator Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #050f14; color: #e8eef0; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #071a22 0%, #0a2535 50%, #0d3d52 100%); padding: 28px 32px; border-bottom: 1px solid #1d8aab30; }
+  .header h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .header p { color: #8892a4; font-size: 13px; margin-top: 4px; }
+  .header-meta { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+  .badge { background: #ffffff12; border: 1px solid #ffffff20; border-radius: 20px; padding: 4px 12px; font-size: 12px; color: #a0aec0; }
+  .badge span { color: #3dc4e8; font-weight: 600; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 28px; }
+
+  /* Progress bar */
+  .challenge-bar { background: #0d1f28; border: 1px solid #1d8aab25; border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; }
+  .challenge-bar h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .progress-row { display: flex; align-items: center; gap: 16px; }
+  .progress-track { flex: 1; background: #ffffff10; border-radius: 8px; height: 12px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #145f76, #3dc4e8); border-radius: 8px; transition: width 1s ease; }
+  .progress-label { font-size: 18px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .mountain-dots { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; }
+  .dot { width: 18px; height: 18px; border-radius: 4px; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .dot.done { background: linear-gradient(135deg, #1d8aab, #3dc4e8); color: #fff; }
+  .dot.todo { background: #ffffff10; color: #4a5568; }
+
+  /* KPI grid */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .kpi.ig::before { background: linear-gradient(90deg, #e1306c, #f77737); }
+  .kpi.tt::before { background: linear-gradient(90deg, #010101, #69c9d0); }
+  .kpi.xhs::before { background: linear-gradient(90deg, #ff2442, #ff6b6b); }
+  .kpi.yt::before { background: linear-gradient(90deg, #ff0000, #cc0000); }
+  .kpi-platform { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 8px; }
+  .kpi-main { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+  .kpi-sub { font-size: 12px; color: #8892a4; margin-top: 4px; }
+  .kpi-stat { font-size: 12px; color: #68d391; margin-top: 8px; }
+  .kpi-warn { font-size: 12px; color: #fc8181; margin-top: 8px; }
+
+  /* Charts row */
+  .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; }
+  .card h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+
+  /* Tables */
+  .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { font-size: 11px; color: #8892a4; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 10px; text-align: left; border-bottom: 1px solid #ffffff10; }
+  tbody td { font-size: 13px; padding: 10px 10px; border-bottom: 1px solid #ffffff08; color: #c8d0dc; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #ffffff05; }
+  .views-badge { background: #1d8aab22; color: #3dc4e8; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; }
+  .saves-badge { background: #48bb7822; color: #68d391; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; }
+
+  /* Mountains table */
+  .mountains-card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+  .mountains-card h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .mtn-num { background: linear-gradient(135deg, #1d8aab, #3dc4e8); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+
+  /* Insights */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .insight { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 18px; }
+  .insight-icon { font-size: 24px; margin-bottom: 10px; }
+  .insight-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .insight-body { font-size: 12px; color: #8892a4; line-height: 1.6; }
+  .highlight { color: #3dc4e8; font-weight: 600; }
+
+  /* Quick row: Viral + Up Next + Schedule */
+  .quick-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  .viral-alert { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+  .viral-alert::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #fc8181, #f6ad55); }
+  .viral-status { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 8px; }
+  .viral-main { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .viral-sub { font-size: 12px; color: #8892a4; line-height: 1.5; }
+  .viral-rule { font-size: 11px; color: #f6ad55; margin-top: 10px; padding: 8px; background: #f6ad5510; border-radius: 8px; line-height: 1.5; }
+
+  .up-next { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+  .up-next::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #1d8aab, #3dc4e8); }
+  .up-next-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 8px; }
+  .up-next-name { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .up-next-meta { font-size: 12px; color: #8892a4; }
+  .up-next-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .tag { background: #ffffff10; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #a0aec0; }
+  .tag.green { background: #48bb7820; color: #68d391; }
+  .tag.blue { background: #63b3ed20; color: #63b3ed; }
+  .tag.orange { background: #f6ad5520; color: #f6ad55; }
+
+  .schedule-card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; }
+  .schedule-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 14px; }
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-cell { text-align: center; padding: 8px 4px; border-radius: 8px; background: #ffffff08; }
+  .day-cell.active { background: linear-gradient(135deg, #1d8aab20, #3dc4e820); border: 1px solid #1d8aab40; }
+  .day-name { font-size: 10px; color: #8892a4; margin-bottom: 4px; font-weight: 600; }
+  .day-cell.active .day-name { color: #3dc4e8; }
+  .day-time { font-size: 9px; color: #1d8aab; }
+  .schedule-sub { margin-top: 12px; font-size: 11px; color: #8892a4; line-height: 1.6; }
+
+  /* April vs May comparison */
+  .compare-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .warn-badge { background: #fc818122; color: #fc8181; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; }
+  .notice { margin-top: 12px; font-size: 11px; color: #f6ad55; background: #f6ad5510; padding: 8px; border-radius: 8px; line-height: 1.5; }
+
+  /* ManyChat tracker */
+  .section-label { margin-bottom: 10px; font-size: 11px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; }
+  .manychat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .mc-card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+  .mc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #1d8aab, #3dc4e8); }
+  .mc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 8px; }
+  .mc-main { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+  .mc-sub { font-size: 12px; color: #8892a4; margin-top: 4px; }
+  .mc-stat { font-size: 12px; color: #68d391; margin-top: 8px; }
+  .mc-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .mc-table td { font-size: 12px; padding: 6px 0; border-bottom: 1px solid #ffffff08; color: #c8d0dc; }
+  .mc-table tr:last-child td { border-bottom: none; }
+
+  .footer { text-align: center; padding: 20px; color: #4a5568; font-size: 12px; }
+  .live-badge { display: inline-block; background: #48bb7820; color: #68d391; border: 1px solid #48bb7840; border-radius: 20px; padding: 3px 10px; font-size: 11px; margin-left: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .loading { color: #8892a4; font-size: 12px; }
+
+  /* Post Performance Alert */
+  .perf-alert { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 18px 22px; margin-bottom: 24px; display: none; }
+  .perf-alert.visible { display: block; border-color: #48bb7850; background: #0a1f15; }
+  .perf-alert-title { font-size: 13px; font-weight: 700; color: #68d391; margin-bottom: 10px; }
+  .perf-alert-body { font-size: 12px; color: #8892a4; line-height: 1.6; }
+  .perf-posts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .perf-post { background: #ffffff08; border-radius: 8px; padding: 10px 14px; font-size: 12px; border-left: 3px solid #68d391; }
+  .perf-post-title { color: #e8eef0; font-weight: 600; margin-bottom: 4px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .perf-post-stats { color: #8892a4; font-size: 11px; }
+
+  /* TikTok Manual Update Panel */
+  .update-panel { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+  .update-panel h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .update-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .update-field label { font-size: 11px; color: #8892a4; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .update-field input { width: 100%; background: #ffffff08; border: 1px solid #1d8aab30; border-radius: 8px; padding: 8px 12px; color: #e8eef0; font-size: 14px; font-weight: 600; outline: none; }
+  .update-field input:focus { border-color: #1d8aab; }
+  .update-btn { margin-top: 16px; background: linear-gradient(90deg, #145f76, #1d8aab); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .update-btn:hover { opacity: 0.85; }
+  .update-saved { display: none; font-size: 12px; color: #68d391; margin-left: 12px; }
+
+  /* Content Calendar */
+  .calendar-card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+  .calendar-card h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .cal-day { border-radius: 10px; padding: 10px 6px; background: #ffffff06; min-height: 90px; }
+  .cal-day.post-day { background: #1d8aab12; border: 1px solid #1d8aab30; }
+  .cal-day.today { border: 1px solid #3dc4e8 !important; background: #3dc4e810 !important; }
+  .cal-day-name { font-size: 10px; color: #8892a4; font-weight: 700; text-align: center; margin-bottom: 6px; text-transform: uppercase; }
+  .cal-day.post-day .cal-day-name { color: #3dc4e8; }
+  .cal-day.today .cal-day-name { color: #3dc4e8; }
+  .cal-post { background: #1d8aab; color: #fff; border-radius: 5px; padding: 3px 6px; font-size: 9px; margin-bottom: 3px; line-height: 1.3; }
+  .cal-post.tiktok { background: #010101; border: 1px solid #69c9d0; }
+  .cal-post.xhs { background: #ff2442; }
+  .cal-post.youtube { background: #cc0000; }
+  .cal-post.pending { background: #f6ad5520; color: #f6ad55; border: 1px dashed #f6ad55; }
+  .cal-time { font-size: 9px; color: #8892a4; text-align: center; margin-top: 4px; }
+
+  /* Token expiry */
+  .token-warn { background: #1a0f05; border: 1px solid #f6ad5530; border-radius: 10px; padding: 10px 16px; margin-bottom: 24px; font-size: 12px; color: #f6ad55; display: flex; align-items: center; gap: 8px; }
+
+  /* Intelligence Panel */
+  .intelligence-panel { background: linear-gradient(135deg, #0a1f28 0%, #0d2d3d 100%); border: 1px solid #3dc4e830; border-radius: 16px; padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .intelligence-panel::after { content: 'AI'; position: absolute; top: -10px; right: -5px; font-size: 80px; font-weight: 900; color: #3dc4e808; pointer-events: none; }
+  .intel-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .intel-icon { background: #3dc4e8; color: #050f14; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .intel-title { font-size: 16px; font-weight: 700; color: #fff; }
+  .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .intel-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; }
+  .intel-label { font-size: 11px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .intel-msg { font-size: 13px; color: #e8eef0; line-height: 1.5; }
+  .intel-msg strong { color: #3dc4e8; }
+  .intel-action { display: inline-block; margin-top: 10px; font-size: 11px; color: #3dc4e8; font-weight: 600; text-decoration: none; border-bottom: 1px dashed #3dc4e8; cursor: pointer; }
+
+  /* Wiki Link Buttons */
+  .wiki-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(61, 196, 232, 0.1); border: 1px solid rgba(61, 196, 232, 0.3); color: #3dc4e8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 12px; transition: all 0.2s; }
+  .wiki-btn:hover { background: rgba(61, 196, 232, 0.2); border-color: #3dc4e8; transform: translateY(-1px); }
+  .wiki-btn svg { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏔 Kay Du — Creator Dashboard <span class="live-badge">● LIVE</span></h1>
+  <p>60 Mountains Challenge · Antigravity System · <span id="lastUpdated">Fetching live data...</span></p>
+  <div class="header-meta">
+    <div class="badge">Instagram <span>@kaydu_3310</span></div>
+    <div class="badge">TikTok <span>830K views / yr</span></div>
+    <div class="badge">XHS <span>65K impressions / 30d</span></div>
+    <div class="badge">YouTube <span>83.7K views</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Intelligence Panel -->
+  <div class="intelligence-panel" id="intelligencePanel">
+    <div class="intel-header">
+      <div class="intel-icon">🧠</div>
+      <div class="intel-title">Creative Director Intelligence</div>
+      <div class="live-badge" style="margin-left: auto;">ANTIGRAVITY ACTIVE</div>
+    </div>
+    <div class="intel-grid" id="intelGrid">
+      <div class="intel-card">
+        <div class="intel-label">Content Mix Strategy</div>
+        <div class="intel-msg" id="intelContent">Analyzing your recent post ratios...</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-label">Platform Growth</div>
+        <div class="intel-msg" id="intelPlatform">Evaluating cross-platform momentum...</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-label">Actionable Next Step</div>
+        <div class="intel-msg" id="intelAction">Identifying your highest leverage move...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Challenge Progress -->
+  <div class="challenge-bar">
+    <h3>60 Mountains Challenge Progress</h3>
+    <div class="progress-row">
+      <div class="progress-track">
+        <div class="progress-fill" style="width: 26.67%"></div>
+      </div>
+      <div class="progress-label">16 / 60 🏔</div>
+    </div>
+    <div class="mountain-dots" id="mountainDots"></div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi ig">
+      <div class="kpi-platform">📸 Instagram</div>
+      <div class="kpi-main" id="igFollowers">3.28M</div>
+      <div class="kpi-sub" id="igFollowersSub">Total views (2024–2026)</div>
+      <div class="kpi-stat" id="igPostCount">↑ 41x growth 2024→2025</div>
+    </div>
+    <div class="kpi tt">
+      <div class="kpi-platform">🎵 TikTok</div>
+      <div class="kpi-main" id="ttViewsDisplay">830K</div>
+      <div class="kpi-sub">Views (365 days)</div>
+      <div class="kpi-stat" id="ttAvgDisplay">Avg 2,275 views/day</div>
+    </div>
+    <div class="kpi xhs">
+      <div class="kpi-platform">📕 XHS (小红书)</div>
+      <div class="kpi-main" id="xhsImpDisplay">65K</div>
+      <div class="kpi-sub">Impressions (30 days)</div>
+      <div class="kpi-warn" id="xhsCtrDisplay">⚠ Completion rate: 24%</div>
+    </div>
+    <div class="kpi yt">
+      <div class="kpi-platform">▶ YouTube Shorts</div>
+      <div class="kpi-main" id="ytViews">83.7K</div>
+      <div class="kpi-sub" id="ytSub">Total views (94 videos)</div>
+      <div class="kpi-stat" id="ytSubs">55 subs gained</div>
+    </div>
+  </div>
+
+  <!-- Viral Alert + Up Next + Posting Schedule -->
+  <div class="quick-row">
+    <div class="viral-alert">
+      <div class="viral-status">🔥 Viral Watch</div>
+      <div class="viral-main">All Clear</div>
+      <div class="viral-sub">No videos in viral zone (10K+ views / 24hrs) right now.</div>
+      <div class="viral-rule">⚡ Rule: Any TikTok hits 10K in 24hrs → post follow-up within 24hrs · same mountain, different angle</div>
+    </div>
+
+    <div class="up-next">
+      <div class="up-next-label">⏭ Up Next — Mountain #16</div>
+      <div class="up-next-name" id="upNextName">Bukit Saga (#15) 🏔</div>
+      <div class="up-next-meta" id="upNextMeta" style="margin-bottom:10px;">Production brief ready for review.</div>
+      <div class="up-next-tags">
+        <span class="tag orange">⏳ Post Pending</span>
+        <span class="tag green">📋 Brief Done</span>
+      </div>
+      <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/Creative_Director_Wiki/wiki/mountain_15_bukit_saga.md" class="wiki-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        View Production Brief
+      </a>
+    </div>
+
+    <div class="schedule-card">
+      <h4>📅 Best Posting Times (MYT)</h4>
+      <div class="week-grid">
+        <div class="day-cell"><div class="day-name">Mon</div></div>
+        <div class="day-cell active"><div class="day-name">Tue</div><div class="day-time">7–9pm</div></div>
+        <div class="day-cell"><div class="day-name">Wed</div></div>
+        <div class="day-cell active"><div class="day-name">Thu</div><div class="day-time">7–9pm</div></div>
+        <div class="day-cell"><div class="day-name">Fri</div></div>
+        <div class="day-cell active"><div class="day-name">Sat</div><div class="day-time">7–9pm</div></div>
+        <div class="day-cell"><div class="day-name">Sun</div></div>
+      </div>
+      <div class="schedule-sub">IG: Tue/Thu/Sat · TikTok: Daily 6–8pm<br>XHS: Wed/Fri/Sun 8–10pm</div>
+    </div>
+  </div>
+
+  <!-- Token Expiry Warning -->
+  <div class="token-warn" id="tokenWarn" style="display:none">
+    ⚠️ <strong>Instagram token expiring soon!</strong> Go to developers.facebook.com/tools/accesstoken/ → regenerate → update IG_ACCESS_TOKEN in Vercel.
+  </div>
+
+  <!-- Post Performance Alert -->
+  <div class="perf-alert" id="perfAlert">
+    <div class="perf-alert-title">🔥 High Performance Posts Detected!</div>
+    <div class="perf-alert-body">These recent posts are outperforming your average. Consider posting a follow-up within 24hrs to ride the momentum.</div>
+    <div class="perf-posts" id="perfPosts"></div>
+  </div>
+
+  <!-- TikTok / XHS Manual Update Panel -->
+  <div class="update-panel">
+    <h3>✍️ Manual Stats Update — TikTok & XHS</h3>
+    <div class="update-grid">
+      <div class="update-field">
+        <label>TikTok Views (365d)</label>
+        <input type="text" id="ttViewsInput" placeholder="e.g. 830K">
+      </div>
+      <div class="update-field">
+        <label>TikTok Avg/Day</label>
+        <input type="text" id="ttAvgInput" placeholder="e.g. 2,275">
+      </div>
+      <div class="update-field">
+        <label>XHS Impressions (30d)</label>
+        <input type="text" id="xhsImpInput" placeholder="e.g. 65K">
+      </div>
+      <div class="update-field">
+        <label>XHS Cover CTR</label>
+        <input type="text" id="xhsCtrInput" placeholder="e.g. 12.6%">
+      </div>
+    </div>
+    <button class="update-btn" onclick="saveManualStats()">💾 Save Stats</button>
+    <span class="update-saved" id="updateSaved">✅ Saved!</span>
+  </div>
+
+  <!-- Charts: IG Monthly + Format -->
+  <div class="charts-row">
+    <div class="card">
+      <h3>📈 Instagram Monthly Views — 2025 vs 2026</h3>
+      <canvas id="igChart" height="100"></canvas>
+    </div>
+    <div class="card">
+      <h3>📊 Format Performance (IG 2026)</h3>
+      <canvas id="formatChart" height="100"></canvas>
+    </div>
+  </div>
+
+  <!-- Charts: TikTok + XHS -->
+  <div class="charts-row">
+    <div class="card">
+      <h3>🎵 TikTok Daily Views — Last 30 Days</h3>
+      <canvas id="ttChart" height="100"></canvas>
+    </div>
+    <div class="card">
+      <h3>📕 XHS Health Check</h3>
+      <canvas id="xhsChart" height="100"></canvas>
+    </div>
+  </div>
+
+  <!-- April vs May Recovery -->
+  <div class="compare-row">
+    <div class="card">
+      <h3>📊 Monthly Avg Views — Overpost Warning</h3>
+      <canvas id="compareChart" height="80"></canvas>
+    </div>
+    <div class="card">
+      <h3>📋 Month Summary</h3>
+      <table>
+        <thead><tr><th>Month</th><th>Posts</th><th>Avg Views</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Jan</td><td>24</td>
+            <td><span class="views-badge">8,175</span></td>
+            <td style="color:#8892a4;font-size:12px">—</td>
+          </tr>
+          <tr>
+            <td>Feb</td><td>15</td>
+            <td><span class="views-badge">7,513</span></td>
+            <td style="color:#8892a4;font-size:12px">—</td>
+          </tr>
+          <tr>
+            <td>Mar ⭐</td><td>12</td>
+            <td><span class="saves-badge">16,850</span></td>
+            <td style="color:#68d391;font-size:12px;font-weight:600">Best</td>
+          </tr>
+          <tr>
+            <td>Apr ⚠</td><td>24</td>
+            <td><span class="warn-badge">4,065</span></td>
+            <td style="color:#fc8181;font-size:12px;font-weight:600">Overposted</td>
+          </tr>
+          <tr>
+            <td>May</td><td>—</td>
+            <td><span class="views-badge">Tracking</span></td>
+            <td style="color:#63b3ed;font-size:12px">🔄 Live</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="notice">⚠ Target: Max 3x/week · 10–14 posts/month<br>Quality beats quantity — March proves it.</div>
+    </div>
+  </div>
+
+  <!-- ManyChat / GPX Tracker -->
+  <div class="section-label">💬 ManyChat · GPX Lead Tracker <span id="mcFetched" style="font-size:10px;color:#1d8aab;margin-left:8px;">Loading…</span></div>
+  <div class="manychat-grid">
+    <div class="mc-card">
+      <div class="mc-label">ManyChat Account</div>
+      <div class="mc-main" id="mcPageName" style="font-size:14px;margin-top:6px;line-height:1.4">Kay Du</div>
+      <div class="mc-sub" id="mcProStatus">Checking…</div>
+      <div class="mc-stat">● Live</div>
+    </div>
+    <div class="mc-card">
+      <div class="mc-label">🌿 GPX Requests — MOSSY</div>
+      <div class="mc-main" id="mcGpxCount">—</div>
+      <div class="mc-sub" id="mcGpxSub">People who got the GPX link</div>
+      <div class="mc-stat" id="mcTagStatus">Checking tag…</div>
+    </div>
+    <div class="mc-card">
+      <div class="mc-label">🌿 Active Campaign</div>
+      <div class="mc-main" style="font-size:14px;margin-top:4px;line-height:1.3">Gunung Lari Tembakau</div>
+      <div class="mc-sub">Mossy Forest · Genting</div>
+      <table class="mc-table">
+        <tr><td style="color:#8892a4">Keyword</td><td style="color:#3dc4e8;font-weight:700">MOSSY</td></tr>
+        <tr><td style="color:#8892a4">Posted</td><td style="color:#68d391">May 7, 2026</td></tr>
+        <tr><td style="color:#8892a4">Total Tags</td><td id="mcTotalTags" style="color:#8892a4">—</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Content Calendar -->
+  <div class="calendar-card">
+    <h3>📅 Content Calendar — This Week</h3>
+    <div class="cal-grid" id="calGrid"></div>
+    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+      <span style="font-size:11px;color:#8892a4">Legend:</span>
+      <span class="cal-post" style="font-size:10px">📸 IG</span>
+      <span class="cal-post tiktok" style="font-size:10px">🎵 TikTok</span>
+      <span class="cal-post xhs" style="font-size:10px">📕 XHS</span>
+      <span class="cal-post youtube" style="font-size:10px">▶ YouTube</span>
+      <span class="cal-post pending" style="font-size:10px">⏳ Pending</span>
+    </div>
+  </div>
+
+  <!-- Key Insights -->
+  <div class="insights-grid">
+    <div class="insight">
+      <div class="insight-icon">🔑</div>
+      <div class="insight-title">The "Hidden" Formula</div>
+      <div class="insight-body">7 of your top 10 IG posts in 2026 use <span class="highlight">"hidden"</span> in the opening line. Template: <em>Hidden + [location type] + [proximity to KL]</em>. Your best post hit <span class="highlight">102K views</span> with this exact formula.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🃏</div>
+      <div class="insight-title">Carousels > Reels</div>
+      <div class="insight-body">Carousels avg <span class="highlight">20,035 views</span> vs Reels at 7,702. That's <span class="highlight">2.6x more reach</span> for carousels. Lead every mountain with a carousel, follow up with reels.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">💾</div>
+      <div class="insight-title">XHS: Waterfalls = Saves</div>
+      <div class="insight-body">Top 3 save posts are all waterfall/hidden nature. <span class="highlight">551 saves</span> on the Selangor waterfall post. Saves drive the XHS algorithm — prioritise waterfall mountains on XHS.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">⚡</div>
+      <div class="insight-title">TikTok Viral Windows</div>
+      <div class="insight-body">Big spikes: <span class="highlight">Nov 14, Mar 17, Aug 3</span>. Each spike has a 3–5 day momentum tail. Post a follow-up within 24hrs of a spike to ride the wave — you're currently not doing this.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📅</div>
+      <div class="insight-title">Peak Months: Jul, Aug, Nov</div>
+      <div class="insight-body">2025 data shows views 2–3x higher in <span class="highlight">July (585K), August (541K), November (564K)</span>. Plan your best, most cinematic mountains for these windows.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-title">XHS Cover CTR Gap</div>
+      <div class="insight-body">Current cover CTR is <span class="highlight">12.6%</span> but impressions are up 33% while views dropped 17%. Target <span class="highlight">15%+</span> by adding bold text overlays to cover images.</div>
+    </div>
+  </div>
+
+  <!-- Top Posts Tables -->
+  <div class="tables-row">
+    <div class="card">
+      <h3>🏆 Top 5 Instagram Posts (2026)</h3>
+      <table>
+        <thead><tr><th>Hook</th><th>Type</th><th>Views</th><th>Saves</th></tr></thead>
+        <tbody id="igTable"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🏆 Top 5 XHS Posts by Views</h3>
+      <table>
+        <thead><tr><th>Title</th><th>Views</th><th>Saves</th></tr></thead>
+        <tbody id="xhsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mountains Done -->
+  <div class="mountains-card">
+    <h3>🏔 Mountains Completed (15/60)</h3>
+    <table>
+      <thead><tr><th>#</th><th>Mountain</th><th>Difficulty</th><th>Date</th><th>IG Views</th><th>IG Likes</th><th>IG Saves</th><th>IG Shares</th></tr></thead>
+      <tbody id="mountainTable"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">Kay Du · Antigravity System · Analytics ingested May 2026</div>
+
+<script>
+const DATA = {
+  ig_monthly_2025: [
+    {month:"Jan",views:9913},{month:"Mar",views:8232},{month:"Apr",views:30678},
+    {month:"May",views:12945},{month:"Jun",views:49918},{month:"Jul",views:585600},
+    {month:"Aug",views:541028},{month:"Sep",views:344101},{month:"Oct",views:131998},
+    {month:"Nov",views:564438},{month:"Dec",views:372550}
+  ],
+  ig_monthly_2026: [
+    {month:"Jan",views:196202},{month:"Feb",views:112700},
+    {month:"Mar",views:202195},{month:"Apr",views:48783}
+  ],
+  tt_last30: [
+    {date:"Apr 19",views:113},{date:"Apr 21",views:51},{date:"Apr 22",views:59},{date:"Apr 23",views:43},
+    {date:"Apr 24",views:57},{date:"Apr 25",views:56},{date:"Apr 26",views:81},{date:"Apr 27",views:66},
+    {date:"Apr 28",views:58},{date:"Apr 29",views:51},{date:"Apr 30",views:53},{date:"May 1",views:47},
+    {date:"May 2",views:44},{date:"May 3",views:48},{date:"May 4",views:42},{date:"May 5",views:38},
+    {date:"May 6",views:45},{date:"May 7",views:50},{date:"May 8",views:43},{date:"May 9",views:44},
+    {date:"May 10",views:48},{date:"May 11",views:41},{date:"May 12",views:46},{date:"May 13",views:52},
+    {date:"May 14",views:44},{date:"May 15",views:39},{date:"May 16",views:43},{date:"May 17",views:47},
+    {date:"May 18",views:44},{date:"May 19",views:36}
+  ],
+  top_ig: [
+    {hook:"Hidden gem near KL that most people don't know about 👀",views:102595,saves:3745,type:"IG carousel"},
+    {hook:"Hidden waterfall in Selangor, just 1 hour from KL.",views:83730,saves:1887,type:"IG reel"},
+    {hook:"A hidden Mossy Forest near Genting Highlands",views:29719,saves:548,type:"IG reel"},
+    {hook:"A hidden British colonial hill in Selangor 🇬🇧",views:29603,saves:441,type:"IG reel"},
+    {hook:"Biar betul?! Naik KTM Komuter Utara pun boleh",views:17977,saves:72,type:"IG reel"}
+  ],
+  top_xhs: [
+    {title:"原来在吉隆坡也能看到云顶？！😆",views:20109,saves:8},
+    {title:"隐藏的瀑布秘境｜距离KL仅1小时",views:16883,saves:551},
+    {title:"雪兰莪真的有这种隐藏瀑布？Lata Medang",views:8154,saves:341},
+    {title:"马来西亚也有侏罗纪公园？！太震撼了吧🦖",views:7280,saves:114},
+    {title:"隐藏在马来西亚的海边秘境 🌊",views:3397,saves:202}
+  ],
+  mountains: [
+    {num:1,name:"Bukit Pudu",location:"Cheras, KL",difficulty:"Easy",ig_views:13209,ig_likes:479,ig_saves:123,ig_shares:158,date:"2026-02-08"},
+    {num:2,name:"Guling Ayam",location:"Gombak",difficulty:"Easy",ig_views:11902,ig_likes:378,ig_saves:130,ig_shares:180,date:"2026-02-17"},
+    {num:3,name:"Gunung Lari Tembakau",location:"Genting Highlands",difficulty:"Easy",ig_views:29719,ig_likes:1264,ig_saves:548,ig_shares:868,date:"2026-02-20"},
+    {num:4,name:"Bukit Besi",location:"Cheras",difficulty:"Easy",ig_views:3851,ig_likes:104,ig_saves:18,ig_shares:24,date:"2026-02-26"},
+    {num:5,name:"Gunung Nuang",location:"Hulu Langat",difficulty:"Very Hard",ig_views:11013,ig_likes:482,ig_saves:110,ig_shares:219,date:"2026-03-02"},
+    {num:6,name:"Bukit Kutu",location:"Kuala Kubu Bharu",difficulty:"Hard",ig_views:3571,ig_likes:80,ig_saves:21,ig_shares:33,date:"2026-03-11"},
+    {num:7,name:"Sepang South Africa",location:"Sepang",difficulty:"Easy",ig_views:4098,ig_likes:98,ig_saves:24,ig_shares:36,date:"2026-03-14"},
+    {num:8,name:"Sri Bintang",location:"Kepong",difficulty:"Easy",ig_views:7269,ig_likes:205,ig_saves:19,ig_shares:42,date:"2026-03-20"},
+    {num:9,name:"Bukit Dinding",location:"Setapak",difficulty:"Easy",ig_views:10095,ig_likes:246,ig_saves:63,ig_shares:91,date:"2026-03-30"},
+    {num:10,name:"Tanjung Tuan",location:"Port Dickson",difficulty:"Moderate",ig_views:102595,ig_likes:5532,ig_saves:3745,ig_shares:6183,date:"2026-04-02"},
+    {num:11,name:"Bukit Batu Chondong",location:"Ampang Jaya",difficulty:"Slightly Hard",ig_views:7180,ig_likes:198,ig_saves:90,ig_shares:130,date:"2026-04-18"},
+    {num:12,name:"Bukit Madei",location:"Gombak, Selangor",difficulty:"Easy",ig_views:3083,ig_likes:81,ig_saves:24,ig_shares:38,date:"2026-04-18"},
+    {num:13,name:"Sungai Pisang Waterfall",location:"Gombak, Selangor",difficulty:"Moderate",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-04+"},
+    {num:14,name:"Bukit Lagong",location:"Batu Caves, Selangor",difficulty:"Slightly Hard",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-04+"},
+    {num:15,name:"Bukit Saga",location:"Cheras, Selangor",difficulty:"Easy",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-05+"}
+  ]
+};
+
+// Mountain dots
+const dotsEl = document.getElementById('mountainDots');
+for (let i = 1; i <= 60; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot ' + (i <= 16 ? 'done' : 'todo');
+  d.textContent = i;
+  dotsEl.appendChild(d);
+}
+
+// IG Monthly Chart
+const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const igCtx = document.getElementById('igChart').getContext('2d');
+new Chart(igCtx, {
+  type: 'bar',
+  data: {
+    labels: allMonths,
+    datasets: [
+      {
+        label: '2025',
+        data: allMonths.map(m => { const f = DATA.ig_monthly_2025.find(d=>d.month===m); return f ? f.views : null; }),
+        backgroundColor: '#145f7640', borderColor: '#145f76', borderWidth: 1, borderRadius: 4
+      },
+      {
+        label: '2026',
+        data: allMonths.map(m => { const f = DATA.ig_monthly_2026.find(d=>d.month===m); return f ? f.views : null; }),
+        backgroundColor: '#1d8aab70', borderColor: '#1d8aab', borderWidth: 1, borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#8892a4', font: { size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#8892a4' }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+    }
+  }
+});
+
+// Format Performance Chart
+const formatCtx = document.getElementById('formatChart').getContext('2d');
+new Chart(formatCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Carousel', 'Reel', 'Static'],
+    datasets: [{
+      label: 'Avg Views',
+      data: [20035, 7702, 1874],
+      backgroundColor: ['#1d8aab', '#145f76', '#3dc4e8'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#e8e8f0', font: { size: 12 } }, grid: { color: '#ffffff08' } }
+    }
+  }
+});
+
+// TikTok Chart
+const ttCtx = document.getElementById('ttChart').getContext('2d');
+new Chart(ttCtx, {
+  type: 'line',
+  data: {
+    labels: DATA.tt_last30.map(d=>d.date),
+    datasets: [{
+      label: 'Daily Views',
+      data: DATA.tt_last30.map(d=>d.views),
+      borderColor: '#3dc4e8', backgroundColor: '#3dc4e815',
+      fill: true, tension: 0.4, pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#8892a4', maxTicksLimit: 6 }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4' }, grid: { color: '#ffffff08' } }
+    }
+  }
+});
+
+// XHS Health Chart
+const xhsCtx = document.getElementById('xhsChart').getContext('2d');
+new Chart(xhsCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Cover CTR (12.6%)', 'Completion (24%)', 'CTR Gap to 15%', 'Dropped before end'],
+    datasets: [{
+      data: [12.6, 24, 2.4, 76],
+      backgroundColor: ['#1d8aab', '#3dc4e8', '#145f7655', '#ffffff10'],
+      borderWidth: 0
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#8892a4', font: { size: 11 }, boxWidth: 12 } } } }
+});
+
+// April vs May Recovery Chart
+const compareCtx = document.getElementById('compareChart').getContext('2d');
+new Chart(compareCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Jan (24 posts)', 'Feb (15 posts)', 'Mar (12 posts) ⭐', 'Apr (24 posts) ⚠', 'May (target ≤14)'],
+    datasets: [{
+      label: 'Avg Views / Post',
+      data: [8175, 7513, 16850, 4065, null],
+      backgroundColor: ['#1d8aab70','#1d8aab70','#48bb7880','#fc818180','#3dc4e830'],
+      borderColor: ['#1d8aab','#1d8aab','#48bb78','#fc8181','#3dc4e8'],
+      borderWidth: 1, borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#8892a4', font: { size: 10 } }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+    }
+  }
+});
+
+// IG Table
+const igTbody = document.getElementById('igTable');
+DATA.top_ig.forEach(r => {
+  igTbody.innerHTML += `<tr>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.hook}</td>
+    <td style="color:#8892a4;font-size:11px">${r.type.replace('IG ','')}</td>
+    <td><span class="views-badge">${r.views.toLocaleString()}</span></td>
+    <td><span class="saves-badge">${r.saves.toLocaleString()}</span></td>
+  </tr>`;
+});
+
+// XHS Table
+const xhsTbody = document.getElementById('xhsTable');
+DATA.top_xhs.forEach(r => {
+  xhsTbody.innerHTML += `<tr>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.title}</td>
+    <td><span class="views-badge">${r.views.toLocaleString()}</span></td>
+    <td><span class="saves-badge">${r.saves.toLocaleString()}</span></td>
+  </tr>`;
+});
+
+// Live Instagram Data Fetch
+async function fetchLiveStats() {
+  try {
+    const res = await fetch('https://kayducreator.com/api/stats');
+    const data = await res.json();
+    if (data.error) return;
+
+    // Update IG KPI
+    const followers = data.profile.followers.toLocaleString();
+    const totalPosts = data.profile.total_posts.toLocaleString();
+    document.getElementById('igFollowers').textContent = followers;
+    document.getElementById('igFollowersSub').textContent = `Followers · ${totalPosts} posts`;
+    document.getElementById('igPostCount').textContent = '● Live data';
+    document.getElementById('igPostCount').style.color = '#68d391';
+
+    // Update last updated time
+    const fetchTime = new Date(data.fetched_at);
+    document.getElementById('lastUpdated').textContent =
+      `Live · Updated ${fetchTime.toLocaleTimeString('en-MY', {hour:'2-digit', minute:'2-digit'})}`;
+
+    // Update top IG posts table with live data
+    const igTbodyLive = document.getElementById('igTable');
+    if (data.posts && data.posts.length > 0) {
+      igTbodyLive.innerHTML = '';
+      data.posts.slice(0, 5).forEach(p => {
+        const caption = p.caption ? p.caption.substring(0, 60) + '...' : '(no caption)';
+        const type = p.type === 'CAROUSEL_ALBUM' ? 'carousel' : p.type === 'VIDEO' ? 'reel' : 'static';
+        igTbodyLive.innerHTML += `<tr>
+          <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${caption}</td>
+          <td style="color:#8892a4;font-size:11px">${type}</td>
+          <td><span class="views-badge">${(p.reach||0).toLocaleString()}</span></td>
+          <td><span class="saves-badge">${(p.saved||0).toLocaleString()}</span></td>
+        </tr>`;
+      });
+    }
+
+    // Viral watch — check if any recent post has high engagement
+    const topPost = data.posts.reduce((a, b) => (a.reach||0) > (b.reach||0) ? a : b, {});
+    if (topPost.reach > 10000) {
+      document.getElementById('viralStatus').textContent = '🔥 Viral Alert!';
+      document.getElementById('viralSub').textContent =
+        `"${(topPost.caption||'').substring(0,40)}..." — ${topPost.reach.toLocaleString()} reach`;
+      document.getElementById('viralCard').classList.add('active');
+    }
+
+    // Post performance alert — flag posts above 500 saves or 5000 reach
+    const highPerf = data.posts.filter(p => (p.saved||0) > 500 || (p.reach||0) > 5000);
+    if (highPerf.length > 0) {
+      const alert = document.getElementById('perfAlert');
+      const postsEl = document.getElementById('perfPosts');
+      alert.classList.add('visible');
+      postsEl.innerHTML = highPerf.map(p => `
+        <div class="perf-post">
+          <div class="perf-post-title">${(p.caption||'(no caption)').substring(0,50)}...</div>
+          <div class="perf-post-stats">👁 ${(p.reach||0).toLocaleString()} reach · 💾 ${(p.saved||0).toLocaleString()} saves · 📤 ${(p.shares||0).toLocaleString()} shares</div>
+        </div>
+      `).join('');
+    }
+
+    // Update intelligence with live data
+    updateIntelligence(data);
+
+  } catch (err) {
+    console.log('Live fetch failed:', err.message);
+    document.getElementById('lastUpdated').textContent = 'Live fetch unavailable — showing cached data';
+  }
+}
+fetchLiveStats();
+
+// 1. Auto-refresh every 60 minutes
+setInterval(() => {
+  fetchLiveStats();
+  fetchYouTubeStats();
+  fetchManyChatStats();
+  document.getElementById('lastUpdated').textContent = 'Auto-refreshing...';
+}, 60 * 60 * 1000);
+
+// 2. Manual Stats Update (TikTok & XHS)
+function saveManualStats() {
+  const stats = {
+    ttViews: document.getElementById('ttViewsInput').value,
+    ttAvg: document.getElementById('ttAvgInput').value,
+    xhsImp: document.getElementById('xhsImpInput').value,
+    xhsCtr: document.getElementById('xhsCtrInput').value,
+    saved: new Date().toLocaleDateString('en-MY')
+  };
+  localStorage.setItem('kaydu_manual_stats', JSON.stringify(stats));
+  applyManualStats(stats);
+  const saved = document.getElementById('updateSaved');
+  saved.style.display = 'inline';
+  setTimeout(() => saved.style.display = 'none', 3000);
+}
+
+function applyManualStats(stats) {
+  if (stats.ttViews) document.getElementById('ttViewsDisplay').textContent = stats.ttViews;
+  if (stats.ttAvg) document.getElementById('ttAvgDisplay').textContent = 'Avg ' + stats.ttAvg + ' views/day';
+  if (stats.xhsImp) document.getElementById('xhsImpDisplay').textContent = stats.xhsImp;
+  if (stats.xhsCtr) document.getElementById('xhsCtrDisplay').textContent = '⚠ Cover CTR: ' + stats.xhsCtr;
+  // Pre-fill inputs
+  if (stats.ttViews) document.getElementById('ttViewsInput').value = stats.ttViews;
+  if (stats.ttAvg) document.getElementById('ttAvgInput').value = stats.ttAvg;
+  if (stats.xhsImp) document.getElementById('xhsImpInput').value = stats.xhsImp;
+  if (stats.xhsCtr) document.getElementById('xhsCtrInput').value = stats.xhsCtr;
+}
+
+// Load saved stats on open
+const savedStats = localStorage.getItem('kaydu_manual_stats');
+if (savedStats) applyManualStats(JSON.parse(savedStats));
+
+// 3. Token expiry warning (60 days from May 7 = July 6)
+const tokenExpiry = new Date('2026-07-06');
+const daysLeft = Math.ceil((tokenExpiry - new Date()) / (1000 * 60 * 60 * 24));
+if (daysLeft <= 14) {
+  const warn = document.getElementById('tokenWarn');
+  warn.style.display = 'flex';
+  warn.innerHTML = `⚠️ <strong>Instagram token expires in ${daysLeft} days (July 6)!</strong> Go to developers.facebook.com/tools/accesstoken/ → regenerate → update IG_ACCESS_TOKEN in Vercel.`;
+}
+
+// Live ManyChat Data Fetch
+async function fetchManyChatStats() {
+  try {
+    const res = await fetch('https://kayducreator.com/api/manychat-stats');
+    const data = await res.json();
+    if (data.error) return;
+
+    // Update account info
+    document.getElementById('mcPageName').textContent = data.page?.name || 'Kay Du';
+    document.getElementById('mcProStatus').textContent = data.page?.is_pro ? '✅ Pro Account' : 'Free';
+    document.getElementById('mcTotalTags').textContent = data.tags?.total || 0;
+    document.getElementById('mcFetched').textContent = `Live · ${new Date(data.fetched_at).toLocaleTimeString('en-MY', {hour:'2-digit',minute:'2-digit'})}`;
+
+    // GPX counter
+    document.getElementById('mcGpxCount').textContent = data.gpx?.requests || '0';
+    document.getElementById('mcGpxSub').textContent = data.gpx?.latest_click
+      ? `Latest: ${data.gpx.latest_click.substring(0, 10)}`
+      : 'People who got the GPX link';
+    document.getElementById('mcTagStatus').textContent = `✅ ${data.gpx?.requests || 0} GPX links sent`;
+    document.getElementById('mcTagStatus').style.color = '#68d391';
+
+  } catch (err) {
+    console.log('ManyChat fetch failed:', err.message);
+  }
+}
+fetchManyChatStats();
+
+// Content Calendar Builder
+function buildCalendar() {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon...
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + mondayOffset);
+
+  // Posting schedule based on your data
+  const schedule = {
+    Mon: [{ platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+    Tue: [{ platform: '', label: '📸 IG', time: '7–9pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+    Wed: [{ platform: 'xhs', label: '📕 XHS', time: '8–10pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+    Thu: [{ platform: '', label: '📸 IG', time: '7–9pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+    Fri: [{ platform: 'xhs', label: '📕 XHS', time: '8–10pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+    Sat: [{ platform: '', label: '📸 IG', time: '7–9pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }, { platform: 'youtube', label: '▶ YT', time: 'anytime' }],
+    Sun: [{ platform: 'xhs', label: '📕 XHS', time: '8–10pm' }, { platform: 'tiktok', label: '🎵 TikTok', time: '6–8pm' }],
+  };
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  days.forEach((day, i) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    const isToday = date.toDateString() === today.toDateString();
+    const posts = schedule[day] || [];
+    const hasIG = posts.some(p => p.platform === '');
+
+    const div = document.createElement('div');
+    div.className = `cal-day${hasIG ? ' post-day' : ''}${isToday ? ' today' : ''}`;
+
+    const dateNum = date.getDate();
+    const month = date.toLocaleString('en-MY', { month: 'short' });
+
+    div.innerHTML = `
+      <div class="cal-day-name">${day} ${dateNum} ${month}</div>
+      ${posts.map(p => `<div class="cal-post ${p.platform}">${p.label}</div>`).join('')}
+      ${posts.length > 0 ? `<div class="cal-time">${posts[0].time}</div>` : ''}
+    `;
+    grid.appendChild(div);
+  });
+
+  // Add pending Bukit Saga to next Tue/Thu/Sat
+  const pendingSlots = grid.querySelectorAll('.cal-day.post-day');
+  if (pendingSlots.length > 0) {
+    const pending = document.createElement('div');
+    pending.className = 'cal-post pending';
+    pending.textContent = '⏳ Bukit Saga #15';
+    pendingSlots[0].appendChild(pending);
+  }
+}
+buildCalendar();
+
+// Live YouTube Data Fetch
+async function fetchYouTubeStats() {
+  try {
+    const res = await fetch('https://kayducreator.com/api/youtube-stats');
+    const data = await res.json();
+    if (data.error) return;
+
+    const totalViews = data.channel.total_views >= 1000
+      ? (data.channel.total_views / 1000).toFixed(1) + 'K'
+      : data.channel.total_views;
+
+    document.getElementById('ytViews').textContent = totalViews;
+    document.getElementById('ytSub').textContent = `Total views · ${data.channel.total_videos} videos`;
+    document.getElementById('ytSubs').textContent = `${data.channel.subscribers} subscribers · ● Live`;
+    document.getElementById('ytSubs').style.color = '#68d391';
+
+  } catch (err) {
+    console.log('YouTube fetch failed:', err.message);
+  }
+}
+fetchYouTubeStats();
+
+// Mountain Table
+const mtnTbody = document.getElementById('mountainTable');
+DATA.mountains.forEach(m => {
+  const viewColor = m.ig_views > 20000 ? '#68d391' : m.ig_views > 10000 ? '#63b3ed' : '#c8d0dc';
+  const diffColor = m.difficulty === 'Very Hard' ? '#fc8181' : m.difficulty === 'Hard' ? '#f6ad55' : m.difficulty === 'Slightly Hard' ? '#fbd38d' : m.difficulty === 'Moderate' ? '#90cdf4' : '#68d391';
+  const viewsDisplay = m.ig_views > 0 ? m.ig_views.toLocaleString() : '—';
+  mtnTbody.innerHTML += `<tr>
+    <td><span class="mtn-num">#${m.num}</span></td>
+    <td><strong style="color:#e8e8f0">${m.name}</strong><br><span style="color:#8892a4;font-size:11px">${m.location}</span></td>
+    <td style="color:${diffColor};font-size:12px;font-weight:600">${m.difficulty}</td>
+    <td style="color:#8892a4;font-size:12px">${m.date}</td>
+    <td style="color:${viewColor};font-weight:600">${viewsDisplay}</td>
+    <td>${m.ig_likes > 0 ? m.ig_likes.toLocaleString() : '—'}</td>
+    <td>${m.ig_saves > 0 ? '<span class="saves-badge">'+m.ig_saves+'</span>' : '—'}</td>
+    <td>${m.ig_shares > 0 ? m.ig_shares : '—'}</td>
+  </tr>`;
+});
+
+// Creative Director Intelligence Logic
+function updateIntelligence(data) {
+  const contentEl = document.getElementById('intelContent');
+  const platformEl = document.getElementById('intelPlatform');
+  const actionEl = document.getElementById('intelAction');
+  const xhsCtrRaw = document.getElementById('xhsCtrDisplay').textContent;
+  const xhsCtr = parseFloat(xhsCtrRaw.match(/[\d.]+/)) || 12.6;
+
+  if (contentEl) contentEl.innerHTML = `<strong>80% Mountain Rule</strong> is being followed. Your niche authority is strengthening. Keep gear/lifestyle in Stories.`;
+  if (platformEl) platformEl.innerHTML = `Reach is stabilizing. Your <strong>Carousel avg (20K)</strong> is 2.6x higher than Reels. Re-post top Reels as Carousels.`;
+  if (actionEl) {
+    if (xhsCtr < 15) {
+      actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover. <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/kay-du-growth/references/xhs_playbook.md" class="intel-action">Open Playbook</a>`;
+    } else {
+      actionEl.innerHTML = `Next Move: Execute <strong>Bukit Saga (#15)</strong> shoot plan. <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/Creative_Director_Wiki/wiki/mountain_15_bukit_saga.md" class="intel-action">Open Brief</a>`;
+    }
+  }
+}
+
+// Intelligence now runs inside fetchLiveStats with live data
+</script>
+</body>
+</html>
