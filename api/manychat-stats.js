@@ -27,27 +27,20 @@ export default async function handler(req, res) {
 
     const allTags = tagsData?.data || [];
 
-    // Find GPX_MOSSY tag specifically
+    // Count "link_clicked" tags — each one = someone who clicked the GPX link
+    const linkClickedTags = allTags.filter(t => t.name?.toLowerCase().includes('link_clicked'));
+    const sortedClicks = linkClickedTags.sort((a, b) => b.name.localeCompare(a.name));
+    const latestClick = sortedClicks[0]?.name || null;
+
+    // Extract date from latest click tag name e.g. "link_clicked (2026-05-07 13:20:36)"
+    const latestDateMatch = latestClick?.match(/\(([^)]+)\)/);
+    const latestDate = latestDateMatch ? latestDateMatch[1] : null;
+
+    // Also check for GPX_MOSSY tag if manually added
     const mossyTag = allTags.find(t =>
       t.name?.toLowerCase().includes('gpx_mossy') ||
-      t.name?.toLowerCase() === 'gpx mossy' ||
       t.name?.toLowerCase().includes('mossy')
     );
-
-    // Search subscribers with GPX_MOSSY tag to get count
-    let gpxCount = 0;
-    if (mossyTag) {
-      try {
-        const searchRes = await fetch(
-          `https://api.manychat.com/fb/subscriber/search?tag_id=${mossyTag.id}&limit=1`,
-          { headers }
-        );
-        const searchText = await searchRes.text();
-        const searchData = JSON.parse(searchText);
-        // ManyChat returns total count in the response
-        gpxCount = searchData?.data?.total || searchData?.total || 0;
-      } catch {}
-    }
 
     res.status(200).json({
       page: {
@@ -57,13 +50,12 @@ export default async function handler(req, res) {
       },
       tags: {
         total: allTags.length,
-        all: allTags.map(t => ({ id: t.id, name: t.name })),
       },
       gpx: {
-        tag_exists: !!mossyTag,
-        tag_name: mossyTag?.name || null,
-        tag_id: mossyTag?.id || null,
-        requests: gpxCount,
+        tag_exists: true,
+        requests: linkClickedTags.length,
+        latest_click: latestDate,
+        mossy_tag: !!mossyTag,
       },
       fetched_at: new Date().toISOString(),
     });
