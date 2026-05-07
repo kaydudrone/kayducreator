@@ -785,7 +785,7 @@ setInterval(() => {
   fetchLiveStats();
   fetchYouTubeStats();
   fetchManyChatStats();
-  document.getElementById('lastUpdated').textContent = 'Auto-refreshing...';
+  const lu = document.getElementById('lastUpdated'); if (lu) lu.textContent = 'Auto-refreshing...';
 }, 60 * 60 * 1000);
 
 // 2. Manual Stats Update (TikTok & XHS)
@@ -956,7 +956,8 @@ function updateIntelligence(data) {
   const contentEl = document.getElementById('intelContent');
   const platformEl = document.getElementById('intelPlatform');
   const actionEl = document.getElementById('intelAction');
-  const xhsCtrRaw = document.getElementById('xhsCtrDisplay').textContent;
+  const xhsCtrEl = document.getElementById('xhsCtrDisplay');
+  const xhsCtrRaw = xhsCtrEl ? xhsCtrEl.textContent : '12.6%';
   const xhsCtr = parseFloat(xhsCtrRaw.match(/[\d.]+/)) || 12.6;
 
   if (contentEl) contentEl.innerHTML = `<strong>80% Mountain Rule</strong> is being followed. Your niche authority is strengthening. Keep gear/lifestyle in Stories.`;
