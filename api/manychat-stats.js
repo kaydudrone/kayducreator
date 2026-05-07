@@ -1,4 +1,4 @@
-// ManyChat Stats API
+// ManyChat Stats API — uses only verified endpoints
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
   res.setHeader('Cache-Control', 's-maxage=1800');
@@ -12,55 +12,50 @@ export default async function handler(req, res) {
   };
 
   try {
-    // Page info
+    // Page info — confirmed working
     const pageRes = await fetch('https://api.manychat.com/fb/page/getInfo', { headers });
     const pageData = await pageRes.json();
 
-    // Flows list
-    const flowsRes = await fetch('https://api.manychat.com/fb/flows/getFlows', { headers });
-    const flowsData = await flowsRes.json();
+    if (pageData.status !== 'success') {
+      return res.status(401).json({ error: 'ManyChat auth failed', details: pageData });
+    }
 
-    // Keywords/Growth Tools
-    const growthRes = await fetch('https://api.manychat.com/fb/page/getGrowthTools', { headers });
-    const growthData = await growthRes.json();
+    // Tags list — used to track MOSSY requests
+    const tagsRes = await fetch('https://api.manychat.com/fb/page/getTags', { headers });
+    const tagsText = await tagsRes.text();
+    let tagsData = null;
+    try { tagsData = JSON.parse(tagsText); } catch {}
 
-    // Find MOSSY / GPX related flows
-    const allFlows = flowsData.data || [];
-    const gpxFlows = allFlows.filter(f =>
-      f.name?.toLowerCase().includes('mossy') ||
-      f.name?.toLowerCase().includes('gpx') ||
-      f.name?.toLowerCase().includes('genting') ||
-      f.name?.toLowerCase().includes('trail')
-    );
+    // Custom fields — may contain GPX request counts
+    const fieldsRes = await fetch('https://api.manychat.com/fb/page/getCustomFields', { headers });
+    const fieldsText = await fieldsRes.text();
+    let fieldsData = null;
+    try { fieldsData = JSON.parse(fieldsText); } catch {}
 
-    // Find MOSSY keyword in growth tools
-    const growthTools = growthData.data || [];
-    const mossyTool = growthTools.find(t =>
+    // Find MOSSY-related tags
+    const allTags = tagsData?.data || [];
+    const mossyTags = allTags.filter(t =>
       t.name?.toLowerCase().includes('mossy') ||
-      t.keywords?.some(k => k.toLowerCase().includes('mossy'))
+      t.name?.toLowerCase().includes('gpx') ||
+      t.name?.toLowerCase().includes('genting')
     );
 
     res.status(200).json({
       page: {
-        name: pageData.data?.name || 'Kay Du',
-        is_pro: pageData.data?.is_pro || false,
+        name: pageData.data?.name,
+        is_pro: pageData.data?.is_pro,
         timezone: pageData.data?.timezone,
       },
-      flows: {
-        total: allFlows.length,
-        gpx_flows: gpxFlows.map(f => ({ name: f.name, id: f.id })),
+      tags: {
+        total: allTags.length,
+        gpx_tags: mossyTags,
       },
-      mossy_tool: mossyTool ? {
-        name: mossyTool.name,
-        id: mossyTool.id,
-        status: mossyTool.status,
-      } : null,
-      growth_tools_total: growthTools.length,
+      custom_fields: fieldsData?.data || [],
       fetched_at: new Date().toISOString(),
     });
 
   } catch (err) {
     console.error('ManyChat stats error:', err);
-    res.status(500).json({ error: 'Failed to fetch ManyChat stats', message: err.message });
+    res.status(500).json({ error: 'Failed', message: err.message });
   }
 }
