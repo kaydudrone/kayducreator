@@ -565,6 +565,12 @@ const DATA = {
   ]
 };
 
+// Safe element helper — prevents null crashes
+function $set(id, prop, val) { const el = document.getElementById(id); if (el) el[prop] = val; }
+function $style(id, prop, val) { const el = document.getElementById(id); if (el) el.style[prop] = val; }
+function $class(id, cls) { const el = document.getElementById(id); if (el) el.classList.add(cls); }
+function $get(id, prop) { const el = document.getElementById(id); return el ? el[prop] : ''; }
+
 // Mountain dots
 const dotsEl = document.getElementById('mountainDots');
 for (let i = 1; i <= 60; i++) {
@@ -720,15 +726,14 @@ async function fetchLiveStats() {
     // Update IG KPI
     const followers = data.profile.followers.toLocaleString();
     const totalPosts = data.profile.total_posts.toLocaleString();
-    document.getElementById('igFollowers').textContent = followers;
-    document.getElementById('igFollowersSub').textContent = `Followers · ${totalPosts} posts`;
-    document.getElementById('igPostCount').textContent = '● Live data';
-    document.getElementById('igPostCount').style.color = '#68d391';
+    $set('igFollowers','textContent', followers);
+    $set('igFollowersSub','textContent', `Followers · ${totalPosts} posts`);
+    $set('igPostCount','textContent', '● Live data');
+    $style('igPostCount','color', '#68d391');
 
     // Update last updated time
     const fetchTime = new Date(data.fetched_at);
-    document.getElementById('lastUpdated').textContent =
-      `Live · Updated ${fetchTime.toLocaleTimeString('en-MY', {hour:'2-digit', minute:'2-digit'})}`;
+    $set('lastUpdated','textContent', `Live · Updated ${fetchTime.toLocaleTimeString('en-MY', {hour:'2-digit', minute:'2-digit'})}`);
 
     // Update top IG posts table with live data
     const igTbodyLive = document.getElementById('igTable');
@@ -749,10 +754,9 @@ async function fetchLiveStats() {
     // Viral watch — check if any recent post has high engagement
     const topPost = data.posts.reduce((a, b) => (a.reach||0) > (b.reach||0) ? a : b, {});
     if (topPost.reach > 10000) {
-      document.getElementById('viralStatus').textContent = '🔥 Viral Alert!';
-      document.getElementById('viralSub').textContent =
-        `"${(topPost.caption||'').substring(0,40)}..." — ${topPost.reach.toLocaleString()} reach`;
-      document.getElementById('viralCard').classList.add('active');
+      $set('viralStatus','textContent', '🔥 Viral Alert!');
+      $set('viralSub','textContent', `"${(topPost.caption||'').substring(0,40)}..." — ${topPost.reach.toLocaleString()} reach`);
+      $class('viralCard','active');
     }
 
     // Post performance alert — flag posts above 500 saves or 5000 reach
@@ -837,18 +841,16 @@ async function fetchManyChatStats() {
     if (data.error) return;
 
     // Update account info
-    document.getElementById('mcPageName').textContent = data.page?.name || 'Kay Du';
-    document.getElementById('mcProStatus').textContent = data.page?.is_pro ? '✅ Pro Account' : 'Free';
-    document.getElementById('mcTotalTags').textContent = data.tags?.total || 0;
-    document.getElementById('mcFetched').textContent = `Live · ${new Date(data.fetched_at).toLocaleTimeString('en-MY', {hour:'2-digit',minute:'2-digit'})}`;
+    $set('mcPageName','textContent', data.page?.name || 'Kay Du');
+    $set('mcProStatus','textContent', data.page?.is_pro ? '✅ Pro Account' : 'Free');
+    $set('mcTotalTags','textContent', data.tags?.total || 0);
+    $set('mcFetched','textContent', `Live · ${new Date(data.fetched_at).toLocaleTimeString('en-MY', {hour:'2-digit',minute:'2-digit'})}`);
 
     // GPX counter
-    document.getElementById('mcGpxCount').textContent = data.gpx?.requests || '0';
-    document.getElementById('mcGpxSub').textContent = data.gpx?.latest_click
-      ? `Latest: ${data.gpx.latest_click.substring(0, 10)}`
-      : 'People who got the GPX link';
-    document.getElementById('mcTagStatus').textContent = `✅ ${data.gpx?.requests || 0} GPX links sent`;
-    document.getElementById('mcTagStatus').style.color = '#68d391';
+    $set('mcGpxCount','textContent', data.gpx?.requests || '0');
+    $set('mcGpxSub','textContent', data.gpx?.latest_click ? `Latest: ${data.gpx.latest_click.substring(0,10)}` : 'People who got the GPX link');
+    $set('mcTagStatus','textContent', `✅ ${data.gpx?.requests || 0} GPX links sent`);
+    $style('mcTagStatus','color', '#68d391');
 
   } catch (err) {
     console.log('ManyChat fetch failed:', err.message);
@@ -922,10 +924,10 @@ async function fetchYouTubeStats() {
       ? (data.channel.total_views / 1000).toFixed(1) + 'K'
       : data.channel.total_views;
 
-    document.getElementById('ytViews').textContent = totalViews;
-    document.getElementById('ytSub').textContent = `Total views · ${data.channel.total_videos} videos`;
-    document.getElementById('ytSubs').textContent = `${data.channel.subscribers} subscribers · ● Live`;
-    document.getElementById('ytSubs').style.color = '#68d391';
+    $set('ytViews','textContent', totalViews);
+    $set('ytSub','textContent', `Total views · ${data.channel.total_videos} videos`);
+    $set('ytSubs','textContent', `${data.channel.subscribers} subscribers · ● Live`);
+    $style('ytSubs','color', '#68d391');
 
   } catch (err) {
     console.log('YouTube fetch failed:', err.message);
@@ -956,8 +958,7 @@ function updateIntelligence(data) {
   const contentEl = document.getElementById('intelContent');
   const platformEl = document.getElementById('intelPlatform');
   const actionEl = document.getElementById('intelAction');
-  const xhsCtrEl = document.getElementById('xhsCtrDisplay');
-  const xhsCtrRaw = xhsCtrEl ? xhsCtrEl.textContent : '12.6%';
+  const xhsCtrRaw = $get('xhsCtrDisplay','textContent') || '12.6%';
   const xhsCtr = parseFloat(xhsCtrRaw.match(/[\d.]+/)) || 12.6;
 
   if (contentEl) contentEl.innerHTML = `<strong>80% Mountain Rule</strong> is being followed. Your niche authority is strengthening. Keep gear/lifestyle in Stories.`;
