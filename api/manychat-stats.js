@@ -12,33 +12,42 @@ export default async function handler(req, res) {
   };
 
   try {
-    // Page info — confirmed working
+    // Page info
     const pageRes = await fetch('https://api.manychat.com/fb/page/getInfo', { headers });
     const pageData = await pageRes.json();
-
     if (pageData.status !== 'success') {
       return res.status(401).json({ error: 'ManyChat auth failed', details: pageData });
     }
 
-    // Tags list — used to track MOSSY requests
+    // Tags list
     const tagsRes = await fetch('https://api.manychat.com/fb/page/getTags', { headers });
     const tagsText = await tagsRes.text();
     let tagsData = null;
     try { tagsData = JSON.parse(tagsText); } catch {}
 
-    // Custom fields — may contain GPX request counts
-    const fieldsRes = await fetch('https://api.manychat.com/fb/page/getCustomFields', { headers });
-    const fieldsText = await fieldsRes.text();
-    let fieldsData = null;
-    try { fieldsData = JSON.parse(fieldsText); } catch {}
-
-    // Find MOSSY-related tags
     const allTags = tagsData?.data || [];
-    const mossyTags = allTags.filter(t =>
-      t.name?.toLowerCase().includes('mossy') ||
-      t.name?.toLowerCase().includes('gpx') ||
-      t.name?.toLowerCase().includes('genting')
+
+    // Find GPX_MOSSY tag specifically
+    const mossyTag = allTags.find(t =>
+      t.name?.toLowerCase().includes('gpx_mossy') ||
+      t.name?.toLowerCase() === 'gpx mossy' ||
+      t.name?.toLowerCase().includes('mossy')
     );
+
+    // Search subscribers with GPX_MOSSY tag to get count
+    let gpxCount = 0;
+    if (mossyTag) {
+      try {
+        const searchRes = await fetch(
+          `https://api.manychat.com/fb/subscriber/search?tag_id=${mossyTag.id}&limit=1`,
+          { headers }
+        );
+        const searchText = await searchRes.text();
+        const searchData = JSON.parse(searchText);
+        // ManyChat returns total count in the response
+        gpxCount = searchData?.data?.total || searchData?.total || 0;
+      } catch {}
+    }
 
     res.status(200).json({
       page: {
@@ -48,9 +57,14 @@ export default async function handler(req, res) {
       },
       tags: {
         total: allTags.length,
-        gpx_tags: mossyTags,
+        all: allTags.map(t => ({ id: t.id, name: t.name })),
       },
-      custom_fields: fieldsData?.data || [],
+      gpx: {
+        tag_exists: !!mossyTag,
+        tag_name: mossyTag?.name || null,
+        tag_id: mossyTag?.id || null,
+        requests: gpxCount,
+      },
       fetched_at: new Date().toISOString(),
     });
 
