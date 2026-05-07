@@ -12,15 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Fetch subscriber stats
-    const subRes = await fetch('https://api.manychat.com/fb/subscriber/getInfo', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    // Fetch page info (total subscribers)
+    // Debug: fetch page info and return raw response
     const pageRes = await fetch('https://api.manychat.com/fb/page/getInfo', {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -28,44 +20,19 @@ export default async function handler(req, res) {
       }
     });
 
-    const pageData = await pageRes.json();
+    const rawText = await pageRes.text();
 
-    if (pageData.status === 'error') {
-      return res.status(401).json({ error: 'Invalid ManyChat API key', details: pageData.message });
-    }
-
-    // Fetch flows to find MOSSY keyword flow
-    const flowsRes = await fetch('https://api.manychat.com/fb/sending/getFlows', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    const flowsData = await flowsRes.json();
-
-    // Find flows related to GPX/MOSSY
-    const gpxFlows = (flowsData.data || []).filter(f =>
-      f.name?.toLowerCase().includes('mossy') ||
-      f.name?.toLowerCase().includes('gpx') ||
-      f.name?.toLowerCase().includes('genting')
-    );
-
+    // Return raw for debugging
     res.status(200).json({
-      page: {
-        name: pageData.data?.name || 'Kay Du',
-        total_subscribers: pageData.data?.total_subscribers || 0,
-        active_subscribers: pageData.data?.active_subscribers || 0,
-      },
-      gpx_flows: gpxFlows.map(f => ({
-        name: f.name,
-        id: f.id,
-      })),
-      total_flows: (flowsData.data || []).length,
+      debug: true,
+      status_code: pageRes.status,
+      raw_response: rawText.substring(0, 500),
+      token_length: token.length,
       fetched_at: new Date().toISOString(),
     });
 
   } catch (err) {
     console.error('ManyChat stats error:', err);
-    res.status(500).json({ error: 'Failed to fetch ManyChat stats' });
+    res.status(500).json({ error: 'Failed to fetch ManyChat stats', message: err.message });
   }
 }
