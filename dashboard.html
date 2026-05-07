@@ -774,7 +774,8 @@ async function fetchLiveStats() {
 
   } catch (err) {
     console.log('Live fetch failed:', err.message);
-    document.getElementById('lastUpdated').textContent = 'Live fetch unavailable — showing cached data';
+    const el = document.getElementById('lastUpdated');
+    if (el) el.textContent = 'Live fetch unavailable — showing cached data';
   }
 }
 fetchLiveStats();
