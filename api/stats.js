@@ -3,7 +3,7 @@
 
 export default async function handler(req, res) {
   // Allow dashboard to fetch this
-  res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=3600'); // Cache for 1 hour
 
   const token = process.env.IG_ACCESS_TOKEN;

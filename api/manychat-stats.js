@@ -1,6 +1,6 @@
 // ManyChat Stats API — uses only verified endpoints
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=1800');
 
   const token = process.env.MANYCHAT_API_KEY;
