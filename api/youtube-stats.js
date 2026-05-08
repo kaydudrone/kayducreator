@@ -2,11 +2,20 @@
 // Fetches channel stats and latest videos for the dashboard
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=3600'); // Cache 1 hour
+  res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
+  res.setHeader('Cache-Control', 's-maxage=3600');
+
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const secret = process.env.DASHBOARD_SECRET;
+  if (secret && req.headers['x-dashboard-token'] !== secret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   const apiKey = process.env.YT_API_KEY;
-  const channelId = 'UCKPBoGOccuNArR6eJgnPPKg';
+  const channelId = process.env.YT_CHANNEL_ID || 'UCKPBoGOccuNArR6eJgnPPKg';
 
   if (!apiKey) {
     return res.status(500).json({ error: 'No YouTube API key configured' });

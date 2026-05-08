@@ -183,9 +183,67 @@
   .wiki-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(61, 196, 232, 0.1); border: 1px solid rgba(61, 196, 232, 0.3); color: #3dc4e8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 12px; transition: all 0.2s; }
   .wiki-btn:hover { background: rgba(61, 196, 232, 0.2); border-color: #3dc4e8; transform: translateY(-1px); }
   .wiki-btn svg { width: 14px; height: 14px; }
+
+  /* Password Gate */
+  .gate { position: fixed; inset: 0; background: #050f14; display: flex; align-items: center; justify-content: center; z-index: 9999; }
+  .gate-box { background: #0d1f28; border: 1px solid #1d8aab30; border-radius: 20px; padding: 40px; width: 90%; max-width: 380px; text-align: center; }
+  .gate-logo { font-size: 40px; margin-bottom: 16px; }
+  .gate-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .gate-sub { font-size: 13px; color: #8892a4; margin-bottom: 24px; }
+  .gate-input { width: 100%; background: #ffffff08; border: 1px solid #1d8aab40; border-radius: 10px; padding: 12px 16px; color: #e8eef0; font-size: 15px; outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 2px; }
+  .gate-input:focus { border-color: #1d8aab; }
+  .gate-btn { width: 100%; background: linear-gradient(90deg, #145f76, #1d8aab); color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .gate-btn:hover { opacity: 0.85; }
+  .gate-error { font-size: 12px; color: #fc8181; margin-top: 8px; display: none; }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .header { padding: 16px 18px; }
+    .header h1 { font-size: 17px; }
+    .header-meta { gap: 8px; }
+    .badge { font-size: 10px; padding: 3px 8px; }
+    .container { padding: 14px 14px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi-main { font-size: 22px; }
+    .charts-row { grid-template-columns: 1fr; }
+    .tables-row { grid-template-columns: 1fr; }
+    .compare-row { grid-template-columns: 1fr; }
+    .quick-row { grid-template-columns: 1fr; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .manychat-grid { grid-template-columns: 1fr; }
+    .update-grid { grid-template-columns: repeat(2, 1fr); }
+    .cal-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .cal-day { padding: 6px 3px; min-height: 70px; }
+    .cal-post { font-size: 8px; padding: 2px 4px; }
+    .mountains-card table { font-size: 11px; }
+    thead th, tbody td { padding: 6px 6px; }
+    .week-grid { gap: 3px; }
+    .day-cell { padding: 6px 2px; }
+  }
+
+  @media (max-width: 480px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .header h1 { font-size: 15px; }
+    .cal-grid { grid-template-columns: repeat(2, 1fr); }
+    .challenge-bar { padding: 14px 16px; }
+    .mountain-dots { gap: 3px; }
+    .dot { width: 14px; height: 14px; font-size: 7px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Password Gate -->
+<div class="gate" id="passwordGate">
+  <div class="gate-box">
+    <div class="gate-logo">🏔</div>
+    <div class="gate-title">Kay Du Dashboard</div>
+    <div class="gate-sub">Enter password to access your analytics</div>
+    <input class="gate-input" type="password" id="gateInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button class="gate-btn" onclick="checkPassword()">Enter Dashboard</button>
+    <div class="gate-error" id="gateError">Wrong password. Try again.</div>
+  </div>
+</div>
 
 <div class="header">
   <h1>🏔 Kay Du — Creator Dashboard <span class="live-badge">● LIVE</span></h1>
@@ -571,6 +629,12 @@ function $style(id, prop, val) { const el = document.getElementById(id); if (el)
 function $class(id, cls) { const el = document.getElementById(id); if (el) el.classList.add(cls); }
 function $get(id, prop) { const el = document.getElementById(id); return el ? el[prop] : ''; }
 
+// Secure fetch — sends dashboard token with every API call
+const DASH_SECRET = 'REDACTED_DASH_SECRET';
+function secureFetch(url) {
+  return fetch(url, { headers: { 'x-dashboard-token': DASH_SECRET } });
+}
+
 // Mountain dots
 const dotsEl = document.getElementById('mountainDots');
 for (let i = 1; i <= 60; i++) {
@@ -719,7 +783,7 @@ DATA.top_xhs.forEach(r => {
 // Live Instagram Data Fetch
 async function fetchLiveStats() {
   try {
-    const res = await fetch('https://kayducreator.com/api/stats');
+    const res = await secureFetch('https://kayducreator.com/api/stats');
     const data = await res.json();
     if (data.error) return;
 
@@ -809,15 +873,14 @@ function saveManualStats() {
 }
 
 function applyManualStats(stats) {
-  if (stats.ttViews) document.getElementById('ttViewsDisplay').textContent = stats.ttViews;
-  if (stats.ttAvg) document.getElementById('ttAvgDisplay').textContent = 'Avg ' + stats.ttAvg + ' views/day';
-  if (stats.xhsImp) document.getElementById('xhsImpDisplay').textContent = stats.xhsImp;
-  if (stats.xhsCtr) document.getElementById('xhsCtrDisplay').textContent = '⚠ Cover CTR: ' + stats.xhsCtr;
-  // Pre-fill inputs
-  if (stats.ttViews) document.getElementById('ttViewsInput').value = stats.ttViews;
-  if (stats.ttAvg) document.getElementById('ttAvgInput').value = stats.ttAvg;
-  if (stats.xhsImp) document.getElementById('xhsImpInput').value = stats.xhsImp;
-  if (stats.xhsCtr) document.getElementById('xhsCtrInput').value = stats.xhsCtr;
+  if (stats.ttViews) $set('ttViewsDisplay','textContent', stats.ttViews);
+  if (stats.ttAvg) $set('ttAvgDisplay','textContent', 'Avg ' + stats.ttAvg + ' views/day');
+  if (stats.xhsImp) $set('xhsImpDisplay','textContent', stats.xhsImp);
+  if (stats.xhsCtr) $set('xhsCtrDisplay','textContent', '⚠ Cover CTR: ' + stats.xhsCtr);
+  if (stats.ttViews) $set('ttViewsInput','value', stats.ttViews);
+  if (stats.ttAvg) $set('ttAvgInput','value', stats.ttAvg);
+  if (stats.xhsImp) $set('xhsImpInput','value', stats.xhsImp);
+  if (stats.xhsCtr) $set('xhsCtrInput','value', stats.xhsCtr);
 }
 
 // Load saved stats on open
@@ -829,14 +892,16 @@ const tokenExpiry = new Date('2026-07-06');
 const daysLeft = Math.ceil((tokenExpiry - new Date()) / (1000 * 60 * 60 * 24));
 if (daysLeft <= 14) {
   const warn = document.getElementById('tokenWarn');
-  warn.style.display = 'flex';
-  warn.innerHTML = `⚠️ <strong>Instagram token expires in ${daysLeft} days (July 6)!</strong> Go to developers.facebook.com/tools/accesstoken/ → regenerate → update IG_ACCESS_TOKEN in Vercel.`;
+  if (warn) {
+    warn.style.display = 'flex';
+    warn.innerHTML = `⚠️ <strong>Instagram token expires in ${daysLeft} days (July 6)!</strong> Go to developers.facebook.com/tools/accesstoken/ → regenerate → update IG_ACCESS_TOKEN in Vercel.`;
+  }
 }
 
 // Live ManyChat Data Fetch
 async function fetchManyChatStats() {
   try {
-    const res = await fetch('https://kayducreator.com/api/manychat-stats');
+    const res = await secureFetch('https://kayducreator.com/api/manychat-stats');
     const data = await res.json();
     if (data.error) return;
 
@@ -916,7 +981,7 @@ buildCalendar();
 // Live YouTube Data Fetch
 async function fetchYouTubeStats() {
   try {
-    const res = await fetch('https://kayducreator.com/api/youtube-stats');
+    const res = await secureFetch('https://kayducreator.com/api/youtube-stats');
     const data = await res.json();
     if (data.error) return;
 
@@ -973,6 +1038,39 @@ function updateIntelligence(data) {
 }
 
 // Intelligence now runs inside fetchLiveStats with live data
+
+// Password Gate
+const GATE_PASSWORD = 'REDACTED_ADMIN_SECRET';
+const GATE_KEY = 'kd_auth';
+const GATE_EXPIRY = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+function checkPassword() {
+  const input = document.getElementById('gateInput');
+  const error = document.getElementById('gateError');
+  if (input.value === GATE_PASSWORD) {
+    localStorage.setItem(GATE_KEY, Date.now());
+    document.getElementById('passwordGate').style.display = 'none';
+    input.value = '';
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+    setTimeout(() => error.style.display = 'none', 3000);
+  }
+}
+
+// Check auth on load
+(function() {
+  const stored = localStorage.getItem(GATE_KEY);
+  const gate = document.getElementById('passwordGate');
+  if (stored && (Date.now() - parseInt(stored)) < GATE_EXPIRY) {
+    gate.style.display = 'none'; // Already authenticated
+  } else {
+    localStorage.removeItem(GATE_KEY);
+    gate.style.display = 'flex'; // Show gate
+    setTimeout(() => document.getElementById('gateInput')?.focus(), 100);
+  }
+})();
 </script>
 </body>
 </html>

@@ -1,7 +1,16 @@
 // ManyChat Stats API — uses only verified endpoints
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
   res.setHeader('Cache-Control', 's-maxage=1800');
+
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const secret = process.env.DASHBOARD_SECRET;
+  if (secret && req.headers['x-dashboard-token'] !== secret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   const token = process.env.MANYCHAT_API_KEY;
   if (!token) return res.status(500).json({ error: 'No ManyChat API key configured' });
