@@ -184,6 +184,16 @@
   .wiki-btn:hover { background: rgba(61, 196, 232, 0.2); border-color: #3dc4e8; transform: translateY(-1px); }
   .wiki-btn svg { width: 14px; height: 14px; }
 
+  /* Job Opportunities */
+  .job-card { background: #ffffff06; border: 1px solid #1d8aab20; border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .job-card:hover { background: #1d8aab08; }
+  .job-badge { background: #1d8aab20; color: #3dc4e8; border-radius: 6px; padding: 3px 8px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .job-text { font-size: 13px; color: #c8d0dc; line-height: 1.5; flex: 1; }
+  .job-meta { font-size: 11px; color: #8892a4; margin-top: 6px; }
+  .job-link { color: #3dc4e8; text-decoration: none; font-size: 11px; font-weight: 600; }
+  .job-link:hover { text-decoration: underline; }
+  .job-empty { color: #8892a4; font-size: 13px; padding: 20px; text-align: center; }
+
   /* Password Gate */
   .gate { position: fixed; inset: 0; background: #050f14; display: flex; align-items: center; justify-content: center; z-index: 9999; }
   .gate-box { background: #0d1f28; border: 1px solid #1d8aab30; border-radius: 20px; padding: 40px; width: 90%; max-width: 380px; text-align: center; }
@@ -500,6 +510,14 @@
       <span class="cal-post xhs" style="font-size:10px">📕 XHS</span>
       <span class="cal-post youtube" style="font-size:10px">▶ YouTube</span>
       <span class="cal-post pending" style="font-size:10px">⏳ Pending</span>
+    </div>
+  </div>
+
+  <!-- Job Opportunities -->
+  <div class="section-label">💼 Threads Job Opportunities <span id="jobFetched" style="font-size:10px;color:#1d8aab;margin-left:8px;">Loading…</span></div>
+  <div class="card" style="margin-bottom:24px;" id="jobSection">
+    <div id="jobList" style="display:grid;gap:10px;">
+      <div style="color:#8892a4;font-size:13px;">Scanning Threads for content creator jobs…</div>
     </div>
   </div>
 
@@ -1036,6 +1054,46 @@ function updateIntelligence(data) {
     }
   }
 }
+
+// Job Opportunities Fetch
+async function fetchJobOpportunities() {
+  try {
+    const res = await secureFetch('https://kayducreator.com/api/job-opportunities');
+    const data = await res.json();
+    if (data.error) return;
+
+    const listEl = document.getElementById('jobList');
+    const fetchedEl = document.getElementById('jobFetched');
+
+    if (fetchedEl) fetchedEl.textContent = `Live · ${new Date(data.fetched_at).toLocaleTimeString('en-MY', {hour:'2-digit',minute:'2-digit'})} · ${data.total_found} found`;
+
+    if (!listEl) return;
+
+    if (!data.jobs || data.jobs.length === 0) {
+      listEl.innerHTML = '<div class="job-empty">🔍 No new job posts found right now. Check back later.</div>';
+      return;
+    }
+
+    listEl.innerHTML = data.jobs.map(job => `
+      <div class="job-card">
+        <span class="job-badge">${job.searchKeyword}</span>
+        <div style="flex:1">
+          <div class="job-text">${job.text}</div>
+          <div class="job-meta">
+            @${job.username || 'unknown'} · ${job.date ? new Date(job.date).toLocaleDateString('en-MY') : ''}
+            ${job.url ? `· <a class="job-link" href="${job.url}" target="_blank">View on Threads →</a>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.log('Job fetch failed:', err.message);
+    const listEl = document.getElementById('jobList');
+    if (listEl) listEl.innerHTML = '<div class="job-empty">Unable to load job opportunities right now.</div>';
+  }
+}
+fetchJobOpportunities();
 
 // Intelligence now runs inside fetchLiveStats with live data
 
