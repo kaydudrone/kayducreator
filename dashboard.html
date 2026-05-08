@@ -30,7 +30,7 @@
   .dot.todo { background: #ffffff10; color: #4a5568; }
 
   /* KPI grid */
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
   .kpi { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
   .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
   .kpi.ig::before { background: linear-gradient(90deg, #e1306c, #f77737); }
@@ -328,6 +328,13 @@
       <div class="kpi-main" id="ytViews">83.7K</div>
       <div class="kpi-sub" id="ytSub">Total views (94 videos)</div>
       <div class="kpi-stat" id="ytSubs">55 subs gained</div>
+    </div>
+    <div class="kpi" style="--accent:#000;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#000,#444)"></div>
+      <div class="kpi-platform">🧵 Threads</div>
+      <div class="kpi-main" id="threadsFollowers">—</div>
+      <div class="kpi-sub" id="threadsSub">Followers</div>
+      <div class="kpi-stat" id="threadsAvg">● Live</div>
     </div>
   </div>
 
@@ -871,6 +878,7 @@ setInterval(() => {
   fetchLiveStats();
   fetchYouTubeStats();
   fetchManyChatStats();
+  fetchThreadsStats();
   const lu = document.getElementById('lastUpdated'); if (lu) lu.textContent = 'Auto-refreshing...';
 }, 60 * 60 * 1000);
 
@@ -1054,6 +1062,24 @@ function updateIntelligence(data) {
     }
   }
 }
+
+// Threads Stats Fetch
+async function fetchThreadsStats() {
+  try {
+    const res = await secureFetch('https://kayducreator.com/api/threads-stats');
+    const data = await res.json();
+    if (data.error) return;
+
+    $set('threadsFollowers', 'textContent', (data.profile.followers || 0).toLocaleString());
+    $set('threadsSub', 'textContent', `Followers · ${data.summary.total_posts_fetched} recent posts`);
+    $set('threadsAvg', 'textContent', `Avg ${data.summary.avg_likes} likes · ● Live`);
+    $style('threadsAvg', 'color', '#68d391');
+
+  } catch (err) {
+    console.log('Threads fetch failed:', err.message);
+  }
+}
+fetchThreadsStats();
 
 // Job Opportunities Fetch
 async function fetchJobOpportunities() {
