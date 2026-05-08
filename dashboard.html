@@ -762,10 +762,10 @@ async function fetchLiveStats() {
     // Post performance alert — flag posts above 500 saves or 5000 reach
     const highPerf = data.posts.filter(p => (p.saved||0) > 500 || (p.reach||0) > 5000);
     if (highPerf.length > 0) {
-      const alert = document.getElementById('perfAlert');
+      const alertEl = document.getElementById('perfAlert');
       const postsEl = document.getElementById('perfPosts');
-      alert.classList.add('visible');
-      postsEl.innerHTML = highPerf.map(p => `
+      if (alertEl) alertEl.classList.add('visible');
+      if (postsEl) postsEl.innerHTML = highPerf.map(p => `
         <div class="perf-post">
           <div class="perf-post-title">${(p.caption||'(no caption)').substring(0,50)}...</div>
           <div class="perf-post-stats">👁 ${(p.reach||0).toLocaleString()} reach · 💾 ${(p.saved||0).toLocaleString()} saves · 📤 ${(p.shares||0).toLocaleString()} shares</div>
