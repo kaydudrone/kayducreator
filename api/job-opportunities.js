@@ -47,7 +47,7 @@ export default async function handler(req, res) {
               body: JSON.stringify({
                 searchQuery: keyword,
                 sort: 'recent',
-                maxPosts: 8, // 8 per keyword = ~64 raw posts across 8 keywords
+                maxPosts: 10, // minimum 10 required by Apify actor
               }),
             }
           );
