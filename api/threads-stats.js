@@ -22,7 +22,8 @@ export default async function handler(req, res) {
     const profile = await profileRes.json();
 
     if (profile.error) {
-      return res.status(401).json({ error: 'Token expired or invalid', message: profile.error.message });
+      console.error('Threads API error:', JSON.stringify(profile.error));
+      return res.status(200).json({ error: 'Threads API error', details: profile.error, token_length: token.length });
     }
 
     // Fetch recent posts
