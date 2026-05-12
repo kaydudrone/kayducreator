@@ -2,11 +2,14 @@
 // Uses Apify Threads Search Scraper to find content creator jobs
 
 const KEYWORDS = [
-  'content creator Malaysia',
-  'videographer job Malaysia',
-  'drone pilot job',
-  'video editor KL',
-  'content creator hired',
+  'content creator Malaysia hiring',
+  'videographer Malaysia',
+  'drone pilot Malaysia',
+  'video editor Malaysia',
+  'kreator konten Malaysia',
+  'content creator KL',
+  'photographer videographer hired',
+  'social media creator Malaysia',
 ];
 
 export default async function handler(req, res) {
@@ -36,7 +39,7 @@ export default async function handler(req, res) {
               body: JSON.stringify({
                 searchQuery: keyword,
                 sort: 'recent',
-                maxPosts: 5, // Keep costs low — 5 results per keyword
+                maxPosts: 8, // 8 per keyword = ~64 raw posts across 8 keywords
               }),
             }
           );
@@ -80,14 +83,25 @@ export default async function handler(req, res) {
       })
     );
 
-    // Flatten and filter posts that look like job opportunities
-    const jobKeywords = ['hire', 'hiring', 'looking for', 'job', 'vacancy', 'opportunity', 'join', 'freelance', 'needed', 'wanted', 'dm me'];
+    // Flatten all posts — search keywords are already targeted enough
     const allPosts = results.flatMap(r =>
       r.posts.map(p => ({ ...p, searchKeyword: r.keyword }))
     );
 
+    // Light filter: exclude clearly irrelevant posts (no text, or just tourist posts)
+    // Allow Malay terms: cari, kerja, ambil, join, dm, hubungi, kolaborasi, kreator
+    const relevanceKeywords = [
+      'hire', 'hiring', 'looking for', 'job', 'vacancy', 'opportunity',
+      'join', 'freelance', 'needed', 'wanted', 'dm', 'contact', 'apply',
+      'collaboration', 'collab', 'project', 'work with',
+      // Malay terms
+      'cari', 'kerja', 'jawatan', 'ambil', 'diperlukan', 'hubungi',
+      'kolaborasi', 'peluang', 'tawaran', 'budjet', 'budget',
+      'creator', 'videographer', 'photographer', 'editor',
+    ];
+
     const jobPosts = allPosts.filter(p =>
-      jobKeywords.some(k => p.text.toLowerCase().includes(k))
+      p.text && relevanceKeywords.some(k => p.text.toLowerCase().includes(k))
     );
 
     // Deduplicate by URL
@@ -98,9 +112,16 @@ export default async function handler(req, res) {
       return true;
     });
 
+    // If still nothing after filter, return all results (search was targeted)
+    const finalJobs = uniqueJobs.length > 0 ? uniqueJobs : allPosts.filter(p => {
+      if (!p.url || seen.has(p.url)) return false;
+      seen.add(p.url);
+      return true;
+    });
+
     res.status(200).json({
-      jobs: uniqueJobs.slice(0, 10), // Max 10 results
-      total_found: uniqueJobs.length,
+      jobs: finalJobs.slice(0, 15), // Up to 15 results
+      total_found: finalJobs.length,
       keywords_searched: KEYWORDS,
       fetched_at: new Date().toISOString(),
     });
