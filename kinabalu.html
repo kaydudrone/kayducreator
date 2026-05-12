@@ -45,6 +45,7 @@
 <link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
 <link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
 <meta name="theme-color" content="#1d8aab" />
+<link rel="preload" as="image" href="images/kk_hero.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Droid+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
@@ -131,7 +132,7 @@ nav {
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background: url("images/kk_brother.jpg") center 25% / cover no-repeat;
+  background: url("images/kk_hero.jpg") 68% 72% / cover no-repeat;
   transform: scale(1.05);
   animation: heroZoom 14s ease-out forwards;
 }
@@ -265,6 +266,22 @@ nav {
 
 /* Section divider */
 .divider { width: 40px; height: 3px; background: var(--primary); border-radius: 999px; }
+
+/* ── BUKIT TABUR 2-COL GRID ── */
+.tabur-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.tabur-grid .story-photo { margin: 0; }
+.tabur-grid .story-photo img {
+  max-height: 400px;
+  aspect-ratio: 4/3;
+}
+@media(max-width: 560px) {
+  .tabur-grid { grid-template-columns: 1fr; }
+}
 
 /* ── INLINE PHOTO (brother) ── */
 .story-photo {
@@ -593,6 +610,20 @@ footer {
 
     <div class="prose fade-up" style="margin-top: 2rem;">
       <p>He also hiked Bukit Tabur West for a Monkey King-themed shooting project at the peak. The mountain looked insanely beautiful. It was one of the first times I realized Malaysia actually had landscapes that looked like overseas.</p>
+    </div>
+
+    <!-- Bukit Tabur Photos -->
+    <div class="tabur-grid fade-up">
+      <div class="story-photo">
+        <img src="images/tabur_monkey_king.jpg" alt="Monkey King costume shoot at Bukit Tabur West by Ks Du / Vision Studio" loading="lazy">
+      </div>
+      <div class="story-photo">
+        <img src="images/tabur_group.jpg" alt="Group photo at Bukit Tabur West peak — the shoot that inspired Kay Du to start hiking" loading="lazy">
+      </div>
+    </div>
+    <p class="photo-caption fade-up">Bukit Tabur West · Monkey King shooting project by Ks Du / Vision Studio</p>
+
+    <div class="prose fade-up" style="margin-top: 2rem;">
       <p>Before MCO, I only hiked casually — Bukit Tabur maybe two times and Ketumbar Hill once. After that, life became busy and I stopped hiking for some time. But after MCO, everything slowly changed.</p>
     </div>
   </div>
@@ -668,7 +699,7 @@ footer {
     <div class="gallery-header fade-up">
       <div class="eyebrow">Photo Gallery</div>
       <h2 class="section-title">Mount Kinabalu · Through My Lens</h2>
-      <p style="color:var(--muted); margin-top:.5rem; max-width:480px; font-size:.95rem;">21 photos from the climb. Tap any photo to view full screen.</p>
+      <p style="color:var(--muted); margin-top:.5rem; max-width:480px; font-size:.95rem;">58 photos from the climb. Tap any photo to view full screen.</p>
     </div>
     <div class="photo-grid fade-up" id="photoGrid">
       <img src="images/kk_1.jpg"  class="wide" alt="Mount Kinabalu panoramic view by Kay Du" loading="lazy" data-index="0">
@@ -692,6 +723,43 @@ footer {
       <img src="images/kk_19.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="18">
       <img src="images/kk_20.jpg" class="wide" alt="Mount Kinabalu panoramic by Kay Du" loading="lazy" data-index="19">
       <img src="images/kk_21.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="20">
+      <img src="images/kk_22.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="21">
+      <img src="images/kk_23.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="22">
+      <img src="images/kk_24.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="23">
+      <img src="images/kk_25.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="24">
+      <img src="images/kk_26.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="25">
+      <img src="images/kk_27.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="26">
+      <img src="images/kk_28.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="27">
+      <img src="images/kk_29.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="28">
+      <img src="images/kk_30.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="29">
+      <img src="images/kk_31.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="30">
+      <img src="images/kk_32.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="31">
+      <img src="images/kk_33.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="32">
+      <img src="images/kk_34.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="33">
+      <img src="images/kk_35.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="34">
+      <img src="images/kk_36.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="35">
+      <img src="images/kk_37.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="36">
+      <img src="images/kk_38.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="37">
+      <img src="images/kk_39.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="38">
+      <img src="images/kk_40.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="39">
+      <img src="images/kk_41.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="40">
+      <img src="images/kk_42.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="41">
+      <img src="images/kk_43.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="42">
+      <img src="images/kk_44.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="43">
+      <img src="images/kk_45.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="44">
+      <img src="images/kk_46.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="45">
+      <img src="images/kk_47.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="46">
+      <img src="images/kk_48.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="47">
+      <img src="images/kk_49.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="48">
+      <img src="images/kk_50.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="49">
+      <img src="images/kk_51.jpg" alt="Mount Kinabalu We Only Live Once shirt" loading="lazy" data-index="50">
+      <img src="images/kk_52.jpg" alt="Starry night at Mount Kinabalu" loading="lazy" data-index="51">
+      <img src="images/kk_53.jpg" alt="Mountain range view from Kinabalu summit" loading="lazy" data-index="52">
+      <img src="images/kk_54.jpg" class="wide" alt="GoPro at Mount Kinabalu summit above clouds" loading="lazy" data-index="53">
+      <img src="images/kk_55.jpg" alt="Mountain range panoramic from Kinabalu" loading="lazy" data-index="54">
+      <img src="images/kk_56.jpg" class="wide" alt="Kay Du and friends at Mount Kinabalu summit" loading="lazy" data-index="55">
+      <img src="images/kk_57.jpg" class="wide" alt="So Hikers Malaysia flag at Mount Kinabalu summit" loading="lazy" data-index="56">
+      <img src="images/kk_58.jpg" alt="So Hikers Malaysia team at Mount Kinabalu, backs turned watching Donkey's Ear peak" loading="lazy" data-index="57">
     </div>
   </div>
 </section>
@@ -701,7 +769,7 @@ footer {
   <div class="glb-header">
     <span class="glb-title">Mount Kinabalu · Kay Du</span>
     <div class="glb-right">
-      <span class="glb-counter" id="glbCounter">1 / 21</span>
+      <span class="glb-counter" id="glbCounter">1 / 58</span>
       <button class="glb-close" id="glbClose" aria-label="Close">&#x2715;</button>
     </div>
   </div>
@@ -823,7 +891,16 @@ const photos = [
   'images/kk_9.jpg','images/kk_10.jpg','images/kk_11.jpg','images/kk_12.jpg',
   'images/kk_13.jpg','images/kk_14.jpg','images/kk_15.jpg','images/kk_16.jpg',
   'images/kk_17.jpg','images/kk_18.jpg','images/kk_19.jpg','images/kk_20.jpg',
-  'images/kk_21.jpg'
+  'images/kk_21.jpg','images/kk_22.jpg','images/kk_23.jpg','images/kk_24.jpg',
+  'images/kk_25.jpg','images/kk_26.jpg','images/kk_27.jpg','images/kk_28.jpg',
+  'images/kk_29.jpg','images/kk_30.jpg','images/kk_31.jpg','images/kk_32.jpg',
+  'images/kk_33.jpg','images/kk_34.jpg','images/kk_35.jpg','images/kk_36.jpg',
+  'images/kk_37.jpg','images/kk_38.jpg','images/kk_39.jpg','images/kk_40.jpg',
+  'images/kk_41.jpg','images/kk_42.jpg','images/kk_43.jpg','images/kk_44.jpg',
+  'images/kk_45.jpg','images/kk_46.jpg','images/kk_47.jpg','images/kk_48.jpg',
+  'images/kk_49.jpg','images/kk_50.jpg','images/kk_51.jpg','images/kk_52.jpg',
+  'images/kk_53.jpg','images/kk_54.jpg','images/kk_55.jpg','images/kk_56.jpg',
+  'images/kk_57.jpg','images/kk_58.jpg'
 ];
 let current = 0;
 const glb        = document.getElementById('glb');
