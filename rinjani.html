@@ -137,13 +137,13 @@ nav { position: sticky; top: 0; z-index: 100; background: #1d8aab; border-bottom
 
 .gallery-section { padding: 72px 0; background: var(--surface); }
 .gallery-header { margin-bottom: 2rem; }
-.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
-.photo-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-sm); cursor: pointer; transition: transform .35s ease, box-shadow .35s ease; background: var(--line); }
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.photo-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: center 20%; border-radius: var(--radius-sm); cursor: pointer; transition: transform .35s ease, box-shadow .35s ease; background: var(--line); min-width: 0; }
 .photo-grid img:hover { transform: scale(1.025); box-shadow: 0 16px 40px rgba(0,0,0,.18); }
-.photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; }
-.photo-grid img.tall { aspect-ratio: 3/4; }
-@media(max-width:640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; } .photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; } .photo-grid img.tall { aspect-ratio: 4/3; } }
-@media(max-width:380px) { .photo-grid { grid-template-columns: 1fr; } .photo-grid img.wide { grid-column: span 1; aspect-ratio: 4/3; } }
+.photo-grid img.wide { grid-column: span 2; aspect-ratio: 3/2; object-position: center 25%; }
+.photo-grid img.tall { aspect-ratio: 3/4; object-position: center 15%; }
+@media(max-width:640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .45rem; } .photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; } .photo-grid img.tall { aspect-ratio: 1/1; } }
+@media(max-width:380px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } .photo-grid img.wide { grid-column: span 2; aspect-ratio: 4/3; } }
 
 .cta-band { background: linear-gradient(135deg, #c0392b, #e85d26); border-radius: var(--radius); padding: 3rem 2rem; text-align: center; color: #fff; box-shadow: 0 20px 60px rgba(232,93,38,.3); }
 .cta-band h3 { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; margin-bottom: .6rem; letter-spacing: -.015em; }

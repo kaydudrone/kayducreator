@@ -338,37 +338,38 @@ nav {
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: .75rem;
+  gap: .6rem;
 }
-/* Vary aspect ratios for visual interest */
 .photo-grid img {
-  width: 100%; aspect-ratio: 4/3;
-  object-fit: cover; border-radius: var(--radius-sm);
+  width: 100%; aspect-ratio: 1/1;
+  object-fit: cover; object-position: center 20%;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: transform .35s ease, box-shadow .35s ease;
   background: var(--line);
+  min-width: 0;
 }
 .photo-grid img:hover {
   transform: scale(1.025);
   box-shadow: 0 16px 40px rgba(0,0,0,.18);
 }
-/* Make every 4th photo wide (span 2 cols) */
 .photo-grid img.wide {
   grid-column: span 2;
-  aspect-ratio: 16/9;
+  aspect-ratio: 3/2;
+  object-position: center 25%;
 }
-/* Make every 7th photo tall */
 .photo-grid img.tall {
   aspect-ratio: 3/4;
+  object-position: center 15%;
 }
 @media(max-width:640px) {
-  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .45rem; }
   .photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; }
-  .photo-grid img.tall { aspect-ratio: 4/3; }
+  .photo-grid img.tall { aspect-ratio: 1/1; }
 }
 @media(max-width:380px) {
-  .photo-grid { grid-template-columns: 1fr; }
-  .photo-grid img.wide { grid-column: span 1; aspect-ratio: 4/3; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 4/3; }
 }
 
 /* ── GOALS CARD LIST ── */

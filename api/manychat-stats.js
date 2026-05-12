@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const tagsRes = await fetch('https://api.manychat.com/fb/page/getTags', { headers });
     const tagsText = await tagsRes.text();
     let tagsData = null;
-    try { tagsData = JSON.parse(tagsText); } catch {}
+    try { tagsData = JSON.parse(tagsText); } catch (e) { console.error('ManyChat tags parse error:', e.message); }
 
     const allTags = tagsData?.data || [];
 
