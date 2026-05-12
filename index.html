@@ -145,6 +145,50 @@ nav{
 }
 .nav-links a:hover{background:rgba(255,255,255,.15);color:#fff}
 
+/* ── MY STORY DROPDOWN ── */
+.nav-dropdown{position:relative}
+.nav-dropdown-toggle{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.5rem .85rem;border-radius:999px;
+  font-size:.8rem;font-weight:500;color:rgba(255,255,255,.85);
+  cursor:pointer;transition:.15s ease;user-select:none;
+}
+.nav-dropdown-toggle:hover,.nav-dropdown.open .nav-dropdown-toggle{
+  background:rgba(255,255,255,.15);color:#fff;
+}
+.nav-dropdown-toggle svg{transition:transform .2s ease}
+.nav-dropdown.open .nav-dropdown-toggle svg{transform:rotate(180deg)}
+.nav-dropdown-menu{
+  position:absolute;top:calc(100% + .5rem);left:50%;
+  transform:translateX(-50%);
+  background:#fff;border-radius:14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+  min-width:210px;overflow:hidden;
+  opacity:0;pointer-events:none;
+  transform:translateX(-50%) translateY(-6px);
+  transition:opacity .2s ease,transform .2s ease;
+}
+.nav-dropdown.open .nav-dropdown-menu{
+  opacity:1;pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.nav-dropdown-menu a{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.85rem 1.1rem;
+  font-size:.82rem;font-weight:600;color:#1a1a1a;
+  transition:.15s ease;border-radius:0;
+  background:transparent;
+}
+.nav-dropdown-menu a:hover{background:#f5f4ef;color:#1d8aab}
+.nav-dropdown-menu a .story-icon{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;
+}
+.nav-dropdown-menu a:first-child{border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-dropdown-menu a .story-meta{display:flex;flex-direction:column;gap:.1rem}
+.nav-dropdown-menu a .story-meta span{font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6960;font-weight:400}
+
 /* ── HERO ── */
 .hero{
   position:relative;min-height:92vh;color:#fff;
@@ -589,7 +633,7 @@ footer{
   width:100%;max-width:900px;flex:1;min-height:0;padding:0 3.5rem;box-sizing:border-box;
 }
 .glb-img{
-  max-width:100%;max-height:calc(100vh - 220px);
+  max-width:100%;max-height:calc(100vh - 220px);max-height:calc(100svh - 220px);
   border-radius:10px;object-fit:contain;
   display:block;box-shadow:0 8px 40px rgba(0,0,0,.5);
 }
@@ -849,6 +893,22 @@ footer{
       <li><a href="#progress">Challenge</a></li>
       <li><a href="#mountains">GPX Trails</a></li>
       <li><a href="#beyond">Beyond Malaysia</a></li>
+      <li class="nav-dropdown" id="storyDropdown">
+        <span class="nav-dropdown-toggle" id="storyToggle">
+          My Story
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+        <div class="nav-dropdown-menu">
+          <a href="/kinabalu">
+            <span class="story-icon" style="background:#e8f6fa">🏔️</span>
+            <span class="story-meta">Mount Kinabalu<span>Malaysia · 4,095m</span></span>
+          </a>
+          <a href="/rinjani">
+            <span class="story-icon" style="background:#fff5f0">🌋</span>
+            <span class="story-meta">Mount Rinjani<span>Indonesia · 3,726m</span></span>
+          </a>
+        </div>
+      </li>
       <li><a href="#contact">Collaborate</a></li>
     </ul>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
@@ -862,6 +922,8 @@ footer{
   <a href="#progress" class="nav-mobile-link">Challenge</a>
   <a href="#mountains" class="nav-mobile-link">GPX Trails</a>
   <a href="#beyond" class="nav-mobile-link">Beyond Malaysia</a>
+  <a href="/kinabalu" class="nav-mobile-link">🏔️ My Story · Mount Kinabalu</a>
+  <a href="/rinjani" class="nav-mobile-link">🌋 My Story · Mount Rinjani</a>
   <a href="#contact" class="nav-mobile-link">Collaborate</a>
 </div>
 
@@ -1630,6 +1692,20 @@ document.addEventListener('keydown',e=>{
     document.getElementById('routeModal')?.classList.remove('open');
     closeGallery();
   }
+});
+
+// ── MY STORY DROPDOWN ──────────────────────────────────────────
+const storyDropdown = document.getElementById('storyDropdown');
+const storyToggle   = document.getElementById('storyToggle');
+storyToggle?.addEventListener('click', e => {
+  e.stopPropagation();
+  storyDropdown.classList.toggle('open');
+});
+document.addEventListener('click', e => {
+  if (!storyDropdown?.contains(e.target)) storyDropdown?.classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') storyDropdown?.classList.remove('open');
 });
 
 // ── HAMBURGER NAV ──────────────────────────────────────────────
