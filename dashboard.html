@@ -333,7 +333,7 @@
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#000,#444)"></div>
       <div class="kpi-platform">🧵 Threads</div>
       <div class="kpi-main" id="threadsFollowers">—</div>
-      <div class="kpi-sub" id="threadsSub">Followers</div>
+      <div class="kpi-sub" id="threadsSub">Total likes (recent)</div>
       <div class="kpi-stat" id="threadsAvg">● Live</div>
     </div>
   </div>
@@ -1070,9 +1070,9 @@ async function fetchThreadsStats() {
     const data = await res.json();
     if (data.error) return;
 
-    $set('threadsFollowers', 'textContent', (data.profile.followers || 0).toLocaleString());
-    $set('threadsSub', 'textContent', `Followers · ${data.summary.total_posts_fetched} recent posts`);
-    $set('threadsAvg', 'textContent', `Avg ${data.summary.avg_likes} likes · ● Live`);
+    $set('threadsFollowers', 'textContent', (data.summary.total_likes || 0).toLocaleString());
+    $set('threadsSub', 'textContent', `Total likes · ${data.summary.total_posts_fetched} posts`);
+    $set('threadsAvg', 'textContent', `Avg ${data.summary.avg_likes} likes/post · ● Live`);
     $style('threadsAvg', 'color', '#68d391');
 
   } catch (err) {

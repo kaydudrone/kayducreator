@@ -17,13 +17,12 @@ export default async function handler(req, res) {
   try {
     // Fetch profile info
     const profileRes = await fetch(
-      `https://graph.threads.net/v1.0/me?fields=id,username,name,threads_profile_picture_url,threads_biography,followers_count&access_token=${token}`
+      `https://graph.threads.net/v1.0/me?fields=id,username,name,threads_profile_picture_url,threads_biography&access_token=${token}`
     );
     const profile = await profileRes.json();
 
     if (profile.error) {
-      console.error('Threads API error:', JSON.stringify(profile.error));
-      return res.status(200).json({ error: 'Threads API error', details: profile.error, token_length: token.length });
+      return res.status(401).json({ error: 'Token expired or invalid', message: profile.error.message });
     }
 
     // Fetch recent posts
@@ -58,7 +57,6 @@ export default async function handler(req, res) {
       profile: {
         username: profile.username,
         name: profile.name,
-        followers: profile.followers_count || 0,
         bio: profile.threads_biography || '',
       },
       posts,
