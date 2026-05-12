@@ -22,8 +22,8 @@ async function searchKeyword(keyword, apifyToken) {
         body: JSON.stringify({
           searchQuery: keyword,
           sort: 'recent',
-          maxPosts: 10, // minimum required by actor
-          memory: 256,  // use 256MB instead of default 4096MB
+          maxPosts: 10,
+          memory: 1024, // sequential runs = only 1 active at a time, 1024MB is enough
         }),
       }
     );
