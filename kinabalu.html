@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5QCJQYYH49"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5QCJQYYH49');
+</script>
+<title>Why Everyone Should Hike Mount Kinabalu · Kay Du</title>
+<meta name="description" content="Kay Du shares his personal story of climbing Mount Kinabalu — Malaysia's highest peak at 4,095m. Photos, drone footage, and why this mountain changes you forever." />
+<link rel="canonical" href="https://kayducreator.com/kinabalu" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kayducreator.com/kinabalu" />
+<meta property="og:title" content="Why Everyone Should Hike Mount Kinabalu · Kay Du" />
+<meta property="og:description" content="Standing above the clouds at 4,095m. Kay Du's story of how hiking Mount Kinabalu changed his life." />
+<meta property="og:image" content="https://kayducreator.com/images/kk_brother.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Why Everyone Should Hike Mount Kinabalu · Kay Du" />
+<meta name="twitter:description" content="Standing above the clouds at 4,095m. Kay Du's story of how hiking Mount Kinabalu changed his life." />
+<meta name="twitter:image" content="https://kayducreator.com/images/kk_brother.jpg" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Why Everyone Should Hike Mount Kinabalu At Least Once In Their Life",
+  "image": "https://kayducreator.com/images/kk_brother.jpg",
+  "author": { "@type": "Person", "name": "Kay Du", "url": "https://kayducreator.com" },
+  "publisher": { "@type": "Person", "name": "Kay Du", "url": "https://kayducreator.com" },
+  "datePublished": "2026-05-12",
+  "description": "Kay Du shares his personal story of climbing Mount Kinabalu and how it changed his life.",
+  "about": {
+    "@type": "Mountain",
+    "name": "Mount Kinabalu",
+    "elevation": "4095",
+    "geo": { "@type": "GeoCoordinates", "latitude": "6.0750", "longitude": "116.5603" },
+    "address": { "@type": "PostalAddress", "addressCountry": "MY", "addressRegion": "Sabah" }
+  }
+}
+</script>
+<link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
+<link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
+<meta name="theme-color" content="#1d8aab" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Droid+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+<style>
+/* ── TOKENS ── */
+:root {
+  --primary: #1d8aab;
+  --primary-dark: #145f76;
+  --primary-light: #e8f6fa;
+  --bg: #f5f4ef;
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --ink-soft: #2d2d2d;
+  --muted: #6b6960;
+  --line: rgba(0,0,0,.07);
+  --radius: 20px;
+  --radius-sm: 12px;
+  /* prose column width */
+  --prose-w: 680px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ── READING PROGRESS BAR ── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; z-index: 200;
+  height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--primary), #7de8ff);
+  transition: width .1s linear;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #1d8aab;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+.nav-inner {
+  width: min(1160px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  min-height: 72px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.nav-brand { display: flex; align-items: center; gap: .75rem; }
+.nav-brand img { height: 34px; width: auto; filter: brightness(0) invert(1); }
+.nav-brand span {
+  font-family: "DM Mono", monospace;
+  font-size: .65rem; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255,255,255,.75);
+}
+.nav-back {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .5rem .9rem; border-radius: 999px;
+  font-size: .78rem; font-weight: 500;
+  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.25);
+  transition: .15s ease; white-space: nowrap;
+}
+.nav-back:hover { background: rgba(255,255,255,.15); color: #fff; }
+@media(max-width:480px) {
+  .nav-brand span { display: none; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; color: #fff;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url("images/kk_brother.jpg") center 25% / cover no-repeat;
+  transform: scale(1.05);
+  animation: heroZoom 14s ease-out forwards;
+}
+@keyframes heroZoom { to { transform: scale(1); } }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5,15,20,.25) 0%,
+    rgba(5,15,20,.55) 45%,
+    rgba(5,15,20,.88) 100%
+  );
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  width: min(820px, calc(100% - 3rem));
+  margin: 0 auto;
+  text-align: center;
+  padding: 80px 0 64px;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(29,138,171,.22); border: 1px solid rgba(29,138,171,.4);
+  padding: .4rem .9rem; border-radius: 999px;
+  font-family: "DM Mono", monospace; font-size: .63rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(255,255,255,.9); margin-bottom: 1.4rem;
+}
+.hero h1 {
+  font-family: "Droid Serif", serif;
+  font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+  font-weight: 700; line-height: 1.1; letter-spacing: -.02em;
+  margin-bottom: 1.2rem; max-width: 16ch;
+}
+.hero h1 em { font-style: italic; color: #7de8ff; }
+.hero-desc {
+  color: rgba(255,255,255,.72); font-size: clamp(.9rem, 1.8vw, 1.05rem);
+  line-height: 1.75; max-width: 500px; margin-bottom: 2rem;
+}
+.hero-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: .5rem; flex-wrap: wrap;
+}
+.hero-meta-pill {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+  padding: .35rem .8rem; border-radius: 999px;
+  font-family: "DM Mono", monospace; font-size: .6rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+
+/* ── CONTAINER ── */
+.container { width: min(1160px, calc(100% - 2.5rem)); margin: 0 auto; }
+.prose-container { width: min(var(--prose-w), calc(100% - 2.5rem)); margin: 0 auto; }
+
+/* ── FADE-UP ── */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ── SECTION SPACING ── */
+.section { padding: 72px 0; }
+.section-sm { padding: 48px 0; }
+
+/* ── EYEBROW / TITLE ── */
+.eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--primary); margin-bottom: .6rem;
+}
+.section-title {
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 800; letter-spacing: -.02em; line-height: 1.15;
+}
+
+/* ── STATS BAND ── */
+.stats-band {
+  background: var(--primary); color: #fff;
+  padding: 2.5rem 2rem; border-radius: var(--radius);
+}
+.stats-inner {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; max-width: 860px; margin: 0 auto;
+}
+.stat-item { text-align: center; }
+.stat-item strong {
+  display: block;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800; line-height: 1;
+}
+.stat-item span {
+  display: block; margin-top: .35rem;
+  font-family: "DM Mono", monospace; font-size: .58rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+}
+.stat-divider {
+  width: 1px; background: rgba(255,255,255,.15);
+  align-self: stretch; margin: .25rem 0;
+}
+@media(max-width:640px) {
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat-divider:nth-child(2) { display: none; }
+}
+
+/* ── PROSE ── */
+.prose { display: flex; flex-direction: column; gap: 1.5rem; }
+.prose p {
+  font-size: clamp(1rem, 1.6vw, 1.07rem);
+  line-height: 1.9; color: var(--ink-soft);
+}
+.prose h2 {
+  font-family: "Droid Serif", serif;
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
+  font-weight: 700; line-height: 1.2; letter-spacing: -.015em;
+  color: var(--ink); padding-top: .25rem;
+}
+.prose blockquote {
+  border-left: 3px solid var(--primary);
+  padding: 1rem 1.4rem;
+  background: var(--primary-light);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-family: "Droid Serif", serif;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-style: italic; color: var(--primary-dark);
+  line-height: 1.75;
+}
+.prose ul { padding-left: 1.4rem; display: flex; flex-direction: column; gap: .5rem; }
+.prose ul li { font-size: 1.05rem; line-height: 1.8; color: var(--ink-soft); }
+
+/* Section divider */
+.divider { width: 40px; height: 3px; background: var(--primary); border-radius: 999px; }
+
+/* ── INLINE PHOTO (brother) ── */
+.story-photo {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.12);
+}
+.story-photo img {
+  width: 100%; max-height: 540px;
+  object-fit: cover; object-position: center 15%;
+  display: block;
+}
+.photo-caption {
+  margin-top: .65rem; text-align: center;
+  font-family: "DM Mono", monospace; font-size: .6rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ── PULL QUOTE BAND ── */
+.pullquote-band {
+  background: var(--ink); color: #fff;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+.pullquote-band blockquote {
+  font-family: "Droid Serif", serif;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-style: italic; line-height: 1.55;
+  color: #fff; max-width: 780px; margin: 0 auto;
+  position: relative;
+}
+.pullquote-band blockquote::before {
+  content: '\201C';
+  font-size: 5rem; line-height: 0;
+  color: var(--primary); opacity: .6;
+  position: absolute; top: .6rem; left: -2rem;
+  font-style: normal;
+}
+.pullquote-band cite {
+  display: block; margin-top: 1.2rem;
+  font-family: "DM Mono", monospace; font-size: .65rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(255,255,255,.45); font-style: normal;
+}
+
+/* ── PHOTO GALLERY ── */
+.gallery-section {
+  padding: 72px 0;
+  background: var(--surface);
+}
+.gallery-header {
+  margin-bottom: 2rem;
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+}
+/* Vary aspect ratios for visual interest */
+.photo-grid img {
+  width: 100%; aspect-ratio: 4/3;
+  object-fit: cover; border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform .35s ease, box-shadow .35s ease;
+  background: var(--line);
+}
+.photo-grid img:hover {
+  transform: scale(1.025);
+  box-shadow: 0 16px 40px rgba(0,0,0,.18);
+}
+/* Make every 4th photo wide (span 2 cols) */
+.photo-grid img.wide {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
+}
+/* Make every 7th photo tall */
+.photo-grid img.tall {
+  aspect-ratio: 3/4;
+}
+@media(max-width:640px) {
+  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; }
+  .photo-grid img.tall { aspect-ratio: 4/3; }
+}
+@media(max-width:380px) {
+  .photo-grid { grid-template-columns: 1fr; }
+  .photo-grid img.wide { grid-column: span 1; aspect-ratio: 4/3; }
+}
+
+/* ── GOALS CARD LIST ── */
+.goals-list {
+  display: flex; flex-direction: column; gap: .75rem;
+  list-style: none; padding: 0;
+}
+.goals-list li {
+  display: flex; align-items: center; gap: .9rem;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: .9rem 1.1rem;
+  font-size: 1rem; line-height: 1.5; color: var(--ink-soft);
+  font-weight: 500;
+}
+.goals-list li .badge {
+  flex-shrink: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem;
+}
+.goals-list li .badge.done { background: #dcfce7; color: #16a34a; }
+.goals-list li .badge.pending { background: #f3f4f6; color: var(--muted); }
+
+/* ── CTA BAND ── */
+.cta-band {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  border-radius: var(--radius);
+  padding: 3rem 2rem; text-align: center; color: #fff;
+  box-shadow: 0 20px 60px rgba(29,138,171,.3);
+}
+.cta-band h3 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800; margin-bottom: .6rem; letter-spacing: -.015em;
+}
+.cta-band p {
+  color: rgba(255,255,255,.72);
+  margin-bottom: 1.6rem; font-size: .95rem; max-width: 420px; margin-left: auto; margin-right: auto;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .75rem 1.5rem; border-radius: 999px;
+  font-size: .85rem; font-weight: 600;
+  border: 1.5px solid transparent;
+  cursor: pointer; transition: .2s ease; white-space: nowrap;
+}
+.btn-white { background: #fff; color: var(--ink); border-color: #fff; }
+.btn-white:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,.45);
+  padding: 2rem 0;
+}
+.footer-inner {
+  width: min(1160px, calc(100% - 2.5rem)); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  font-family: "DM Mono", monospace; font-size: .62rem; letter-spacing: .08em;
+}
+.footer-inner a { color: rgba(255,255,255,.65); transition: .15s; }
+.footer-inner a:hover { color: #fff; }
+@media(max-width:480px) {
+  .footer-inner { flex-direction: column; text-align: center; gap: .5rem; }
+}
+
+/* ── LIGHTBOX ── */
+.glb {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,.96);
+  display: none; flex-direction: column;
+}
+.glb.open { display: flex; }
+.glb-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0;
+}
+.glb-title { color: #fff; font-size: .9rem; font-weight: 600; }
+.glb-right { display: flex; align-items: center; gap: .6rem; }
+.glb-counter {
+  color: rgba(255,255,255,.45);
+  font-family: "DM Mono", monospace; font-size: .72rem;
+}
+.glb-close {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50%; width: 2.2rem; height: 2.2rem;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.8); cursor: pointer; transition: .2s;
+  font-size: 1rem;
+}
+.glb-close:hover { background: rgba(255,255,255,.2); color: #fff; }
+.glb-stage {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative; padding: .5rem 3.5rem; min-height: 0;
+}
+.glb-img {
+  max-width: 100%; max-height: 100%;
+  border-radius: 10px; object-fit: contain;
+  box-shadow: 0 8px 48px rgba(0,0,0,.5);
+}
+.glb-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50%; width: 3rem; height: 3rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #fff; transition: .2s ease;
+}
+.glb-arrow:hover { background: rgba(255,255,255,.22); }
+.glb-arrow.prev { left: .4rem; }
+.glb-arrow.next { right: .4rem; }
+.glb-thumbs {
+  display: flex; gap: .4rem;
+  overflow-x: auto; padding: .65rem 1rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent;
+}
+.glb-thumb {
+  width: 52px; height: 52px; border-radius: 6px;
+  object-fit: cover; cursor: pointer; flex-shrink: 0;
+  opacity: .45; border: 2px solid transparent;
+  transition: opacity .2s, border-color .2s;
+}
+.glb-thumb.active, .glb-thumb:hover { opacity: 1; border-color: var(--primary); }
+@media(max-width:640px) {
+  .glb-stage { padding: .25rem 2.8rem; }
+  .glb-arrow { width: 2.4rem; height: 2.4rem; }
+  .glb-arrow.prev { left: .15rem; }
+  .glb-arrow.next { right: .15rem; }
+  .glb-thumb { width: 42px; height: 42px; }
+}
+
+/* ── STORY SECTIONS ALT BG ── */
+.bg-white { background: var(--surface); }
+.bg-off { background: var(--bg); }
+</style>
+</head>
+<body>
+
+<!-- READING PROGRESS -->
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <img src="so_hikers_logo_transparent.png" alt="So Hikers Malaysia">
+      <span>Kay Du Hiking Creator</span>
+    </a>
+    <a href="/" class="nav-back">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Home
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-kicker">
+      <svg width="7" height="7" viewBox="0 0 8 8" fill="#7de8ff"><circle cx="4" cy="4" r="4"/></svg>
+      Mount Kinabalu · Sabah, Malaysia
+    </div>
+    <h1>Why Everyone Should Hike <em>Mount Kinabalu</em> At Least Once</h1>
+    <p class="hero-desc">A personal story about mountains, drones, friendship — and how one climb changed everything.</p>
+    <div class="hero-meta">
+      <span class="hero-meta-pill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Kay Du
+      </span>
+      <span class="hero-meta-pill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+        4,095m · Highest in Malaysia
+      </span>
+      <span class="hero-meta-pill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        60 Mountains Challenge
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="bg-white">
+  <div class="container" style="padding: 48px 0;">
+    <div class="stats-band fade-up">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <strong>4,095m</strong>
+          <span>Summit Elevation</span>
+        </div>
+        <div class="stat-item">
+          <strong>~8.7 km</strong>
+          <span>One Way Distance</span>
+        </div>
+        <div class="stat-item">
+          <strong>2 Days</strong>
+          <span>Typical Duration</span>
+        </div>
+        <div class="stat-item">
+          <strong>Sabah 🇲🇾</strong>
+          <span>Malaysia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <p>Some journeys change the way we see life. For me, that journey was hiking Mount Kinabalu.</p>
+      <p>This is not just a story about climbing the highest mountain in Malaysia. It is a story about how hiking, drones, friendship, and chasing meaningful experiences slowly changed my life.</p>
+      <p>My name is Kay Du — a Malaysian hiking drone creator documenting mountains, waterfalls, hidden gems, and outdoor adventures around Malaysia. And honestly, none of this was planned.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW I STARTED -->
+<section class="section bg-white">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">The Beginning</div>
+      <h2>How I Started Hiking</h2>
+      <p>My hiking journey actually started because of my big brother, Ks Du from Vision Studio.</p>
+      <p>Around 17 years ago, he climbed Mount Kinabalu. Back then, I was still young — but hearing his stories and seeing his photos stayed in my mind for many years.</p>
+    </div>
+
+    <!-- Brother Photo -->
+    <div class="story-photo fade-up" style="margin-top: 2rem;">
+      <img src="images/kk_brother.jpg" alt="Ks Du at the summit of Mount Kinabalu — the photo that inspired Kay Du's journey" loading="lazy">
+    </div>
+    <p class="photo-caption fade-up">Ks Du at the summit of Mount Kinabalu · the photo that started it all</p>
+
+    <div class="prose fade-up" style="margin-top: 2rem;">
+      <p>He also hiked Bukit Tabur West for a Monkey King-themed shooting project at the peak. The mountain looked insanely beautiful. It was one of the first times I realized Malaysia actually had landscapes that looked like overseas.</p>
+      <p>Before MCO, I only hiked casually — Bukit Tabur maybe two times and Ketumbar Hill once. After that, life became busy and I stopped hiking for some time. But after MCO, everything slowly changed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DRONE -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">The Turning Point</div>
+      <h2>How A Drone Changed My Life</h2>
+      <p>At the end of 2022, I bought my first drone: the <strong>DJI Mini 3 Pro</strong>. Honestly, I did not overthink the purchase. I simply wanted a drone because it looked fun. I flew it a few times, then left it unused.</p>
+      <p>Then in 2023, I started hiking again. At first, the reason was simple — I wanted to improve my health, release stress, and clear my mind.</p>
+      <blockquote>"Why not use my drone to capture the beauty of Malaysia's mountains and waterfalls?"</blockquote>
+      <p>That one small idea slowly became a huge part of my life. From there, hiking became more than just exercise. It became a way for me to explore Malaysia, tell stories, create videos, and appreciate nature in a deeper way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section class="section bg-white">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">Purpose</div>
+      <h2>The 3 Goals That Kept Me Moving Forward</h2>
+      <p>At one point, I randomly gave myself 3 goals. Funny enough, these were all things my brother had already done before.</p>
+    </div>
+    <ul class="goals-list fade-up" style="margin-top: 1.5rem;">
+      <li>
+        <span class="badge done">✅</span>
+        Climb Mount Kinabalu
+      </li>
+      <li>
+        <span class="badge pending">🏃</span>
+        Run 42KM at the Penang Bridge International Marathon
+      </li>
+      <li>
+        <span class="badge pending">🏙️</span>
+        Complete the Standard Chartered Marathon 42KM
+      </li>
+    </ul>
+    <div class="prose fade-up" style="margin-top: 1.5rem;">
+      <p>Until today, I still cannot fully explain why I wanted to chase these goals so badly. Maybe I wanted to prove something to myself. Maybe I needed purpose. Maybe I simply wanted to feel alive again. But somehow, these goals gave me hope and kept me moving forward in life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MAGIC OF KK -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">The Mountain</div>
+      <h2>The Magic of Mount Kinabalu</h2>
+      <p>Out of all the mountains I have explored, Mount Kinabalu feels truly different. The moment I first saw the mountain with my own eyes, I was shocked.</p>
+      <blockquote>"Is this really Malaysia?"</blockquote>
+      <p>The scenery honestly felt unreal. The cold air, granite landscapes, sunrise views above the clouds, and peaceful atmosphere made the entire experience feel magical. Even while hiking, I felt strangely calm inside. No stress. No pressure. Just peace.</p>
+      <p>The sunrise at Low's Peak is still one of the most beautiful moments I have ever witnessed in my life. And honestly, photos and videos can never fully capture how beautiful it feels in real life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<div class="pullquote-band">
+  <blockquote>
+    Standing above the clouds at 4,095 meters, watching the sunrise slowly appear over Sabah, makes you realize how beautiful life actually is.
+    <cite>— Kay Du, Hiking Drone Creator</cite>
+  </blockquote>
+</div>
+
+<!-- PHOTO GALLERY -->
+<section class="gallery-section">
+  <div class="container">
+    <div class="gallery-header fade-up">
+      <div class="eyebrow">Photo Gallery</div>
+      <h2 class="section-title">Mount Kinabalu · Through My Lens</h2>
+      <p style="color:var(--muted); margin-top:.5rem; max-width:480px; font-size:.95rem;">21 photos from the climb. Tap any photo to view full screen.</p>
+    </div>
+    <div class="photo-grid fade-up" id="photoGrid">
+      <img src="images/kk_1.jpg"  class="wide" alt="Mount Kinabalu panoramic view by Kay Du" loading="lazy" data-index="0">
+      <img src="images/kk_2.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="1">
+      <img src="images/kk_3.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="2">
+      <img src="images/kk_4.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="3">
+      <img src="images/kk_5.jpg"  class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="4">
+      <img src="images/kk_6.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="5">
+      <img src="images/kk_7.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="6">
+      <img src="images/kk_8.jpg"  class="wide" alt="Mount Kinabalu panoramic photo by Kay Du" loading="lazy" data-index="7">
+      <img src="images/kk_9.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="8">
+      <img src="images/kk_10.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="9">
+      <img src="images/kk_11.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="10">
+      <img src="images/kk_12.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="11">
+      <img src="images/kk_13.jpg" class="wide" alt="Mount Kinabalu sunrise panoramic by Kay Du" loading="lazy" data-index="12">
+      <img src="images/kk_14.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="13">
+      <img src="images/kk_15.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="14">
+      <img src="images/kk_16.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="15">
+      <img src="images/kk_17.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="16">
+      <img src="images/kk_18.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="17">
+      <img src="images/kk_19.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="18">
+      <img src="images/kk_20.jpg" class="wide" alt="Mount Kinabalu panoramic by Kay Du" loading="lazy" data-index="19">
+      <img src="images/kk_21.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="20">
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="glb" id="glb" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+  <div class="glb-header">
+    <span class="glb-title">Mount Kinabalu · Kay Du</span>
+    <div class="glb-right">
+      <span class="glb-counter" id="glbCounter">1 / 21</span>
+      <button class="glb-close" id="glbClose" aria-label="Close">&#x2715;</button>
+    </div>
+  </div>
+  <div class="glb-stage">
+    <button class="glb-arrow prev" id="glbPrev" aria-label="Previous">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <img class="glb-img" id="glbImg" src="" alt="" />
+    <button class="glb-arrow next" id="glbNext" aria-label="Next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="glb-thumbs" id="glbThumbs"></div>
+</div>
+
+<!-- WHY EVERYONE -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">The Message</div>
+      <h2>Why Everyone Should Hike Kinabalu Once</h2>
+      <p>People spend so much time waiting for the "right moment" in life. But the truth is — life moves very fast. Many people dream about hiking Mount Kinabalu but never actually do it.</p>
+      <p>Too busy. Too tired. Too scared. <em>Maybe next year.</em></p>
+      <p>But sometimes, meaningful experiences are exactly what make life memorable. That is why I truly believe everyone should hike Mount Kinabalu at least once in their lifetime. Not because it is easy. Not because it is trendy. But because the experience changes something inside you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WE ONLY LIVED ONCE -->
+<section class="section bg-white">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">So Hikers Malaysia</div>
+      <h2>"We Only Lived Once"</h2>
+      <p>I even designed a So Hikers Malaysia Mount Kinabalu T-shirt. At the back of the shirt, there is one sentence:</p>
+      <blockquote>"We Only Lived Once."</blockquote>
+      <p>That slogan represents exactly how I see life now. Sometimes we overthink too much. Sometimes we wait too long. Sometimes fear stops us from experiencing beautiful things. But life is short. If there is something meaningful you want to do, sometimes you simply need to take the first step.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW HIKING CHANGED MY LIFE -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">The Community</div>
+      <h2>How Hiking Changed My Entire Life</h2>
+      <p>Through hiking, I met Khor Phor Xiang and together we started <strong>So Hikers Malaysia</strong>. Since then, we have organized hikes, workshops, community events, explored hidden trails, collaborated with brands, and met so many amazing people along the journey.</p>
+      <p>And somehow, it has already been more than 3 years. Until today, we are still continuing this crazy hiking journey together.</p>
+      <p>Looking back now, it feels crazy that everything started because I randomly bought a drone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DID I COMPLETE MY GOALS -->
+<section class="section bg-white">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">Progress Update</div>
+      <h2>Did I Complete My Goals?</h2>
+      <p>I successfully completed my Mount Kinabalu goal. ✅</p>
+      <p>For the Penang Bridge International Marathon, I managed to run 38KM instead of the full 42KM. But honestly… good enough already hahaha. I reached both sides of the bridge, so I considered it a personal achievement.</p>
+      <p>As for the Standard Chartered Marathon… that goal is still waiting for me. Maybe one day. 😄</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL THOUGHTS -->
+<section class="section bg-off">
+  <div class="prose-container">
+    <div class="prose fade-up">
+      <div class="eyebrow">Final Thoughts</div>
+      <h2>The Mountains Heal</h2>
+      <p>Hiking gave me more than beautiful views. It gave me peace of mind. Purpose. Friendships. Stories. Memories. And a reason to keep moving forward.</p>
+      <blockquote>"Because sometimes, the mountains heal parts of us that normal life cannot."</blockquote>
+      <p>If you have the chance, go hike Mount Kinabalu at least once in your life. And maybe somewhere above the clouds, you might discover a new version of yourself too.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band fade-up" style="margin-top: 3rem;">
+      <h3>Ready to start your hiking journey?</h3>
+      <p>Download free GPX trail files for 15 Malaysian mountains and follow the 60 Mountains Challenge.</p>
+      <a href="/" class="btn btn-white">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        View All GPX Trails
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Kay Du · So Hikers Malaysia</span>
+    <span>60 Mountains Challenge · 15 / 60 Done</span>
+    <a href="/">← Back to Home</a>
+  </div>
+</footer>
+
+<script>
+// ── READING PROGRESS ──────────────────────────────────────────────
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+}, { passive: true });
+
+// ── FADE UP ON SCROLL ─────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── LIGHTBOX ──────────────────────────────────────────────────────
+const photos = [
+  'images/kk_1.jpg','images/kk_2.jpg','images/kk_3.jpg','images/kk_4.jpg',
+  'images/kk_5.jpg','images/kk_6.jpg','images/kk_7.jpg','images/kk_8.jpg',
+  'images/kk_9.jpg','images/kk_10.jpg','images/kk_11.jpg','images/kk_12.jpg',
+  'images/kk_13.jpg','images/kk_14.jpg','images/kk_15.jpg','images/kk_16.jpg',
+  'images/kk_17.jpg','images/kk_18.jpg','images/kk_19.jpg','images/kk_20.jpg',
+  'images/kk_21.jpg'
+];
+let current = 0;
+const glb        = document.getElementById('glb');
+const glbImg     = document.getElementById('glbImg');
+const glbCounter = document.getElementById('glbCounter');
+const glbThumbs  = document.getElementById('glbThumbs');
+
+photos.forEach((src, i) => {
+  const t = document.createElement('img');
+  t.src = src; t.alt = ''; t.className = 'glb-thumb';
+  t.addEventListener('click', () => goTo(i));
+  glbThumbs.appendChild(t);
+});
+
+function goTo(i) {
+  current = (i + photos.length) % photos.length;
+  glbImg.src = photos[current];
+  glbImg.alt = 'Mount Kinabalu photo ' + (current + 1);
+  glbCounter.textContent = (current + 1) + ' / ' + photos.length;
+  glbThumbs.querySelectorAll('.glb-thumb').forEach((t, idx) => {
+    t.classList.toggle('active', idx === current);
+  });
+  glbThumbs.children[current]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+}
+
+function openGallery(i) {
+  goTo(i);
+  glb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGallery() {
+  glb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('glbClose').addEventListener('click', closeGallery);
+document.getElementById('glbPrev').addEventListener('click', () => goTo(current - 1));
+document.getElementById('glbNext').addEventListener('click', () => goTo(current + 1));
+glb.addEventListener('click', e => { if (e.target === glb || e.target === glbImg.parentElement) closeGallery(); });
+
+document.querySelectorAll('#photoGrid img').forEach(img => {
+  img.addEventListener('click', () => openGallery(+img.dataset.index));
+});
+
+document.addEventListener('keydown', e => {
+  if (!glb.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  goTo(current - 1);
+  if (e.key === 'ArrowRight') goTo(current + 1);
+  if (e.key === 'Escape')     closeGallery();
+});
+
+// Touch swipe
+let touchStartX = 0;
+glb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+glb.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+});
+</script>
+
+</body>
+</html>
