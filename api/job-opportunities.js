@@ -10,6 +10,14 @@ const KEYWORDS = [
   'content creator KL',
   'photographer videographer hired',
   'social media creator Malaysia',
+  'KOC Malaysia',
+  'KOC hiking',
+  'KOC outdoor Malaysia',
+  'sport brand ambassador Malaysia',
+  'hiking content creator',
+  'outdoor creator Malaysia',
+  'ambassador sukan Malaysia',
+  'brand collaboration hiking',
 ];
 
 export default async function handler(req, res) {
@@ -94,9 +102,13 @@ export default async function handler(req, res) {
       'hire', 'hiring', 'looking for', 'job', 'vacancy', 'opportunity',
       'join', 'freelance', 'needed', 'wanted', 'dm', 'contact', 'apply',
       'collaboration', 'collab', 'project', 'work with',
+      // Niche: KOC / outdoor / sport
+      'koc', 'ambassador', 'brand deal', 'sponsored', 'partnership',
+      'hiking', 'outdoor', 'sport', 'trail', 'adventure',
       // Malay terms
       'cari', 'kerja', 'jawatan', 'ambil', 'diperlukan', 'hubungi',
       'kolaborasi', 'peluang', 'tawaran', 'budjet', 'budget',
+      'sukan', 'jalan', 'aktiviti', 'alam',
       'creator', 'videographer', 'photographer', 'editor',
     ];
 
