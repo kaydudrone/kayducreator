@@ -1,24 +1,73 @@
 // Threads Job Opportunities Monitor
 // Uses Apify Threads Search Scraper to find content creator jobs
 
+// Trimmed to best 6 keywords — run sequentially to stay within free plan memory limits
 const KEYWORDS = [
   'content creator Malaysia hiring',
-  'videographer Malaysia',
-  'drone pilot Malaysia',
-  'video editor Malaysia',
-  'kreator konten Malaysia',
-  'content creator KL',
-  'photographer videographer hired',
-  'social media creator Malaysia',
   'KOC Malaysia',
-  'KOC hiking',
-  'KOC outdoor Malaysia',
-  'sport brand ambassador Malaysia',
   'hiking content creator',
+  'videographer Malaysia',
   'outdoor creator Malaysia',
-  'ambassador sukan Malaysia',
-  'brand collaboration hiking',
+  'kreator konten Malaysia',
 ];
+
+async function searchKeyword(keyword, apifyToken) {
+  try {
+    // Start Apify actor run — 256MB memory keeps us within free plan limits
+    const runRes = await fetch(
+      `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs?token=${apifyToken}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          searchQuery: keyword,
+          sort: 'recent',
+          maxPosts: 10, // minimum required by actor
+          memory: 256,  // use 256MB instead of default 4096MB
+        }),
+      }
+    );
+    const runData = await runRes.json();
+    const runId = runData.data?.id;
+
+    if (!runId) {
+      return { keyword, posts: [], error: 'no_run_id', apify_response: runData };
+    }
+
+    // Wait for run to finish (poll up to 30 seconds)
+    let attempts = 0;
+    let status = 'RUNNING';
+    while ((status === 'RUNNING' || status === 'READY') && attempts < 10) {
+      await new Promise(r => setTimeout(r, 3000));
+      const statusRes = await fetch(
+        `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs/${runId}?token=${apifyToken}`
+      );
+      const statusData = await statusRes.json();
+      status = statusData.data?.status;
+      attempts++;
+    }
+
+    // Get results
+    const dataRes = await fetch(
+      `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs/${runId}/dataset/items?token=${apifyToken}`
+    );
+    const posts = await dataRes.json();
+
+    const postArray = Array.isArray(posts) ? posts : [];
+    return {
+      keyword,
+      posts: postArray.map(p => ({
+        text: p.text?.substring(0, 200) || '',
+        url: p.url || p.post_url || '',
+        date: p.created_at || p.timestamp || '',
+        likes: p.like_count || 0,
+        username: p.username || p.author?.username || '',
+      })),
+    };
+  } catch (e) {
+    return { keyword, posts: [], error: e.message };
+  }
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
@@ -34,84 +83,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Run searches for all keywords in parallel
-    const results = await Promise.all(
-      KEYWORDS.map(async (keyword) => {
-        try {
-          // Start Apify actor run
-          const runRes = await fetch(
-            `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs?token=${apifyToken}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                searchQuery: keyword,
-                sort: 'recent',
-                maxPosts: 10, // minimum 10 required by Apify actor
-              }),
-            }
-          );
-          const runData = await runRes.json();
-          const runId = runData.data?.id;
+    // Run searches SEQUENTIALLY — parallel hits memory limit on free plan
+    const results = [];
+    for (const keyword of KEYWORDS) {
+      const result = await searchKeyword(keyword, apifyToken);
+      results.push(result);
+    }
 
-          if (!runId) {
-            return { keyword, posts: [], error: 'no_run_id', apify_response: runData };
-          }
-
-          // Wait for run to finish (poll up to 30 seconds)
-          let attempts = 0;
-          let status = 'RUNNING';
-          while (status === 'RUNNING' && attempts < 10) {
-            await new Promise(r => setTimeout(r, 3000));
-            const statusRes = await fetch(
-              `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs/${runId}?token=${apifyToken}`
-            );
-            const statusData = await statusRes.json();
-            status = statusData.data?.status;
-            attempts++;
-          }
-
-          // Get results
-          const dataRes = await fetch(
-            `https://api.apify.com/v2/acts/igview-owner~threads-search-scraper/runs/${runId}/dataset/items?token=${apifyToken}`
-          );
-          const posts = await dataRes.json();
-
-          return {
-            keyword,
-            posts: (posts || []).map(p => ({
-              text: p.text?.substring(0, 200) || '',
-              url: p.url || p.post_url || '',
-              date: p.created_at || p.timestamp || '',
-              likes: p.like_count || 0,
-              username: p.username || p.author?.username || '',
-            })),
-          };
-        } catch (e) {
-          console.error('Apify error for keyword:', keyword, e.message);
-          return { keyword, posts: [], error: e.message };
-        }
-      })
-    );
-
-    // Flatten all posts — search keywords are already targeted enough
+    // Flatten all posts
     const allPosts = results.flatMap(r =>
       r.posts.map(p => ({ ...p, searchKeyword: r.keyword }))
     );
 
-    // Light filter: exclude clearly irrelevant posts (no text, or just tourist posts)
-    // Allow Malay terms: cari, kerja, ambil, join, dm, hubungi, kolaborasi, kreator
+    // Light filter — includes Malay + English job/collab terms
     const relevanceKeywords = [
       'hire', 'hiring', 'looking for', 'job', 'vacancy', 'opportunity',
       'join', 'freelance', 'needed', 'wanted', 'dm', 'contact', 'apply',
       'collaboration', 'collab', 'project', 'work with',
-      // Niche: KOC / outdoor / sport
       'koc', 'ambassador', 'brand deal', 'sponsored', 'partnership',
       'hiking', 'outdoor', 'sport', 'trail', 'adventure',
-      // Malay terms
       'cari', 'kerja', 'jawatan', 'ambil', 'diperlukan', 'hubungi',
-      'kolaborasi', 'peluang', 'tawaran', 'budjet', 'budget',
-      'sukan', 'jalan', 'aktiviti', 'alam',
+      'kolaborasi', 'peluang', 'tawaran', 'budget', 'sukan', 'alam',
       'creator', 'videographer', 'photographer', 'editor',
     ];
 
@@ -127,23 +119,24 @@ export default async function handler(req, res) {
       return true;
     });
 
-    // If still nothing after filter, return all results (search was targeted)
-    const finalJobs = uniqueJobs.length > 0 ? uniqueJobs : allPosts.filter(p => {
-      if (!p.url || seen.has(p.url)) return false;
-      seen.add(p.url);
+    // Fallback: if filter returns nothing, show all raw results
+    const seen2 = new Set();
+    const allUnique = allPosts.filter(p => {
+      if (!p.url || seen2.has(p.url)) return false;
+      seen2.add(p.url);
       return true;
     });
+    const finalJobs = uniqueJobs.length > 0 ? uniqueJobs : allUnique;
 
     res.status(200).json({
       jobs: finalJobs.slice(0, 15),
       total_found: finalJobs.length,
       keywords_searched: KEYWORDS,
       fetched_at: new Date().toISOString(),
-      // Debug: remove after confirmed working
       _debug: {
         raw_posts: allPosts.length,
         filtered_posts: jobPosts.length,
-        errors: results.filter(r => r.error).map(r => ({ keyword: r.keyword, error: r.error, apify_response: r.apify_response })),
+        errors: results.filter(r => r.error).map(r => ({ keyword: r.keyword, error: r.error })),
       },
     });
 
