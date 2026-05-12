@@ -54,7 +54,10 @@ export default async function handler(req, res) {
           const runData = await runRes.json();
           const runId = runData.data?.id;
 
-          if (!runId) return { keyword, posts: [] };
+          if (!runId) {
+            console.error('No runId for keyword:', keyword, JSON.stringify(runData));
+            return { keyword, posts: [], error: 'no_run_id' };
+          }
 
           // Wait for run to finish (poll up to 30 seconds)
           let attempts = 0;
@@ -85,8 +88,9 @@ export default async function handler(req, res) {
               username: p.username || p.author?.username || '',
             })),
           };
-        } catch {
-          return { keyword, posts: [] };
+        } catch (e) {
+          console.error('Apify error for keyword:', keyword, e.message);
+          return { keyword, posts: [], error: e.message };
         }
       })
     );
@@ -132,10 +136,16 @@ export default async function handler(req, res) {
     });
 
     res.status(200).json({
-      jobs: finalJobs.slice(0, 15), // Up to 15 results
+      jobs: finalJobs.slice(0, 15),
       total_found: finalJobs.length,
       keywords_searched: KEYWORDS,
       fetched_at: new Date().toISOString(),
+      // Debug: remove after confirmed working
+      _debug: {
+        raw_posts: allPosts.length,
+        filtered_posts: jobPosts.length,
+        errors: results.filter(r => r.error).map(r => ({ keyword: r.keyword, error: r.error })),
+      },
     });
 
   } catch (err) {
