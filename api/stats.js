@@ -5,16 +5,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://kayducreator.com');
   res.setHeader('Cache-Control', 's-maxage=3600');
 
-  // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Shared secret check — blocks direct curl/script abuse
-  const secret = process.env.DASHBOARD_SECRET?.trim();
-  const sentToken = req.headers['x-dashboard-token']?.trim();
-  if (secret && sentToken !== secret) {
-    return res.status(401).json({ error: 'Unauthorized' });
   }
 
   const token = process.env.IG_ACCESS_TOKEN;

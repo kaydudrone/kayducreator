@@ -17,11 +17,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const secret = process.env.DASHBOARD_SECRET;
-  if (secret && req.headers['x-dashboard-token'] !== secret) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
   const apifyToken = process.env.APIFY_TOKEN;
   if (!apifyToken) {
     return res.status(500).json({ error: 'No Apify token configured' });

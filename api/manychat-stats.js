@@ -7,12 +7,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const secret = process.env.DASHBOARD_SECRET?.trim();
-  const sentToken = req.headers['x-dashboard-token']?.trim();
-  if (secret && sentToken !== secret) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
   const token = process.env.MANYCHAT_API_KEY;
   if (!token) return res.status(500).json({ error: 'No ManyChat API key configured' });
 
