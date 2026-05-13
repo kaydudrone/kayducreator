@@ -125,6 +125,13 @@
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
   .loading { color: #8892a4; font-size: 12px; }
 
+  /* Trend indicators */
+  .kpi-trend { font-size: 11px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+  .kpi-trend.up { color: #68d391; }
+  .kpi-trend.down { color: #fc8181; }
+  .kpi-trend.flat { color: #8892a4; }
+  .refresh-info { font-size: 11px; color: #4a5568; margin-left: 10px; }
+
   /* Post Performance Alert */
   .perf-alert { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 18px 22px; margin-bottom: 24px; display: none; }
   .perf-alert.visible { display: block; border-color: #48bb7850; background: #0a1f15; }
@@ -257,7 +264,7 @@
 
 <div class="header">
   <h1>🏔 Kay Du — Creator Dashboard <span class="live-badge">● LIVE</span></h1>
-  <p>60 Mountains Challenge · Antigravity System · <span id="lastUpdated">Fetching live data...</span></p>
+  <p>60 Mountains Challenge · Antigravity System · <span id="lastUpdated">Fetching live data...</span><span class="refresh-info" id="refreshCountdown"></span></p>
   <div class="header-meta">
     <div class="badge">Instagram <span>@kaydu_3310</span></div>
     <div class="badge">TikTok <span>830K views / yr</span></div>
@@ -307,7 +314,7 @@
   <div class="kpi-grid">
     <div class="kpi ig">
       <div class="kpi-platform">📸 Instagram</div>
-      <div class="kpi-main" id="igFollowers">3.28M</div>
+      <div class="kpi-main" id="igFollowers">3.28M<span class="kpi-trend" id="igTrend"></span></div>
       <div class="kpi-sub" id="igFollowersSub">Total views (2024–2026)</div>
       <div class="kpi-stat" id="igPostCount">↑ 41x growth 2024→2025</div>
     </div>
@@ -325,14 +332,14 @@
     </div>
     <div class="kpi yt">
       <div class="kpi-platform">▶ YouTube Shorts</div>
-      <div class="kpi-main" id="ytViews">83.7K</div>
+      <div class="kpi-main" id="ytViews">83.7K<span class="kpi-trend" id="ytTrend"></span></div>
       <div class="kpi-sub" id="ytSub">Total views (94 videos)</div>
       <div class="kpi-stat" id="ytSubs">55 subs gained</div>
     </div>
     <div class="kpi" style="--accent:#000;">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#000,#444)"></div>
       <div class="kpi-platform">🧵 Threads</div>
-      <div class="kpi-main" id="threadsFollowers">—</div>
+      <div class="kpi-main" id="threadsFollowers">—<span class="kpi-trend" id="threadsTrend"></span></div>
       <div class="kpi-sub" id="threadsSub">Total likes (recent)</div>
       <div class="kpi-stat" id="threadsAvg">● Live</div>
     </div>
@@ -813,12 +820,14 @@ async function fetchLiveStats() {
     if (data.error) return;
 
     // Update IG KPI
-    const followers = data.profile.followers.toLocaleString();
+    const followers = data.profile.followers;
     const totalPosts = data.profile.total_posts.toLocaleString();
-    $set('igFollowers','textContent', followers);
+    $set('igFollowers','textContent', followers.toLocaleString());
     $set('igFollowersSub','textContent', `Followers · ${totalPosts} posts`);
     $set('igPostCount','textContent', '● Live data');
     $style('igPostCount','color', '#68d391');
+    saveSnapshot({ igFollowers: followers });
+    renderTrend('igTrend', 'igFollowers', followers);
 
     // Update last updated time
     const fetchTime = new Date(data.fetched_at);
@@ -873,14 +882,69 @@ async function fetchLiveStats() {
 }
 fetchLiveStats();
 
-// 1. Auto-refresh every 60 minutes
+// ─── STATS HISTORY — localStorage daily snapshots ────────────────────
+const HISTORY_KEY = 'kaydu_stats_history';
+
+function saveSnapshot(stats) {
+  const today = new Date().toISOString().split('T')[0];
+  let history = {};
+  try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}'); } catch(e) {}
+  history[today] = { ...history[today], ...stats };
+  // Keep last 30 days only
+  const keys = Object.keys(history).sort().slice(-30);
+  const trimmed = {};
+  keys.forEach(k => trimmed[k] = history[k]);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
+}
+
+function getTrend(key, current) {
+  let history = {};
+  try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}'); } catch(e) {}
+  const today = new Date().toISOString().split('T')[0];
+  const pastDates = Object.keys(history).sort().filter(d => d < today);
+  if (pastDates.length === 0 || current == null) return null;
+  const prev = history[pastDates[pastDates.length - 1]]?.[key];
+  if (prev == null) return null;
+  const diff = current - prev;
+  const pct = prev > 0 ? Math.abs((diff / prev) * 100).toFixed(1) : 0;
+  return { diff, pct, direction: diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat' };
+}
+
+function renderTrend(elId, key, current) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const trend = getTrend(key, current);
+  if (!trend) { el.textContent = ''; return; }
+  const arrow = trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→';
+  const abs = Math.abs(trend.diff);
+  const num = abs >= 1000 ? (abs / 1000).toFixed(1) + 'K' : abs;
+  el.textContent = ` ${arrow}${num}`;
+  el.className = `kpi-trend ${trend.direction}`;
+}
+
+// 1. Auto-refresh every 30 minutes with countdown
+const REFRESH_MINS = 30;
+let minsUntilRefresh = REFRESH_MINS;
+
+function updateCountdown() {
+  const el = document.getElementById('refreshCountdown');
+  if (el) el.textContent = `· refresh in ${minsUntilRefresh}m`;
+}
+updateCountdown();
+
 setInterval(() => {
-  fetchLiveStats();
-  fetchYouTubeStats();
-  fetchManyChatStats();
-  fetchThreadsStats();
-  const lu = document.getElementById('lastUpdated'); if (lu) lu.textContent = 'Auto-refreshing...';
-}, 60 * 60 * 1000);
+  minsUntilRefresh--;
+  if (minsUntilRefresh <= 0) {
+    minsUntilRefresh = REFRESH_MINS;
+    const lu = document.getElementById('lastUpdated');
+    if (lu) lu.textContent = 'Auto-refreshing...';
+    fetchLiveStats();
+    fetchYouTubeStats();
+    fetchManyChatStats();
+    fetchThreadsStats();
+  }
+  updateCountdown();
+}, 60 * 1000); // tick every 1 minute
 
 // 2. Manual Stats Update (TikTok & XHS)
 function saveManualStats() {
@@ -1019,6 +1083,8 @@ async function fetchYouTubeStats() {
     $set('ytSub','textContent', `Total views · ${data.channel.total_videos} videos`);
     $set('ytSubs','textContent', `${data.channel.subscribers} subscribers · ● Live`);
     $style('ytSubs','color', '#68d391');
+    saveSnapshot({ ytViews: data.channel.total_views, ytSubs: data.channel.subscribers });
+    renderTrend('ytTrend', 'ytViews', data.channel.total_views);
 
   } catch (err) {
     console.log('YouTube fetch failed:', err.message);
@@ -1070,10 +1136,13 @@ async function fetchThreadsStats() {
     const data = await res.json();
     if (data.error) return;
 
-    $set('threadsFollowers', 'textContent', (data.summary.total_likes || 0).toLocaleString());
+    const threadLikes = data.summary.total_likes || 0;
+    $set('threadsFollowers', 'textContent', threadLikes.toLocaleString());
     $set('threadsSub', 'textContent', `Total likes · ${data.summary.total_posts_fetched} posts`);
     $set('threadsAvg', 'textContent', `Avg ${data.summary.avg_likes} likes/post · ● Live`);
     $style('threadsAvg', 'color', '#68d391');
+    saveSnapshot({ threadsLikes: threadLikes });
+    renderTrend('threadsTrend', 'threadsLikes', threadLikes);
 
   } catch (err) {
     console.log('Threads fetch failed:', err.message);
