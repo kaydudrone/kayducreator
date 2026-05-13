@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload GPX | Kay Du Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/gpxparser"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Inter", sans-serif; background-color: #f5f4ef; color: #1a1a1a; }
+    .font-mono { font-family: "DM Mono", monospace; }
+    .drop-zone { transition: all 0.2s ease; border: 2px dashed #ccc; }
+    .drop-zone.dragover { border-color: #1d8aab; background-color: #e8f6fa; }
+  </style>
+</head>
+<body class="p-6 md:p-12">
+  <div class="max-w-2xl mx-auto bg-white rounded-[20px] shadow-sm border border-gray-200 overflow-hidden">
+    <div class="p-8 border-b border-gray-200">
+      <h1 class="text-2xl font-bold mb-2">Hike Card Builder</h1>
+      <p class="text-gray-500 text-sm">Upload a GPX file to automatically extract stats and create a new hike card.</p>
+    </div>
+
+    <form id="uploadForm" class="p-8 space-y-6">
+      <!-- Admin Secret -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Admin Secret</label>
+        <input type="password" id="adminSecret" required class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50" />
+      </div>
+
+      <!-- GPX File Drop Zone -->
+      <div id="dropZone" class="drop-zone p-8 rounded-xl text-center cursor-pointer">
+        <svg class="mx-auto h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        </svg>
+        <p class="text-sm font-medium text-gray-700">Click or drag GPX file to this area</p>
+        <p id="fileName" class="text-xs text-[#1d8aab] font-mono mt-2 hidden"></p>
+        <input type="file" id="fileInput" accept=".gpx" class="hidden" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Hike Name</label>
+          <input type="text" id="hikeName" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50" placeholder="e.g. Gunung Nuang" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Location</label>
+          <input type="text" id="location" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50" placeholder="e.g. Selangor" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+        <div>
+          <label class="block text-xs font-mono text-gray-500 uppercase tracking-wide mb-1">Distance (km)</label>
+          <input type="text" id="distance" required class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg font-mono text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-gray-500 uppercase tracking-wide mb-1">Elev. Gain (m)</label>
+          <input type="text" id="elevGain" required class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg font-mono text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-gray-500 uppercase tracking-wide mb-1">Peak (m)</label>
+          <input type="text" id="peak" required class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg font-mono text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Difficulty</label>
+          <select id="difficulty" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50">
+            <option value="Easy">Easy</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Hard">Hard</option>
+            <option value="Very Hard">Very Hard</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-4 mt-6">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="permitRequired" class="w-4 h-4 text-[#1d8aab] rounded focus:ring-[#1d8aab]/50" />
+            <span class="text-sm font-medium">Permit Required</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="guideNeeded" class="w-4 h-4 text-[#1d8aab] rounded focus:ring-[#1d8aab]/50" />
+            <span class="text-sm font-medium">Guide Needed</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Meeting Point URL</label>
+          <input type="url" id="meetingPointUrl" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50" placeholder="https://maps.google.com/..." />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Video URL</label>
+          <input type="url" id="videoUrl" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d8aab]/50" placeholder="https://instagram.com/reel/..." />
+        </div>
+      </div>
+
+      <div class="pt-4 flex justify-end gap-3">
+        <p id="statusMsg" class="text-sm flex items-center font-medium mr-auto"></p>
+        <button type="submit" id="saveBtn" class="bg-[#1d8aab] hover:bg-[#145f76] text-white px-6 py-2.5 rounded-full font-semibold transition-colors disabled:opacity-50 flex items-center gap-2">
+          Save Hike Card
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    let gpxBase64Data = null;
+    let gpxFilename = '';
+
+    // Drag and drop handlers
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+      if (!file.name.endsWith('.gpx')) {
+        alert('Please select a valid .gpx file');
+        return;
+      }
+      gpxFilename = file.name;
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileName').classList.remove('hidden');
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const gpxText = e.target.result;
+        
+        // Save base64 for upload
+        gpxBase64Data = btoa(unescape(encodeURIComponent(gpxText)));
+
+        // Parse GPX locally to extract stats
+        try {
+          const gpx = new gpxParser();
+          gpx.parse(gpxText);
+          
+          let dist = 0, elev = 0, maxElev = 0;
+          if (gpx.tracks && gpx.tracks.length > 0) {
+            dist = gpx.tracks[0].distance.total;
+            elev = gpx.tracks[0].elevation.pos;
+            maxElev = gpx.tracks[0].elevation.max;
+          } else if (gpx.routes && gpx.routes.length > 0) {
+            dist = gpx.routes[0].distance.total;
+            elev = gpx.routes[0].elevation.pos;
+            maxElev = gpx.routes[0].elevation.max;
+          }
+
+          document.getElementById('distance').value = (dist / 1000).toFixed(2);
+          document.getElementById('elevGain').value = elev ? elev.toFixed(0) : '0';
+          document.getElementById('peak').value = maxElev ? maxElev.toFixed(0) : '0';
+          
+          // Try to auto-fill name from GPX metadata
+          if (gpx.metadata && gpx.metadata.name && !document.getElementById('hikeName').value) {
+            document.getElementById('hikeName').value = gpx.metadata.name;
+          }
+        } catch (err) {
+          console.error("Error parsing GPX:", err);
+          alert("Error parsing GPX file. It might be malformed.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Form submit handler
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!gpxBase64Data) {
+        alert('Please upload a GPX file first.');
+        return;
+      }
+
+      const saveBtn = document.getElementById('saveBtn');
+      const statusMsg = document.getElementById('statusMsg');
+      const adminSecret = document.getElementById('adminSecret').value;
+
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
+      statusMsg.textContent = '';
+
+      const payload = {
+        gpxBase64: gpxBase64Data,
+        gpxFilename,
+        name: document.getElementById('hikeName').value,
+        location: document.getElementById('location').value,
+        difficulty: document.getElementById('difficulty').value,
+        distance: document.getElementById('distance').value,
+        elevGain: document.getElementById('elevGain').value,
+        peak: document.getElementById('peak').value,
+        meetingPointUrl: document.getElementById('meetingPointUrl').value,
+        videoUrl: document.getElementById('videoUrl').value,
+        permitRequired: document.getElementById('permitRequired').checked,
+        guideNeeded: document.getElementById('guideNeeded').checked
+      };
+
+      try {
+        const res = await fetch('/api/save-hike', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminSecret}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        
+        if (!res.ok) throw new Error(data.error || 'Failed to save');
+
+        statusMsg.textContent = '✅ Successfully saved to GitHub & Vercel Blob!';
+        statusMsg.className = 'text-sm flex items-center font-medium mr-auto text-green-600';
+        
+        // Reset form but keep secret
+        setTimeout(() => {
+          document.getElementById('uploadForm').reset();
+          document.getElementById('adminSecret').value = adminSecret;
+          document.getElementById('fileName').classList.add('hidden');
+          gpxBase64Data = null;
+          statusMsg.textContent = '';
+        }, 3000);
+      } catch (err) {
+        statusMsg.textContent = `❌ Error: ${err.message}`;
+        statusMsg.className = 'text-sm flex items-center font-medium mr-auto text-red-600';
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = 'Save Hike Card';
+      }
+    });
+  </script>
+</body>
+</html>
