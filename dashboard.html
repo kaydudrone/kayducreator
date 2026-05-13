@@ -303,9 +303,9 @@
     <h3>60 Mountains Challenge Progress</h3>
     <div class="progress-row">
       <div class="progress-track">
-        <div class="progress-fill" style="width: 26.67%"></div>
+        <div class="progress-fill" style="width: 25%"></div>
       </div>
-      <div class="progress-label">16 / 60 🏔</div>
+      <div class="progress-label">15 / 60 🏔</div>
     </div>
     <div class="mountain-dots" id="mountainDots"></div>
   </div>
@@ -476,9 +476,9 @@
             <td style="color:#fc8181;font-size:12px;font-weight:600">Overposted</td>
           </tr>
           <tr>
-            <td>May</td><td>—</td>
-            <td><span class="views-badge">Tracking</span></td>
-            <td style="color:#63b3ed;font-size:12px">🔄 Live</td>
+            <td>May ⭐</td><td>7</td>
+            <td><span class="saves-badge">3,761</span></td>
+            <td style="color:#63b3ed;font-size:12px">🔄 Partial</td>
           </tr>
         </tbody>
       </table>
@@ -589,7 +589,7 @@
 
   <!-- Mountains Done -->
   <div class="mountains-card">
-    <h3>🏔 Mountains Completed (15/60)</h3>
+    <h3>🏔 Mountains Completed (15/60) · Updated May 13, 2026</h3>
     <table>
       <thead><tr><th>#</th><th>Mountain</th><th>Difficulty</th><th>Date</th><th>IG Views</th><th>IG Likes</th><th>IG Saves</th><th>IG Shares</th></tr></thead>
       <tbody id="mountainTable"></tbody>
@@ -610,7 +610,8 @@ const DATA = {
   ],
   ig_monthly_2026: [
     {month:"Jan",views:196202},{month:"Feb",views:112700},
-    {month:"Mar",views:202195},{month:"Apr",views:48783}
+    {month:"Mar",views:202195},{month:"Apr",views:48783},
+    {month:"May",views:26329}
   ],
   tt_last30: [
     {date:"Apr 19",views:113},{date:"Apr 21",views:51},{date:"Apr 22",views:59},{date:"Apr 23",views:43},
@@ -623,11 +624,11 @@ const DATA = {
     {date:"May 18",views:44},{date:"May 19",views:36}
   ],
   top_ig: [
+    {hook:"They call it the Zombie Tunnel for a reason 🕳️🧟 (Sungai Pisang)",views:104834,saves:2563,type:"IG carousel"},
     {hook:"Hidden gem near KL that most people don't know about 👀",views:102595,saves:3745,type:"IG carousel"},
     {hook:"Hidden waterfall in Selangor, just 1 hour from KL.",views:83730,saves:1887,type:"IG reel"},
     {hook:"A hidden Mossy Forest near Genting Highlands",views:29719,saves:548,type:"IG reel"},
     {hook:"A hidden British colonial hill in Selangor 🇬🇧",views:29603,saves:441,type:"IG reel"},
-    {hook:"Biar betul?! Naik KTM Komuter Utara pun boleh",views:17977,saves:72,type:"IG reel"}
   ],
   top_xhs: [
     {title:"原来在吉隆坡也能看到云顶？！😆",views:20109,saves:8},
@@ -649,9 +650,9 @@ const DATA = {
     {num:10,name:"Tanjung Tuan",location:"Port Dickson",difficulty:"Moderate",ig_views:102595,ig_likes:5532,ig_saves:3745,ig_shares:6183,date:"2026-04-02"},
     {num:11,name:"Bukit Batu Chondong",location:"Ampang Jaya",difficulty:"Slightly Hard",ig_views:7180,ig_likes:198,ig_saves:90,ig_shares:130,date:"2026-04-18"},
     {num:12,name:"Bukit Madei",location:"Gombak, Selangor",difficulty:"Easy",ig_views:3083,ig_likes:81,ig_saves:24,ig_shares:38,date:"2026-04-18"},
-    {num:13,name:"Sungai Pisang Waterfall",location:"Gombak, Selangor",difficulty:"Moderate",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-04+"},
-    {num:14,name:"Bukit Lagong",location:"Batu Caves, Selangor",difficulty:"Slightly Hard",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-04+"},
-    {num:15,name:"Bukit Saga",location:"Cheras, Selangor",difficulty:"Easy",ig_views:0,ig_likes:0,ig_saves:0,ig_shares:0,date:"2026-05+"}
+    {num:13,name:"Sungai Pisang Waterfall",location:"Gombak, Selangor",difficulty:"Moderate",ig_views:104834,ig_likes:5875,ig_saves:2563,ig_shares:5040,date:"2026-04-30"},
+    {num:14,name:"Bukit Lagong",location:"Batu Caves, Selangor",difficulty:"Slightly Hard",ig_views:7678,ig_likes:220,ig_saves:59,ig_shares:94,date:"2026-05-01"},
+    {num:15,name:"Bukit Saga",location:"Cheras, Selangor",difficulty:"Easy",ig_views:2704,ig_likes:119,ig_saves:41,ig_shares:93,date:"2026-05-10"}
   ]
 };
 
@@ -671,7 +672,7 @@ function secureFetch(url) {
 const dotsEl = document.getElementById('mountainDots');
 for (let i = 1; i <= 60; i++) {
   const d = document.createElement('div');
-  d.className = 'dot ' + (i <= 16 ? 'done' : 'todo');
+  d.className = 'dot ' + (i <= 15 ? 'done' : 'todo');
   d.textContent = i;
   dotsEl.appendChild(d);
 }
@@ -772,10 +773,10 @@ const compareCtx = document.getElementById('compareChart').getContext('2d');
 new Chart(compareCtx, {
   type: 'bar',
   data: {
-    labels: ['Jan (24 posts)', 'Feb (15 posts)', 'Mar (12 posts) ⭐', 'Apr (24 posts) ⚠', 'May (target ≤14)'],
+    labels: ['Jan (24 posts)', 'Feb (15 posts)', 'Mar (12 posts) ⭐', 'Apr (24 posts) ⚠', 'May (7 posts so far)'],
     datasets: [{
       label: 'Avg Views / Post',
-      data: [8175, 7513, 16850, 4065, null],
+      data: [8175, 7513, 16850, 4065, 3761],
       backgroundColor: ['#1d8aab70','#1d8aab70','#48bb7880','#fc818180','#3dc4e830'],
       borderColor: ['#1d8aab','#1d8aab','#48bb78','#fc8181','#3dc4e8'],
       borderWidth: 1, borderRadius: 6
