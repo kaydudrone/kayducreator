@@ -269,7 +269,7 @@
     <div class="badge">Instagram <span>@kaydu_3310</span></div>
     <div class="badge">TikTok <span>830K views / yr</span></div>
     <div class="badge">XHS <span>65K impressions / 30d</span></div>
-    <div class="badge">YouTube <span>83.7K views</span></div>
+    <div class="badge">YouTube <span id="ytBadge">83.7K views</span></div>
   </div>
 </div>
 
@@ -1100,6 +1100,7 @@ async function fetchYouTubeStats() {
     $set('ytViews','textContent', totalViews);
     $set('ytSub','textContent', `Total views · ${data.channel.total_videos} videos`);
     $set('ytSubs','textContent', `${data.channel.subscribers} subscribers · ● Live`);
+    $set('ytBadge','textContent', totalViews + ' views');
     $style('ytSubs','color', '#68d391');
     saveSnapshot({ ytViews: data.channel.total_views, ytSubs: data.channel.subscribers });
     renderTrend('ytTrend', 'ytViews', data.channel.total_views);
