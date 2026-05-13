@@ -341,8 +341,8 @@ nav {
   gap: .6rem;
 }
 .photo-grid img {
-  width: 100%; aspect-ratio: 1/1;
-  object-fit: cover; object-position: center 20%;
+  width: 100%; aspect-ratio: 4/5;
+  object-fit: cover; object-position: center 25%;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: transform .35s ease, box-shadow .35s ease;
@@ -353,23 +353,19 @@ nav {
   transform: scale(1.025);
   box-shadow: 0 16px 40px rgba(0,0,0,.18);
 }
+/* Landscape drone/group shots only */
 .photo-grid img.wide {
-  grid-column: span 2;
-  aspect-ratio: 3/2;
-  object-position: center 25%;
-}
-.photo-grid img.tall {
-  aspect-ratio: 3/4;
-  object-position: center 15%;
+  grid-column: span 3;
+  aspect-ratio: 21/9;
+  object-position: center 30%;
 }
 @media(max-width:640px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); gap: .45rem; }
-  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 16/9; }
-  .photo-grid img.tall { aspect-ratio: 1/1; }
+  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 4/3; }
 }
 @media(max-width:380px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
-  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 4/3; }
+  .photo-grid img.wide { grid-column: span 2; aspect-ratio: 3/2; }
 }
 
 /* ── GOALS CARD LIST ── */
