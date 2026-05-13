@@ -9,6 +9,13 @@
   ],
   "headers": [
     {
+      "source": "/gpx/(.*)",
+      "headers": [
+        { "key": "Content-Type", "value": "application/gpx+xml" },
+        { "key": "Content-Disposition", "value": "attachment" }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },

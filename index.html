@@ -525,6 +525,7 @@ nav{
   transition:transform .2s,box-shadow .2s;
 }
 .beyond-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.11)}
+.beyond-card-link{display:block;text-decoration:none;color:inherit}
 .beyond-photos{width:100%;aspect-ratio:4/3;overflow:hidden;display:grid;gap:2px;background:var(--border)}
 .beyond-photos img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
 .beyond-photos-3{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
@@ -673,17 +674,37 @@ footer{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:1.25rem;
-  align-items:start;
 }
-.reels-grid .instagram-media{
-  border-radius:16px !important;
-  box-shadow:var(--shadow) !important;
-  margin:0 !important;
-  min-width:0 !important;
-  width:100% !important;
+.reel-card{
+  display:block;text-decoration:none;color:inherit;
+  border-radius:16px;overflow:hidden;
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  transition:.25s ease;
 }
-@media(max-width:860px){.reels-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
-@media(max-width:640px){.reels-grid{gap:.85rem}}
+.reel-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.13)}
+.reel-thumb{position:relative;aspect-ratio:9/16;overflow:hidden}
+.reel-thumb img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .4s ease;display:block}
+.reel-card:hover .reel-thumb img{transform:scale(1.04)}
+.reel-play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.25);transition:background .2s;
+}
+.reel-card:hover .reel-play{background:rgba(0,0,0,.4)}
+.reel-play-btn{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+}
+.reel-play-btn svg{margin-left:3px}
+.reel-footer{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.75rem 1rem;
+  font-size:.8rem;font-weight:600;color:var(--muted);
+}
+.reel-footer svg{flex-shrink:0;color:#e1306c}
+@media(max-width:640px){.reels-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}}
+@media(max-width:400px){.reels-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto}}
 
 /* ── HAMBURGER NAV ── */
 .nav-hamburger{
@@ -938,7 +959,7 @@ footer{
       Hiking Drone Creator · Malaysia
     </div>
     <h1>Welcome to my <em>60 Mountains</em> Challenge</h1>
-    <p class="hero-desc">Exploring hidden gems in Malaysia 🇲🇾</p>
+    <p class="hero-desc">Free GPX trail files for Malaysian mountains · Drone footage · Hiking stories from a creator documenting 60 peaks across Malaysia 🇲🇾</p>
     <div class="hero-actions">
       <a href="#mountains" class="btn btn-primary">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1001,14 +1022,42 @@ footer{
       <p class="text-muted" style="margin-top:.6rem;max-width:540px">Hiking stories, hidden gems & sunrise spots — follow along on Instagram.</p>
     </div>
     <div class="reels-grid fade-up">
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DR9YuclEpD9/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DLuTjlaSfTU/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOTG_eLEo5E/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DW6GRB9EphJ/" data-instgrm-version="14"></blockquote>
+
+      <a class="reel-card" href="https://www.instagram.com/reel/DR9YuclEpD9/" target="_blank" rel="noopener noreferrer">
+        <div class="reel-thumb">
+          <img src="images/kk_56.jpg" alt="Kay Du hiking reel on Instagram" loading="lazy">
+          <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        </div>
+        <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
+      </a>
+
+      <a class="reel-card" href="https://www.instagram.com/reel/DLuTjlaSfTU/" target="_blank" rel="noopener noreferrer">
+        <div class="reel-thumb">
+          <img src="images/rinjani_41.jpg" alt="Kay Du hiking reel on Instagram" loading="lazy">
+          <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        </div>
+        <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
+      </a>
+
+      <a class="reel-card" href="https://www.instagram.com/reel/DOTG_eLEo5E/" target="_blank" rel="noopener noreferrer">
+        <div class="reel-thumb">
+          <img src="images/kk_49.jpg" alt="Kay Du hiking reel on Instagram" loading="lazy">
+          <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        </div>
+        <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
+      </a>
+
+      <a class="reel-card" href="https://www.instagram.com/p/DW6GRB9EphJ/" target="_blank" rel="noopener noreferrer">
+        <div class="reel-thumb">
+          <img src="images/rinjani_54.jpg" alt="Kay Du hiking reel on Instagram" loading="lazy">
+          <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        </div>
+        <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
+      </a>
+
     </div>
   </div>
 </section>
-<script async src="https://www.instagram.com/embed.js"></script>
 
 <!-- TRAIL CARDS -->
 <section class="section" id="mountains" style="padding-top:0">
@@ -1570,7 +1619,7 @@ footer{
     <div class="beyond-grid fade-up">
 
       <!-- Mount Kinabalu -->
-      <div class="beyond-card" data-gallery="kinabalu">
+      <a href="/kinabalu" class="beyond-card beyond-card-link">
         <div class="beyond-photos beyond-photos-1">
           <img src="images/kk_20.jpg" alt="Mount Kinabalu aerial drone view by Kay Du — Malaysia's highest peak at 4,095m" loading="lazy">
         </div>
@@ -1578,13 +1627,13 @@ footer{
           <div class="beyond-flag">🇲🇾</div>
           <div>
             <div class="beyond-name">Mount Kinabalu</div>
-            <div class="beyond-loc">Sabah, Malaysia · 4,095 m</div>
+            <div class="beyond-loc">Sabah, Malaysia · 4,095 m · Read Story →</div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Rinjani -->
-      <div class="beyond-card" data-gallery="rinjani">
+      <a href="/rinjani" class="beyond-card beyond-card-link">
         <div class="beyond-photos beyond-photos-1">
           <img src="images/rinjani_4.jpg" alt="Gunung Rinjani hiking trail, Lombok Indonesia — drone footage by Kay Du" loading="lazy">
         </div>
@@ -1592,10 +1641,10 @@ footer{
           <div class="beyond-flag">🇮🇩</div>
           <div>
             <div class="beyond-name">Gunung Rinjani</div>
-            <div class="beyond-loc">Lombok, Indonesia · 3,726 m</div>
+            <div class="beyond-loc">Lombok, Indonesia · 3,726 m · Read Story →</div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Bromo + Tumpak Sewu + Ijen combined -->
       <div class="beyond-card" data-gallery="bromo">
