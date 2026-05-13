@@ -136,7 +136,7 @@ export default async function handler(req, res) {
       _debug: {
         raw_posts: allPosts.length,
         filtered_posts: jobPosts.length,
-        errors: results.filter(r => r.error).map(r => ({ keyword: r.keyword, error: r.error })),
+        errors: results.filter(r => r.error).map(r => ({ keyword: r.keyword, error: r.error, apify_response: r.apify_response })),
       },
     });
 
