@@ -125,6 +125,28 @@
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
   .loading { color: #8892a4; font-size: 12px; }
 
+  /* What to Do Next Panel */
+  .next-panel { background: linear-gradient(135deg, #071a22 0%, #0a2535 100%); border: 1px solid #3dc4e840; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+  .next-panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .next-panel-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .next-panel-date { font-size: 12px; color: #8892a4; margin-left: auto; }
+  .next-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+  .next-main { background: #3dc4e812; border: 1px solid #3dc4e830; border-radius: 12px; padding: 18px; }
+  .next-main-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #3dc4e8; margin-bottom: 8px; font-weight: 700; }
+  .next-main-action { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+  .next-main-reason { font-size: 12px; color: #8892a4; line-height: 1.5; }
+  .next-side { background: #ffffff06; border: 1px solid #ffffff10; border-radius: 12px; padding: 16px; }
+  .next-side-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 10px; font-weight: 700; }
+  .next-hook { font-size: 12px; color: #e8eef0; background: #ffffff08; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; line-height: 1.4; cursor: pointer; transition: background 0.15s; border-left: 2px solid #3dc4e840; }
+  .next-hook:hover { background: #3dc4e815; border-left-color: #3dc4e8; }
+  .next-hook strong { color: #3dc4e8; }
+  .next-platform-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; color: #c8d0dc; }
+  .next-platform-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .next-platform-dot.green { background: #68d391; }
+  .next-platform-dot.yellow { background: #f6ad55; }
+  .next-platform-dot.red { background: #fc8181; }
+  @media (max-width: 768px) { .next-grid { grid-template-columns: 1fr; } }
+
   /* Trend indicators */
   .kpi-trend { font-size: 11px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
   .kpi-trend.up { color: #68d391; }
@@ -294,6 +316,30 @@
       <div class="intel-card">
         <div class="intel-label">Actionable Next Step</div>
         <div class="intel-msg" id="intelAction">Identifying your highest leverage move...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What to Do Next -->
+  <div class="next-panel" id="nextPanel">
+    <div class="next-panel-header">
+      <span style="font-size:20px">🎯</span>
+      <div class="next-panel-title">What to Do Next</div>
+      <div class="next-panel-date" id="nextPanelDate"></div>
+    </div>
+    <div class="next-grid" id="nextGrid">
+      <div class="next-main">
+        <div class="next-main-label">⚡ Priority Action</div>
+        <div class="next-main-action" id="nextAction">Loading your data...</div>
+        <div class="next-main-reason" id="nextReason"></div>
+      </div>
+      <div class="next-side">
+        <div class="next-side-label">🪝 Hook Ideas</div>
+        <div id="nextHooks"></div>
+      </div>
+      <div class="next-side">
+        <div class="next-side-label">📅 Post Today?</div>
+        <div id="nextPlatforms"></div>
       </div>
     </div>
   </div>
@@ -889,6 +935,9 @@ async function fetchLiveStats() {
       if (mountainsUpdated) renderMountainTable();
     }
 
+    // Update What to Do Next panel with live data
+    buildNextPanel(data);
+
     // Update intelligence with live data
     updateIntelligence(data);
 
@@ -1214,6 +1263,102 @@ async function fetchJobOpportunities() {
   }
 }
 fetchJobOpportunities();
+
+// ─── WHAT TO DO NEXT ────────────────────────────────────────────────
+function buildNextPanel(igData) {
+  const now = new Date();
+  const dayName = now.toLocaleDateString('en-MY', { weekday: 'long' });
+  const timeH = now.getHours();
+  const posts = igData?.posts || [];
+
+  // Set date
+  $set('nextPanelDate', 'textContent', now.toLocaleDateString('en-MY', { weekday:'long', day:'numeric', month:'short' }));
+
+  // ── Analyse recent posts ──────────────────────────────
+  const lastPost = posts[0];
+  const lastType = lastPost?.type === 'CAROUSEL_ALBUM' ? 'carousel' : lastPost?.type === 'VIDEO' ? 'reel' : 'image';
+  const recentTypes = posts.slice(0, 4).map(p => p.type === 'CAROUSEL_ALBUM' ? 'carousel' : 'reel');
+  const carouselCount = recentTypes.filter(t => t === 'carousel').length;
+  const reelCount = recentTypes.filter(t => t === 'reel').length;
+
+  // Check for viral post (>10K reach in last 10 posts)
+  const viralPost = posts.find(p => (p.reach || 0) > 10000);
+  const daysSinceViral = viralPost
+    ? Math.floor((now - new Date(viralPost.date)) / (1000 * 60 * 60 * 24))
+    : null;
+
+  // ── Priority action logic ─────────────────────────────
+  let action = '';
+  let reason = '';
+
+  if (viralPost && daysSinceViral <= 5) {
+    const caption = (viralPost.caption || '').substring(0, 50);
+    action = `🔥 Post a follow-up to your viral "${caption}..." — ride the momentum now!`;
+    reason = `That post got ${(viralPost.reach || 0).toLocaleString()} reach ${daysSinceViral === 0 ? 'today' : daysSinceViral + ' day(s) ago'}. The algorithm is still pushing it. A follow-up now (same mountain, different angle) can double your reach window.`;
+  } else if (reelCount >= 3 && carouselCount === 0) {
+    action = `📸 Post a Carousel next — your last ${reelCount} posts were all Reels`;
+    reason = `Carousels average 20K views vs 7.7K for Reels (2.6x more reach). You haven't posted a carousel in a while — this is your biggest lever right now.`;
+  } else if (lastType === 'carousel') {
+    action = `🎬 Follow up with a Reel from the same mountain`;
+    reason = `Your last carousel performed well. Now push a Reel from the same shoot — "the hike" or drone b-roll — to extend reach to a new audience who missed the carousel.`;
+  } else {
+    action = `🏔 Plan your next mountain shoot (Mountain #16)`;
+    reason = `You're at 15/60. Choose a visually dramatic mountain near KL — check if it has a "hidden" angle (waterfall, mossy forest, unique view). Best shoots: golden hour or misty morning.`;
+  }
+
+  $set('nextAction', 'textContent', action);
+  $set('nextReason', 'textContent', reason);
+
+  // ── Hook ideas ───────────────────────────────────────
+  const mountainName = posts.find(p => p.caption?.toLowerCase().includes('bukit') || p.caption?.toLowerCase().includes('gunung'))?.caption?.substring(0, 30) || 'next mountain';
+  const hooks = [
+    `<strong>Hidden</strong> + [location type] + near KL`,
+    `"I just found a hidden waterfall in [location] 💧"`,
+    `"Most people drive past [place] not knowing..."`,
+    `"We found a [adjective] forest near Genting 🌿"`,
+    `"POV: You're the first person to film this peak"`,
+  ];
+
+  const hooksEl = document.getElementById('nextHooks');
+  if (hooksEl) {
+    hooksEl.innerHTML = hooks.map(h =>
+      `<div class="next-hook">${h}</div>`
+    ).join('');
+  }
+
+  // ── Platform schedule for today ──────────────────────
+  const schedule = {
+    Monday:    [{ p: 'TikTok', time: '6–8pm', dot: 'green' }],
+    Tuesday:   [{ p: 'Instagram', time: '7–9pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }],
+    Wednesday: [{ p: 'XHS', time: '8–10pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }],
+    Thursday:  [{ p: 'Instagram', time: '7–9pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }],
+    Friday:    [{ p: 'XHS', time: '8–10pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }],
+    Saturday:  [{ p: 'Instagram', time: '7–9pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }, { p: 'YouTube', time: 'anytime', dot: 'yellow' }],
+    Sunday:    [{ p: 'XHS', time: '8–10pm', dot: 'green' }, { p: 'TikTok', time: '6–8pm', dot: 'green' }],
+  };
+
+  const todaySchedule = schedule[dayName] || [];
+  const platformsEl = document.getElementById('nextPlatforms');
+  if (platformsEl) {
+    if (todaySchedule.length === 0) {
+      platformsEl.innerHTML = `<div style="color:#8892a4;font-size:12px">Rest day — no scheduled posts today.</div>`;
+    } else {
+      platformsEl.innerHTML = todaySchedule.map(s => {
+        const isPast = timeH >= 22;
+        const isNow = (s.p === 'Instagram' || s.p === 'TikTok') ? timeH >= 18 && timeH < 22 : timeH >= 20 && timeH < 22;
+        const dotClass = isPast ? 'red' : isNow ? 'green' : 'yellow';
+        const status = isPast ? 'passed' : isNow ? '🟢 NOW' : 'upcoming';
+        return `<div class="next-platform-row">
+          <div class="next-platform-dot ${dotClass}"></div>
+          <div><strong>${s.p}</strong> · ${s.time} <span style="color:#8892a4;font-size:10px">${status}</span></div>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+// Run on page load with empty state, update when live data arrives
+buildNextPanel(null);
 
 // Intelligence now runs inside fetchLiveStats with live data
 
