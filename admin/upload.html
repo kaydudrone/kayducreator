@@ -3,467 +3,687 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Upload Hike | Kay Du</title>
-  <!-- Google Fonts matching index.html -->
+  <title>Add New Trail · Kay Du Admin</title>
+  <link rel="icon" type="image/png" href="/so_hikers_logo_transparent.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Droid+Serif:wght@400;700&display=swap" rel="stylesheet" />
-  
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/gpxparser"></script>
-  
-  <!-- Setup exact CSS variables from index.html -->
-  <style>
-    :root {
-      --primary: #1d8aab;
-      --primary-dark: #145f76;
-      --primary-light: #e8f6fa;
-      --bg: #f5f4ef;
-      --surface: #ffffff;
-      --ink: #1a1a1a;
-      --muted: #6b6960;
-      --line: rgba(0,0,0,.07);
-      --shadow: 0 4px 24px rgba(0,0,0,.06);
-      --radius: 20px;
-    }
-    
-    @font-face {
-      font-family: 'Intro Rust';
-      src: local('Impact'), local('Arial Black');
-    }
+<style>
+:root{
+  --primary:#1d8aab;
+  --primary-dark:#145f76;
+  --primary-light:#e8f6fa;
+  --bg:#f5f4ef;
+  --surface:#ffffff;
+  --ink:#1a1a1a;
+  --muted:#6b6960;
+  --line:rgba(0,0,0,.07);
+  --shadow:0 4px 24px rgba(0,0,0,.06);
+  --shadow-hover:0 12px 40px rgba(29,138,171,.14);
+  --radius:20px;
+  --easy:#16a34a; --easy-bg:#dcfce7;
+  --moderate:#d97706; --moderate-bg:#fef3c7;
+  --slightly-hard:#c2410c; --slightly-hard-bg:#ffedd5;
+  --hard:#dc2626; --hard-bg:#fee2e2;
+  --very-hard:#7c3aed; --very-hard-bg:#ede9fe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
+/* ── NAV (matches index.html exactly) ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:#1d8aab;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.nav-inner{
+  max-width:1160px;margin:0 auto;padding:0 1.25rem;
+  min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.nav-brand{display:flex;align-items:center;gap:.75rem}
+.nav-brand img{height:34px;width:auto;filter:brightness(0) invert(1)}
+.nav-brand span{font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-badge{
+  font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.9);padding:.3rem .75rem;border-radius:999px;
+}
+.nav-back{
+  font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);padding:.4rem .85rem;border-radius:999px;
+  transition:.15s ease;display:flex;align-items:center;gap:.4rem;
+}
+.nav-back:hover{background:rgba(255,255,255,.15);color:#fff}
 
-    .font-mono { font-family: 'DM Mono', monospace; }
-    .font-intro { font-family: 'Intro Rust', sans-serif; }
+/* ── LAYOUT ── */
+.container{width:min(1100px,calc(100% - 2.5rem));margin:0 auto}
+.page-header{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:48px}
+.eyebrow{
+  font-family:"DM Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--primary);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;
+}
+.eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:var(--primary);border-radius:2px}
+.page-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+.page-sub{color:var(--muted);font-size:.95rem;margin-top:.6rem;max-width:480px}
 
-    /* Kay Du custom card style */
-    .kd-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(0,0,0,0.04);
-    }
+.grid{display:grid;grid-template-columns:1fr 420px;gap:2.5rem;align-items:start;padding-bottom:80px}
 
-    /* Clean form inputs */
-    .kd-input {
-      width: 100%;
-      background: #fcfcfb;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 15px;
-      color: var(--ink);
-      transition: all 0.2s ease;
-    }
-    .kd-input:focus {
-      outline: none;
-      background: var(--surface);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
-    }
-    .kd-label {
-      display: block;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
+/* ── CARD ── */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.04);overflow:hidden}
+.card-section{padding:28px 32px;border-bottom:1px solid var(--line)}
+.card-section:last-child{border-bottom:none}
 
-    /* Dropzone */
-    .drop-zone {
-      border: 2px dashed #d6d4ce;
-      background: #fcfcfb;
-      transition: all 0.2s ease;
-    }
-    .drop-zone.dragover {
-      border-color: var(--primary);
-      background: var(--primary-light);
-    }
-  </style>
+/* ── STEP LABEL ── */
+.step-label{
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.step-num{
+  width:26px;height:26px;border-radius:8px;
+  background:var(--primary-light);color:var(--primary);
+  font-family:"DM Mono",monospace;font-size:.7rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-title{font-weight:700;font-size:.9rem;color:var(--ink)}
+.step-sub{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+
+/* ── FORM ELEMENTS ── */
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+.field-label{
+  display:block;font-family:"DM Mono",monospace;font-size:.62rem;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--muted);
+  margin-bottom:7px;
+}
+.field-input{
+  width:100%;background:#fcfcfb;border:1px solid rgba(0,0,0,.1);
+  border-radius:12px;padding:13px 16px;font-size:.93rem;
+  font-family:"Inter",sans-serif;color:var(--ink);transition:all .2s;
+  -webkit-appearance:none;appearance:none;
+}
+.field-input:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px var(--primary-light)}
+.field-input::placeholder{color:#b0aca5}
+select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6960' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.field-mono{font-family:"DM Mono",monospace;font-size:.88rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* ── DROP ZONE ── */
+.drop-zone{
+  border:2px dashed rgba(29,138,171,.3);border-radius:16px;
+  background:#fafaf8;padding:36px 24px;text-align:center;
+  cursor:pointer;transition:all .2s;position:relative;
+}
+.drop-zone:hover,.drop-zone.dragover{
+  border-color:var(--primary);background:var(--primary-light);
+}
+.drop-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--surface);border:1px solid rgba(0,0,0,.07);
+  box-shadow:var(--shadow);margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.drop-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.drop-sub{font-size:.78rem;color:var(--muted)}
+.drop-chip{
+  display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+  background:var(--primary-light);color:var(--primary);
+  font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.08em;
+  padding:.35rem .85rem;border-radius:999px;font-weight:500;
+}
+.drop-chip.hidden{display:none}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.stat-card{
+  background:#fafaf8;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;text-align:center;
+}
+.stat-card .stat-val{
+  font-family:"DM Mono",monospace;font-size:1.1rem;font-weight:600;
+  color:var(--primary);display:block;
+}
+.stat-card .stat-lbl{
+  font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-top:2px;
+}
+
+/* ── CHECKBOXES ── */
+.check-row{display:flex;gap:24px;margin-top:4px}
+.check-item{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:.88rem;color:var(--ink)}
+.check-item input[type=checkbox]{
+  width:18px;height:18px;border-radius:5px;
+  border:1.5px solid rgba(0,0,0,.2);accent-color:var(--primary);cursor:pointer;
+}
+
+/* ── AUTH ── */
+.auth-section{padding:22px 32px;background:rgba(29,138,171,.04);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.auth-icon{color:var(--primary);flex-shrink:0}
+.auth-label{font-family:"DM Mono",monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
+.auth-input-wrap{flex:1}
+.auth-input{
+  width:100%;background:transparent;border:none;border-bottom:1.5px solid rgba(0,0,0,.1);
+  padding:6px 0;font-size:.92rem;font-family:"Inter",sans-serif;color:var(--ink);
+  transition:border-color .2s;
+}
+.auth-input:focus{outline:none;border-color:var(--primary)}
+.auth-input::placeholder{color:#b0aca5}
+
+/* ── SUBMIT ── */
+.submit-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.btn-submit{
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border:none;border-radius:999px;
+  padding:.85rem 2.2rem;font-size:.88rem;font-weight:700;
+  cursor:pointer;font-family:"Inter",sans-serif;
+  box-shadow:0 4px 16px rgba(29,138,171,.3);
+  transition:all .2s;display:flex;align-items:center;gap:.5rem;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(29,138,171,.4)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.status-msg{font-size:.85rem;font-weight:600}
+.status-ok{color:#16a34a}
+.status-err{color:#dc2626}
+
+/* ── LIVE PREVIEW (sticky) ── */
+.preview-wrap{position:sticky;top:88px}
+.preview-eyebrow{
+  font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.preview-eyebrow::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* ── HIKE CARD (exact match of index.html trail card) ── */
+.hike-card{
+  background:var(--surface);border-radius:var(--radius);
+  box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.04);
+  overflow:hidden;
+}
+.hike-card-top{padding:1.3rem 1.3rem .9rem}
+.hike-card-eyebrow{
+  font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--primary);margin-bottom:.35rem;
+}
+.hike-card-name{
+  font-size:1.15rem;font-weight:800;line-height:1.2;
+  letter-spacing:-.01em;color:var(--ink);margin-bottom:.35rem;
+}
+.hike-card-loc{
+  display:flex;align-items:center;gap:.3rem;
+  color:var(--muted);font-size:.85rem;
+}
+.hike-card-badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
+.badge{
+  display:inline-flex;align-items:center;
+  font-family:"DM Mono",monospace;font-size:.58rem;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:.28rem .65rem;border-radius:999px;
+}
+.badge-diff-easy{background:var(--easy-bg);color:var(--easy)}
+.badge-diff-moderate{background:var(--moderate-bg);color:var(--moderate)}
+.badge-diff-slightly-hard{background:var(--slightly-hard-bg);color:var(--slightly-hard)}
+.badge-diff-hard{background:var(--hard-bg);color:var(--hard)}
+.badge-diff-very-hard{background:var(--very-hard-bg);color:var(--very-hard)}
+.badge-permit{background:#fef9c3;color:#854d0e;border:1px solid #fde68a}
+.badge-guide{background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd}
+
+.hike-card-stats{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fafaf8}
+.stat{flex:1;text-align:center;padding:.75rem .5rem;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat svg{margin:0 auto .3rem;color:var(--primary)}
+.stat-num{display:block;font-family:"DM Mono",monospace;font-size:.82rem;font-weight:600;color:var(--ink);line-height:1}
+.stat-name{display:block;font-family:"DM Mono",monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+
+.hike-card-actions{display:flex;gap:.5rem;padding:.9rem 1.3rem 1.2rem;flex-wrap:wrap}
+.card-btn{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.5rem .75rem;border-radius:999px;font-size:.75rem;font-weight:600;
+  font-family:"Inter",sans-serif;transition:all .15s;white-space:nowrap;
+  border:1.5px solid transparent;
+}
+.card-btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.card-btn-outline{background:transparent;color:var(--muted);border-color:rgba(0,0,0,.12)}
+.card-btn-video{background:transparent;color:#e1306c;border-color:#e1306c}
+.card-btn-disabled{opacity:.4;pointer-events:none}
+
+/* ── PREVIEW TIPS ── */
+.preview-tip{
+  margin-top:16px;background:var(--surface);border-radius:14px;
+  border:1px solid var(--line);padding:14px 16px;
+  font-size:.78rem;color:var(--muted);line-height:1.5;
+}
+.preview-tip strong{color:var(--ink);font-weight:600}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .preview-wrap{position:static}
+}
+@media(max-width:600px){
+  .card-section{padding:22px 20px}
+  .auth-section{padding:18px 20px}
+  .field-row,.field-row-3{grid-template-columns:1fr}
+  .page-header{padding:36px 0 28px;margin-bottom:32px}
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-  <!-- Simple Kay Du Navbar -->
-  <header class="py-6 px-6 md:px-12 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" class="h-8 w-auto opacity-90" onerror="this.style.display='none'" />
-      <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500 font-medium">KAY DU HIKING CREATOR</span>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" onerror="this.style.display='none'" />
+      <span>Kay Du · Admin</span>
     </div>
-    <a href="/" class="font-mono text-[11px] tracking-widest uppercase text-gray-500 hover:text-[#1d8aab] transition-colors">
-      ← Back to Home
-    </a>
-  </header>
+    <div class="nav-right">
+      <span class="nav-badge">🔒 Admin Panel</span>
+      <a href="/" class="nav-back">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Back to Site
+      </a>
+    </div>
+  </div>
+</nav>
 
-  <!-- Main Content -->
-  <main class="flex-1 w-full max-w-6xl mx-auto px-6 pb-20 pt-4 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-    
-    <!-- LEFT: Upload Form -->
-    <div class="lg:col-span-7 space-y-8">
-      
-      <div>
-        <h1 class="font-bold text-3xl mb-2 text-[#1a1a1a]">Add New GPX Trail</h1>
-        <p class="text-[#6b6960] text-sm">Upload a `.gpx` file and it will automatically extract the stats and create a new Hike Card for the community.</p>
-      </div>
+<div class="container">
 
-      <form id="uploadForm" class="kd-card p-8 space-y-8">
-        
-        <!-- Auth -->
-        <div>
-          <label class="kd-label flex items-center gap-2">
-            <svg class="w-3.5 h-3.5 text-[#1d8aab]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            Admin Secret Password
-          </label>
-          <input type="password" id="adminSecret" required placeholder="Enter password to authorize upload..." class="kd-input" />
-        </div>
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">Add Trail</div>
+    <h1 class="page-title">Upload New GPX Trail</h1>
+    <p class="page-sub">Drop a .gpx file — distance, elevation, and peak fill in automatically. Preview updates live on the right.</p>
+  </div>
 
-        <div class="h-px bg-gray-100 w-full"></div>
+  <!-- MAIN GRID -->
+  <div class="grid">
 
-        <!-- File Upload -->
-        <div>
-          <label class="kd-label">1. Upload File</label>
-          <div id="dropZone" class="drop-zone p-8 rounded-[16px] text-center cursor-pointer">
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-3 border border-gray-100">
-              <svg class="h-5 w-5 text-[#1d8aab]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+    <!-- LEFT: FORM -->
+    <div>
+      <form id="uploadForm">
+        <div class="card">
+
+          <!-- AUTH -->
+          <div class="auth-section">
+            <div class="auth-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </div>
-            <p class="text-sm font-semibold text-[#1a1a1a]">Click or drag GPX file here</p>
-            <p class="text-xs text-[#6b6960] mt-1">Extracts distance, elevation, and peak</p>
-            <p id="fileName" class="text-[11px] text-[#1d8aab] font-mono mt-4 hidden bg-[#e8f6fa] inline-block px-3 py-1.5 rounded-full"></p>
-            <input type="file" id="fileInput" accept=".gpx" class="hidden" />
-          </div>
-
-          <!-- Auto-filled stats -->
-          <div class="grid grid-cols-3 gap-4 mt-4">
-            <div>
-              <label class="kd-label text-[10px]">Distance (km)</label>
-              <input type="text" id="distance" required class="kd-input font-mono !py-2.5 !px-3" placeholder="0.0" />
-            </div>
-            <div>
-              <label class="kd-label text-[10px]">Gain (m)</label>
-              <input type="text" id="elevGain" required class="kd-input font-mono !py-2.5 !px-3" placeholder="0" />
-            </div>
-            <div>
-              <label class="kd-label text-[10px]">Peak (m)</label>
-              <input type="text" id="peak" required class="kd-input font-mono !py-2.5 !px-3" placeholder="0" />
+            <div class="auth-input-wrap">
+              <div class="auth-label">Admin Password</div>
+              <input type="password" id="adminSecret" class="auth-input" placeholder="Enter password to authorize upload" required />
             </div>
           </div>
-        </div>
 
-        <div class="h-px bg-gray-100 w-full"></div>
+          <!-- STEP 1: FILE -->
+          <div class="card-section">
+            <div class="step-label">
+              <div class="step-num">1</div>
+              <div>
+                <div class="step-title">Upload GPX File</div>
+                <div class="step-sub">Stats auto-extract on drop</div>
+              </div>
+            </div>
 
-        <!-- Manual Details -->
-        <div>
-          <label class="kd-label">2. Trail Details</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
-            <div class="md:col-span-2">
-              <input type="text" id="hikeName" required class="kd-input" placeholder="Trail Name (e.g. Gunung Nuang)" />
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d8aab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <div class="drop-title">Click or drag .gpx file here</div>
+              <div class="drop-sub">Supports GPX tracks and routes</div>
+              <div class="drop-chip hidden" id="fileName">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="fileNameText">—</span>
+              </div>
+              <input type="file" id="fileInput" accept=".gpx" style="display:none" />
             </div>
-            <div>
-              <input type="text" id="location" required class="kd-input" placeholder="Location (e.g. Selangor)" />
-            </div>
-            <div>
-              <select id="difficulty" class="kd-input cursor-pointer">
-                <option value="Easy">Easy</option>
-                <option value="Moderate">Moderate</option>
-                <option value="Slightly Hard">Slightly Hard</option>
-                <option value="Hard">Hard</option>
-                <option value="Very Hard" selected>Very Hard</option>
-              </select>
+
+            <div class="stats-row">
+              <div class="stat-card">
+                <label class="field-label" style="margin-bottom:6px">Distance</label>
+                <input type="text" id="distance" class="field-input field-mono" placeholder="0.00" required style="text-align:center;padding:8px 10px" />
+                <span class="stat-lbl" style="margin-top:4px">km</span>
+              </div>
+              <div class="stat-card">
+                <label class="field-label" style="margin-bottom:6px">Elev. Gain</label>
+                <input type="text" id="elevGain" class="field-input field-mono" placeholder="0" required style="text-align:center;padding:8px 10px" />
+                <span class="stat-lbl" style="margin-top:4px">metres</span>
+              </div>
+              <div class="stat-card">
+                <label class="field-label" style="margin-bottom:6px">Peak</label>
+                <input type="text" id="peak" class="field-input field-mono" placeholder="0" required style="text-align:center;padding:8px 10px" />
+                <span class="stat-lbl" style="margin-top:4px">metres</span>
+              </div>
             </div>
           </div>
-          
-          <div class="flex gap-6 mt-5 px-1">
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="permitRequired" class="w-4 h-4 text-[#1d8aab] rounded border-gray-300" checked />
-              <span class="text-sm text-[#1a1a1a]">Permit Required</span>
-            </label>
-            <label class="flex items-center gap-2.5 cursor-pointer">
-              <input type="checkbox" id="guideNeeded" class="w-4 h-4 text-[#1d8aab] rounded border-gray-300" checked />
-              <span class="text-sm text-[#1a1a1a]">Guide Needed</span>
-            </label>
+
+          <!-- STEP 2: TRAIL DETAILS -->
+          <div class="card-section">
+            <div class="step-label">
+              <div class="step-num">2</div>
+              <div>
+                <div class="step-title">Trail Details</div>
+                <div class="step-sub">Name, location, difficulty</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label">Trail Name</label>
+              <input type="text" id="hikeName" class="field-input" placeholder="e.g. Gunung Nuang" required />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label">Location</label>
+                <input type="text" id="location" class="field-input" placeholder="e.g. Hulu Langat, Selangor" required />
+              </div>
+              <div class="field">
+                <label class="field-label">Difficulty</label>
+                <select id="difficulty" class="field-input">
+                  <option value="Easy">🟢 Easy</option>
+                  <option value="Moderate">🟡 Moderate</option>
+                  <option value="Slightly Hard">🟠 Slightly Hard</option>
+                  <option value="Hard">🔴 Hard</option>
+                  <option value="Very Hard">🟣 Very Hard</option>
+                </select>
+              </div>
+            </div>
+            <div class="check-row">
+              <label class="check-item">
+                <input type="checkbox" id="permitRequired" />
+                <span>Permit Required</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="guideNeeded" />
+                <span>Guide Needed</span>
+              </label>
+            </div>
           </div>
-        </div>
 
-        <div class="h-px bg-gray-100 w-full"></div>
+          <!-- STEP 3: LINKS -->
+          <div class="card-section">
+            <div class="step-label">
+              <div class="step-num">3</div>
+              <div>
+                <div class="step-title">Links <span style="font-weight:400;color:var(--muted)">(optional)</span></div>
+                <div class="step-sub">Meeting point map & video</div>
+              </div>
+            </div>
 
-        <!-- External Links -->
-        <div>
-          <label class="kd-label">3. External Links (Optional)</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
-            <input type="url" id="meetingPointUrl" class="kd-input text-sm" placeholder="Google Maps Meeting Point URL" />
-            <input type="url" id="videoUrl" class="kd-input text-sm" placeholder="Instagram/YouTube Video URL" />
+            <div class="field">
+              <label class="field-label">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Google Maps Meeting Point
+              </label>
+              <input type="url" id="meetingPointUrl" class="field-input" placeholder="https://maps.google.com/..." />
+            </div>
+            <div class="field">
+              <label class="field-label">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                Instagram / YouTube Video URL
+              </label>
+              <input type="url" id="videoUrl" class="field-input" placeholder="https://www.instagram.com/p/..." />
+            </div>
           </div>
-        </div>
 
-        <!-- Submit -->
-        <div class="pt-4 flex items-center justify-between">
-          <p id="statusMsg" class="text-sm font-medium"></p>
-          <button type="submit" id="saveBtn" class="bg-[#1d8aab] hover:bg-[#145f76] text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-[0_4px_14px_rgba(29,138,171,0.25)] hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:hover:translate-y-0">
-            Publish Hike Card
-          </button>
+          <!-- SUBMIT -->
+          <div class="card-section">
+            <div class="submit-row">
+              <div id="statusMsg" class="status-msg"></div>
+              <button type="submit" id="saveBtn" class="btn-submit">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                Publish Hike Card
+              </button>
+            </div>
+          </div>
+
         </div>
       </form>
     </div>
 
-    <!-- RIGHT: Live Preview using exact HikeCard styling -->
-    <div class="lg:col-span-5 sticky top-10">
-      <label class="kd-label mb-3 ml-2">Live Preview</label>
-      
-      <!-- HIKE CARD PREVIEW (Exact match of kayducreator UI) -->
-      <div class="bg-white w-full border border-[rgba(0,0,0,0.04)] rounded-[20px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.06)] flex flex-col font-inter">
-        
-        <div class="p-[1.3rem_1.3rem_0.9rem]">
-          <div class="flex justify-between items-center mb-1">
-            <div class="font-mono text-[0.6rem] tracking-[0.16em] uppercase text-[#1d8aab]">
-              NEW
-            </div>
-            <div class="font-mono text-[0.55rem] tracking-[0.1em] uppercase bg-gray-100 text-[#6b6960] px-2 py-1 rounded-full">
-              COMPLETED
-            </div>
-          </div>
-          <h3 id="prevName" class="text-[1.15rem] font-bold leading-[1.2] mb-1 font-intro text-[#1a1a1a]">Trip Name</h3>
-          <div class="text-[#6b6960] text-[0.88rem] flex items-center gap-1">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+    <!-- RIGHT: LIVE PREVIEW -->
+    <div class="preview-wrap">
+      <div class="preview-eyebrow">Live Preview</div>
+
+      <div class="hike-card">
+        <div class="hike-card-top">
+          <div class="hike-card-eyebrow">New Trail</div>
+          <div class="hike-card-name" id="prevName">Trail Name</div>
+          <div class="hike-card-loc">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             <span id="prevLocation">Location</span>
           </div>
-
-          <!-- Badges -->
-          <div class="flex flex-wrap gap-2 mt-3" id="prevBadges">
-            <span id="prevDiff" class="inline-flex items-center gap-1 px-[0.65rem] py-[0.3rem] rounded-full font-mono text-[0.58rem] font-medium tracking-[0.1em] uppercase bg-[#ede9fe] text-[#7c3aed]">
-              Very Hard
-            </span>
-            <span id="prevPermit" class="inline-flex items-center gap-1 px-[0.6rem] py-[0.28rem] rounded-full font-mono text-[0.55rem] tracking-[0.1em] uppercase bg-[#fef9c3] text-[#854d0e] border border-[#fde68a]">
-              Permit Required
-            </span>
-            <span id="prevGuide" class="inline-flex items-center gap-1 px-[0.6rem] py-[0.28rem] rounded-full font-mono text-[0.55rem] tracking-[0.1em] uppercase bg-[#e0f2fe] text-[#0369a1] border border-[#bae6fd]">
-              Guide Needed
-            </span>
+          <div class="hike-card-badges" id="prevBadges">
+            <span id="prevDiff" class="badge badge-diff-easy">Easy</span>
+            <span id="prevPermit" class="badge badge-permit" style="display:none">Permit Required</span>
+            <span id="prevGuide" class="badge badge-guide" style="display:none">Guide Needed</span>
           </div>
         </div>
 
-        <div class="flex border-y border-[rgba(0,0,0,0.07)] bg-[#fafaf8]">
-          <div class="flex-1 p-[0.75rem_0.6rem] text-center border-r border-[rgba(0,0,0,0.07)]">
-            <svg class="mx-auto mb-1 text-[#1d8aab]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-            <span id="prevDist" class="block font-mono text-[0.82rem] font-medium text-[#1a1a1a] leading-none mb-1">0.0 km</span>
-            <span class="block font-mono text-[0.52rem] tracking-[0.1em] uppercase text-[#6b6960]">Distance</span>
+        <div class="hike-card-stats">
+          <div class="stat">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <span class="stat-num" id="prevDist">—</span>
+            <span class="stat-name">Distance</span>
           </div>
-          <div class="flex-1 p-[0.75rem_0.6rem] text-center border-r border-[rgba(0,0,0,0.07)]">
-            <svg class="mx-auto mb-1 text-[#1d8aab]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            <span id="prevElev" class="block font-mono text-[0.82rem] font-medium text-[#1a1a1a] leading-none mb-1">0 m</span>
-            <span class="block font-mono text-[0.52rem] tracking-[0.1em] uppercase text-[#6b6960]">Elev. Gain</span>
+          <div class="stat">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <span class="stat-num" id="prevElev">—</span>
+            <span class="stat-name">Elev. Gain</span>
           </div>
-          <div class="flex-1 p-[0.75rem_0.6rem] text-center">
-            <svg class="mx-auto mb-1 text-[#1d8aab]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
-            <span id="prevPeak" class="block font-mono text-[0.82rem] font-medium text-[#1a1a1a] leading-none mb-1">0 m</span>
-            <span class="block font-mono text-[0.52rem] tracking-[0.1em] uppercase text-[#6b6960]">Peak</span>
+          <div class="stat">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+            <span class="stat-num" id="prevPeak">—</span>
+            <span class="stat-name">Peak</span>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-2 p-[0.9rem_1.3rem_1.2rem] mt-auto" id="prevActions">
-          <div class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[0.75rem] font-semibold bg-[#1d8aab] text-white pointer-events-none opacity-50" id="btnGpx">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <div class="hike-card-actions">
+          <div class="card-btn card-btn-primary card-btn-disabled" id="btnGpx">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             GPX
           </div>
-          <div class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[0.75rem] font-semibold bg-transparent text-[#6b6960] border border-[rgba(0,0,0,0.1)] pointer-events-none opacity-50" id="btnMeet">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div class="card-btn card-btn-outline card-btn-disabled" id="btnMeet">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             Meet
           </div>
-          <div class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[0.75rem] font-semibold bg-transparent text-[#e1306c] border border-[#e1306c] pointer-events-none opacity-50" id="btnVid">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7a5 5 0 0 0-5-5H6a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h12a5 5 0 0 0 5-5V7z"></path><rect x="9.5" y="8" width="6" height="8" rx="1"></rect></svg>
+          <div class="card-btn card-btn-video card-btn-disabled" id="btnVid">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
             Video
           </div>
         </div>
       </div>
-      <!-- END PREVIEW -->
 
+      <div class="preview-tip">
+        <strong>How it works:</strong> Drop a GPX → stats auto-fill → complete the form → click Publish. The trail card goes live on the site instantly.
+      </div>
     </div>
-  </main>
 
-  <script>
-    // Logic remains completely identical
-    const DOM = {
-      hikeName: document.getElementById('hikeName'),
-      location: document.getElementById('location'),
-      difficulty: document.getElementById('difficulty'),
-      permitRequired: document.getElementById('permitRequired'),
-      guideNeeded: document.getElementById('guideNeeded'),
-      distance: document.getElementById('distance'),
-      elevGain: document.getElementById('elevGain'),
-      peak: document.getElementById('peak'),
-      meetingPointUrl: document.getElementById('meetingPointUrl'),
-      videoUrl: document.getElementById('videoUrl'),
-      pName: document.getElementById('prevName'),
-      pLoc: document.getElementById('prevLocation'),
-      pDiff: document.getElementById('prevDiff'),
-      pPermit: document.getElementById('prevPermit'),
-      pGuide: document.getElementById('prevGuide'),
-      pDist: document.getElementById('prevDist'),
-      pElev: document.getElementById('prevElev'),
-      pPeak: document.getElementById('prevPeak'),
-      btnGpx: document.getElementById('btnGpx'),
-      btnMeet: document.getElementById('btnMeet'),
-      btnVid: document.getElementById('btnVid'),
-    };
+  </div>
+</div>
 
-    function updatePreview() {
-      DOM.pName.textContent = DOM.hikeName.value || 'Trip Name';
-      DOM.pLoc.textContent = DOM.location.value || 'Location';
-      DOM.pDist.textContent = (DOM.distance.value || '0.0') + ' km';
-      DOM.pElev.textContent = (DOM.elevGain.value || '0') + ' m';
-      DOM.pPeak.textContent = (DOM.peak.value || '0') + ' m';
-      
-      const diffVal = DOM.difficulty.value;
-      DOM.pDiff.textContent = diffVal;
-      DOM.pDiff.className = "inline-flex items-center gap-1 px-[0.65rem] py-[0.3rem] rounded-full font-mono text-[0.58rem] font-medium tracking-[0.1em] uppercase " + 
-        (diffVal === 'Easy' ? 'bg-[#dcfce7] text-[#16a34a]' :
-         diffVal === 'Moderate' ? 'bg-[#fef3c7] text-[#d97706]' :
-         diffVal === 'Slightly Hard' ? 'bg-[#ffedd5] text-[#c2410c]' :
-         diffVal === 'Hard' ? 'bg-[#fee2e2] text-[#dc2626]' :
-         'bg-[#ede9fe] text-[#7c3aed]');
+<script>
+  const DOM = {
+    hikeName:        document.getElementById('hikeName'),
+    location:        document.getElementById('location'),
+    difficulty:      document.getElementById('difficulty'),
+    permitRequired:  document.getElementById('permitRequired'),
+    guideNeeded:     document.getElementById('guideNeeded'),
+    distance:        document.getElementById('distance'),
+    elevGain:        document.getElementById('elevGain'),
+    peak:            document.getElementById('peak'),
+    meetingPointUrl: document.getElementById('meetingPointUrl'),
+    videoUrl:        document.getElementById('videoUrl'),
+    pName:    document.getElementById('prevName'),
+    pLoc:     document.getElementById('prevLocation'),
+    pDiff:    document.getElementById('prevDiff'),
+    pPermit:  document.getElementById('prevPermit'),
+    pGuide:   document.getElementById('prevGuide'),
+    pDist:    document.getElementById('prevDist'),
+    pElev:    document.getElementById('prevElev'),
+    pPeak:    document.getElementById('prevPeak'),
+    btnGpx:   document.getElementById('btnGpx'),
+    btnMeet:  document.getElementById('btnMeet'),
+    btnVid:   document.getElementById('btnVid'),
+  };
 
-      DOM.pPermit.style.display = DOM.permitRequired.checked ? 'inline-flex' : 'none';
-      DOM.pGuide.style.display = DOM.guideNeeded.checked ? 'inline-flex' : 'none';
+  const diffMap = {
+    'Easy':         'badge-diff-easy',
+    'Moderate':     'badge-diff-moderate',
+    'Slightly Hard':'badge-diff-slightly-hard',
+    'Hard':         'badge-diff-hard',
+    'Very Hard':    'badge-diff-very-hard',
+  };
 
-      DOM.btnGpx.style.opacity = gpxBase64Data ? '1' : '0.5';
-      DOM.btnMeet.style.opacity = DOM.meetingPointUrl.value ? '1' : '0.5';
-      DOM.btnVid.style.opacity = DOM.videoUrl.value ? '1' : '0.5';
-    }
+  function updatePreview() {
+    DOM.pName.textContent = DOM.hikeName.value || 'Trail Name';
+    DOM.pLoc.textContent  = DOM.location.value || 'Location';
+    DOM.pDist.textContent = DOM.distance.value ? DOM.distance.value + ' km' : '—';
+    DOM.pElev.textContent = DOM.elevGain.value ? DOM.elevGain.value + ' m' : '—';
+    DOM.pPeak.textContent = DOM.peak.value ? DOM.peak.value + ' m' : '—';
 
-    Object.values(DOM).slice(0, 10).forEach(el => {
-      el.addEventListener('input', updatePreview);
-      el.addEventListener('change', updatePreview);
-    });
+    const diffVal = DOM.difficulty.value;
+    DOM.pDiff.textContent = diffVal;
+    DOM.pDiff.className = 'badge ' + (diffMap[diffVal] || 'badge-diff-easy');
 
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    let gpxBase64Data = null;
-    let gpxFilename = '';
+    DOM.pPermit.style.display = DOM.permitRequired.checked ? 'inline-flex' : 'none';
+    DOM.pGuide.style.display  = DOM.guideNeeded.checked    ? 'inline-flex' : 'none';
 
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    });
+    const hasMeet = !!DOM.meetingPointUrl.value;
+    const hasVid  = !!DOM.videoUrl.value;
+    DOM.btnGpx.className  = 'card-btn card-btn-primary'  + (gpxBase64Data ? '' : ' card-btn-disabled');
+    DOM.btnMeet.className = 'card-btn card-btn-outline'  + (hasMeet ? '' : ' card-btn-disabled');
+    DOM.btnVid.className  = 'card-btn card-btn-video'    + (hasVid  ? '' : ' card-btn-disabled');
+  }
 
-    function handleFile(file) {
-      if (!file.name.endsWith('.gpx')) {
-        alert('Please select a valid .gpx file');
-        return;
-      }
-      gpxFilename = file.name;
-      document.getElementById('fileName').textContent = file.name;
-      document.getElementById('fileName').classList.remove('hidden');
+  Object.values(DOM).slice(0, 10).forEach(el => {
+    el?.addEventListener('input',  updatePreview);
+    el?.addEventListener('change', updatePreview);
+  });
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const gpxText = e.target.result;
-        gpxBase64Data = btoa(unescape(encodeURIComponent(gpxText)));
+  // ── DROP ZONE ──────────────────────────────────────
+  const dropZone  = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  let gpxBase64Data = null;
+  let gpxFilename   = '';
 
-        try {
-          const gpx = new gpxParser();
-          gpx.parse(gpxText);
-          
-          let dist = 0, elev = 0, maxElev = 0;
-          if (gpx.tracks && gpx.tracks.length > 0) {
-            dist = gpx.tracks[0].distance.total;
-            elev = gpx.tracks[0].elevation.pos;
-            maxElev = gpx.tracks[0].elevation.max;
-          } else if (gpx.routes && gpx.routes.length > 0) {
-            dist = gpx.routes[0].distance.total;
-            elev = gpx.routes[0].elevation.pos;
-            maxElev = gpx.routes[0].elevation.max;
-          }
+  dropZone.addEventListener('click',     () => fileInput.click());
+  dropZone.addEventListener('dragover',  e  => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', e => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
 
-          DOM.distance.value = (dist / 1000).toFixed(2);
-          DOM.elevGain.value = elev ? elev.toFixed(0) : '0';
-          DOM.peak.value = maxElev ? maxElev.toFixed(0) : '0';
-          
-          if (gpx.metadata && gpx.metadata.name && !DOM.hikeName.value) {
-            DOM.hikeName.value = gpx.metadata.name;
-          }
-          updatePreview();
-        } catch (err) {
-          console.error("Error parsing GPX:", err);
-          alert("Error parsing GPX file.");
-        }
-      };
-      reader.readAsText(file);
-    }
+  function handleFile(file) {
+    if (!file.name.endsWith('.gpx')) { alert('Please select a valid .gpx file'); return; }
+    gpxFilename = file.name;
 
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!gpxBase64Data) {
-        alert('Please upload a GPX file first.');
-        return;
-      }
+    const chip = document.getElementById('fileName');
+    document.getElementById('fileNameText').textContent = file.name;
+    chip.classList.remove('hidden');
 
-      const saveBtn = document.getElementById('saveBtn');
-      const statusMsg = document.getElementById('statusMsg');
-      const adminSecret = document.getElementById('adminSecret').value;
-
-      saveBtn.disabled = true;
-      saveBtn.textContent = 'Publishing to GitHub...';
-      statusMsg.textContent = '';
-
-      const payload = {
-        gpxBase64: gpxBase64Data,
-        gpxFilename,
-        name: DOM.hikeName.value,
-        location: DOM.location.value,
-        difficulty: DOM.difficulty.value,
-        distance: DOM.distance.value,
-        elevGain: DOM.elevGain.value,
-        peak: DOM.peak.value,
-        meetingPointUrl: DOM.meetingPointUrl.value,
-        videoUrl: DOM.videoUrl.value,
-        permitRequired: DOM.permitRequired.checked,
-        guideNeeded: DOM.guideNeeded.checked
-      };
+    const reader = new FileReader();
+    reader.onload = e => {
+      const gpxText = e.target.result;
+      gpxBase64Data = btoa(unescape(encodeURIComponent(gpxText)));
 
       try {
-        const res = await fetch('/api/save-hike', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminSecret}` },
-          body: JSON.stringify(payload)
-        });
+        const gpx = new gpxParser();
+        gpx.parse(gpxText);
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed to save');
+        let dist = 0, elev = 0, maxElev = 0;
+        if (gpx.tracks && gpx.tracks.length > 0) {
+          dist    = gpx.tracks[0].distance.total;
+          elev    = gpx.tracks[0].elevation.pos;
+          maxElev = gpx.tracks[0].elevation.max;
+        } else if (gpx.routes && gpx.routes.length > 0) {
+          dist    = gpx.routes[0].distance.total;
+          elev    = gpx.routes[0].elevation.pos;
+          maxElev = gpx.routes[0].elevation.max;
+        }
 
-        statusMsg.textContent = '✅ Success! Uploaded to GitHub.';
-        statusMsg.className = 'text-sm font-semibold text-[#16a34a]';
-        
-        setTimeout(() => {
-          document.getElementById('uploadForm').reset();
-          document.getElementById('adminSecret').value = adminSecret;
-          document.getElementById('fileName').classList.add('hidden');
-          gpxBase64Data = null;
-          statusMsg.textContent = '';
-          updatePreview();
-        }, 3000);
+        DOM.distance.value = (dist / 1000).toFixed(2);
+        DOM.elevGain.value = elev    ? elev.toFixed(0)    : '0';
+        DOM.peak.value     = maxElev ? maxElev.toFixed(0) : '0';
+
+        if (gpx.metadata?.name && !DOM.hikeName.value) {
+          DOM.hikeName.value = gpx.metadata.name;
+        }
+        updatePreview();
       } catch (err) {
-        statusMsg.textContent = `❌ Error: ${err.message}`;
-        statusMsg.className = 'text-sm font-semibold text-[#dc2626]';
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Publish Hike Card';
+        console.error('Error parsing GPX:', err);
+        alert('Error parsing GPX file. Make sure it is a valid .gpx track.');
       }
-    });
+    };
+    reader.readAsText(file);
+  }
 
-    updatePreview();
-  </script>
+  // ── SUBMIT ─────────────────────────────────────────
+  document.getElementById('uploadForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!gpxBase64Data) { alert('Please upload a GPX file first.'); return; }
+
+    const saveBtn   = document.getElementById('saveBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    const secret    = document.getElementById('adminSecret').value;
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.51"></path></svg> Publishing…';
+    statusMsg.textContent = '';
+
+    try {
+      const res = await fetch('/api/save-hike', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${secret}` },
+        body: JSON.stringify({
+          gpxBase64: gpxBase64Data,
+          gpxFilename,
+          name:             DOM.hikeName.value,
+          location:         DOM.location.value,
+          difficulty:       DOM.difficulty.value,
+          distance:         DOM.distance.value,
+          elevGain:         DOM.elevGain.value,
+          peak:             DOM.peak.value,
+          meetingPointUrl:  DOM.meetingPointUrl.value,
+          videoUrl:         DOM.videoUrl.value,
+          permitRequired:   DOM.permitRequired.checked,
+          guideNeeded:      DOM.guideNeeded.checked,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to save');
+
+      statusMsg.textContent = '✅ Published to GitHub!';
+      statusMsg.className = 'status-msg status-ok';
+
+      setTimeout(() => {
+        document.getElementById('uploadForm').reset();
+        document.getElementById('adminSecret').value = secret;
+        document.getElementById('fileName').classList.add('hidden');
+        gpxBase64Data = null;
+        statusMsg.textContent = '';
+        updatePreview();
+      }, 3000);
+
+    } catch (err) {
+      statusMsg.textContent = '❌ ' + err.message;
+      statusMsg.className = 'status-msg status-err';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Publish Hike Card';
+    }
+  });
+
+  updatePreview();
+</script>
 </body>
 </html>
