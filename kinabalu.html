@@ -276,8 +276,9 @@ nav {
 }
 .tabur-grid .story-photo { margin: 0; }
 .tabur-grid .story-photo img {
-  max-height: 400px;
-  aspect-ratio: 4/3;
+  max-height: 420px;
+  aspect-ratio: 4/5;
+  object-position: center 70%;
 }
 @media(max-width: 560px) {
   .tabur-grid { grid-template-columns: 1fr; }
@@ -444,6 +445,8 @@ nav {
 }
 .btn-white { background: #fff; color: var(--ink); border-color: #fff; }
 .btn-white:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.btn-ig { border-color: #e1306c; color: #e1306c; background: transparent; }
+.btn-ig:hover { background: #fff0f5; border-color: #c13584; transform: translateY(-1px); }
 
 /* ── FOOTER ── */
 footer {
@@ -649,6 +652,12 @@ footer {
       </div>
     </div>
     <p class="photo-caption fade-up">Bukit Tabur West · Monkey King shooting project by Ks Du / Vision Studio</p>
+    <div style="text-align:center; margin-top:1rem;" class="fade-up">
+      <a href="https://www.instagram.com/p/DM6d-_XSdxI/" target="_blank" rel="noopener noreferrer" class="btn btn-ig">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Watch Video
+      </a>
+    </div>
 
     <div class="prose fade-up" style="margin-top: 2rem;">
       <p>Before MCO, I only hiked casually — Bukit Tabur maybe two times and Ketumbar Hill once. After that, life became busy and I stopped hiking for some time. But after MCO, everything slowly changed.</p>
@@ -750,8 +759,12 @@ footer {
       <img src="images/kk_50.jpg" alt="Mount Kinabalu summit view" loading="lazy" data-index="49">
     </div>
 
-    <!-- See all button -->
-    <div style="text-align:center; margin-top:1.5rem;">
+    <!-- Video + See all buttons -->
+    <div style="text-align:center; margin-top:1.5rem; display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;">
+      <a href="https://www.instagram.com/p/C_VIUiPyZ0n/" target="_blank" rel="noopener noreferrer" class="btn btn-ig">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Watch Video
+      </a>
       <button class="btn-see-all" id="seeAllBtn" onclick="toggleFullGallery()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         See all 58 photos
@@ -759,6 +772,7 @@ footer {
     </div>
 
     <!-- Full gallery (hidden by default) -->
+
     <div class="photo-grid" id="photoGrid" style="display:none; margin-top:1rem;">
       <img src="images/kk_1.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="0">
       <img src="images/kk_2.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="1">
