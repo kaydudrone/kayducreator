@@ -650,9 +650,9 @@ const DATA = {
     {num:10,name:"Tanjung Tuan",location:"Port Dickson",difficulty:"Moderate",ig_views:102595,ig_likes:5532,ig_saves:3745,ig_shares:6183,date:"2026-04-02"},
     {num:11,name:"Bukit Batu Chondong",location:"Ampang Jaya",difficulty:"Slightly Hard",ig_views:7180,ig_likes:198,ig_saves:90,ig_shares:130,date:"2026-04-18"},
     {num:12,name:"Bukit Madei",location:"Gombak, Selangor",difficulty:"Easy",ig_views:3083,ig_likes:81,ig_saves:24,ig_shares:38,date:"2026-04-18"},
-    {num:13,name:"Sungai Pisang Waterfall",location:"Gombak, Selangor",difficulty:"Moderate",ig_views:104834,ig_likes:5875,ig_saves:2563,ig_shares:5040,date:"2026-04-30"},
-    {num:14,name:"Bukit Lagong",location:"Batu Caves, Selangor",difficulty:"Slightly Hard",ig_views:7678,ig_likes:220,ig_saves:59,ig_shares:94,date:"2026-05-01"},
-    {num:15,name:"Bukit Saga",location:"Cheras, Selangor",difficulty:"Easy",ig_views:2704,ig_likes:119,ig_saves:41,ig_shares:93,date:"2026-05-10"}
+    {num:13,name:"Sungai Pisang Waterfall",location:"Gombak, Selangor",difficulty:"Moderate",ig_views:104834,ig_likes:5875,ig_saves:2563,ig_shares:5040,date:"2026-04-30",ig_id:"18139547545458065"},
+    {num:14,name:"Bukit Lagong",location:"Batu Caves, Selangor",difficulty:"Slightly Hard",ig_views:7678,ig_likes:220,ig_saves:59,ig_shares:94,date:"2026-05-01",ig_id:"18097646489095570"},
+    {num:15,name:"Bukit Saga",location:"Cheras, Selangor",difficulty:"Easy",ig_views:2704,ig_likes:119,ig_saves:41,ig_shares:93,date:"2026-05-10",ig_id:"17881810524581635"}
   ]
 };
 
@@ -870,6 +870,23 @@ async function fetchLiveStats() {
           <div class="perf-post-stats">👁 ${(p.reach||0).toLocaleString()} reach · 💾 ${(p.saved||0).toLocaleString()} saves · 📤 ${(p.shares||0).toLocaleString()} shares</div>
         </div>
       `).join('');
+    }
+
+    // Auto-update mountain stats from live API posts (matches by ig_id)
+    if (data.posts && data.posts.length > 0) {
+      let mountainsUpdated = false;
+      DATA.mountains.forEach(m => {
+        if (!m.ig_id) return;
+        const post = data.posts.find(p => p.id === m.ig_id);
+        if (post) {
+          m.ig_views  = post.reach  || m.ig_views;
+          m.ig_likes  = post.likes  || m.ig_likes;
+          m.ig_saves  = post.saved  || m.ig_saves;
+          m.ig_shares = post.shares || m.ig_shares;
+          mountainsUpdated = true;
+        }
+      });
+      if (mountainsUpdated) renderMountainTable();
     }
 
     // Update intelligence with live data
@@ -1093,23 +1110,29 @@ async function fetchYouTubeStats() {
 }
 fetchYouTubeStats();
 
-// Mountain Table
-const mtnTbody = document.getElementById('mountainTable');
-DATA.mountains.forEach(m => {
-  const viewColor = m.ig_views > 20000 ? '#68d391' : m.ig_views > 10000 ? '#63b3ed' : '#c8d0dc';
-  const diffColor = m.difficulty === 'Very Hard' ? '#fc8181' : m.difficulty === 'Hard' ? '#f6ad55' : m.difficulty === 'Slightly Hard' ? '#fbd38d' : m.difficulty === 'Moderate' ? '#90cdf4' : '#68d391';
-  const viewsDisplay = m.ig_views > 0 ? m.ig_views.toLocaleString() : '—';
-  mtnTbody.innerHTML += `<tr>
-    <td><span class="mtn-num">#${m.num}</span></td>
-    <td><strong style="color:#e8e8f0">${m.name}</strong><br><span style="color:#8892a4;font-size:11px">${m.location}</span></td>
-    <td style="color:${diffColor};font-size:12px;font-weight:600">${m.difficulty}</td>
-    <td style="color:#8892a4;font-size:12px">${m.date}</td>
-    <td style="color:${viewColor};font-weight:600">${viewsDisplay}</td>
-    <td>${m.ig_likes > 0 ? m.ig_likes.toLocaleString() : '—'}</td>
-    <td>${m.ig_saves > 0 ? '<span class="saves-badge">'+m.ig_saves+'</span>' : '—'}</td>
-    <td>${m.ig_shares > 0 ? m.ig_shares : '—'}</td>
-  </tr>`;
-});
+// Mountain Table — rendered as function so it can be called again after live updates
+function renderMountainTable() {
+  const mtnTbody = document.getElementById('mountainTable');
+  if (!mtnTbody) return;
+  mtnTbody.innerHTML = '';
+  DATA.mountains.forEach(m => {
+    const viewColor = m.ig_views > 20000 ? '#68d391' : m.ig_views > 10000 ? '#63b3ed' : '#c8d0dc';
+    const diffColor = m.difficulty === 'Very Hard' ? '#fc8181' : m.difficulty === 'Hard' ? '#f6ad55' : m.difficulty === 'Slightly Hard' ? '#fbd38d' : m.difficulty === 'Moderate' ? '#90cdf4' : '#68d391';
+    const viewsDisplay = m.ig_views > 0 ? m.ig_views.toLocaleString() : '—';
+    const liveTag = m.ig_id ? ' <span style="font-size:9px;color:#3dc4e8;background:#3dc4e815;padding:1px 5px;border-radius:4px">LIVE</span>' : '';
+    mtnTbody.innerHTML += `<tr>
+      <td><span class="mtn-num">#${m.num}</span></td>
+      <td><strong style="color:#e8e8f0">${m.name}</strong>${liveTag}<br><span style="color:#8892a4;font-size:11px">${m.location}</span></td>
+      <td style="color:${diffColor};font-size:12px;font-weight:600">${m.difficulty}</td>
+      <td style="color:#8892a4;font-size:12px">${m.date}</td>
+      <td style="color:${viewColor};font-weight:600">${viewsDisplay}</td>
+      <td>${m.ig_likes > 0 ? m.ig_likes.toLocaleString() : '—'}</td>
+      <td>${m.ig_saves > 0 ? '<span class="saves-badge">'+m.ig_saves+'</span>' : '—'}</td>
+      <td>${m.ig_shares > 0 ? m.ig_shares : '—'}</td>
+    </tr>`;
+  });
+}
+renderMountainTable();
 
 // Creative Director Intelligence Logic
 function updateIntelligence(data) {
