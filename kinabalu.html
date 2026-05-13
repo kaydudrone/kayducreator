@@ -327,6 +327,36 @@ nav {
   color: rgba(255,255,255,.45); font-style: normal;
 }
 
+/* ── PHOTO PREVIEW (2x2) ── */
+.photo-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .6rem;
+}
+.photo-preview img {
+  width: 100%; aspect-ratio: 4/5;
+  object-fit: cover; object-position: center 25%;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.photo-preview img:hover { transform: scale(1.025); box-shadow: 0 16px 40px rgba(0,0,0,.18); }
+
+/* ── SEE ALL BUTTON ── */
+.btn-see-all {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .85rem 2rem; border-radius: 999px;
+  background: var(--surface); border: 1.5px solid var(--line);
+  font-size: .88rem; font-weight: 600; color: var(--ink);
+  cursor: pointer; transition: .2s ease;
+}
+.btn-see-all:hover {
+  border-color: var(--primary); color: var(--primary);
+  background: var(--primary-light);
+  transform: translateY(-1px);
+}
+.btn-see-all.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
 /* ── PHOTO GALLERY ── */
 .gallery-section {
   padding: 72px 0;
@@ -711,65 +741,83 @@ footer {
       <h2 class="section-title">Mount Kinabalu · Through My Lens</h2>
       <p style="color:var(--muted); margin-top:.5rem; max-width:480px; font-size:.95rem;">58 photos from the climb. Tap any photo to view full screen.</p>
     </div>
-    <div class="photo-grid" id="photoGrid">
-      <img src="images/kk_1.jpg"  class="wide" alt="Mount Kinabalu panoramic view by Kay Du" loading="lazy" data-index="0">
+
+    <!-- 2x2 preview -->
+    <div class="photo-preview" id="photoPreview">
+      <img src="images/kk_8.jpg"  alt="Mount Kinabalu trail by Kay Du" loading="lazy" data-index="7">
+      <img src="images/kk_7.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="6">
+      <img src="images/kk_49.jpg" alt="Mount Kinabalu Donkey's Ear peak" loading="lazy" data-index="48">
+      <img src="images/kk_50.jpg" alt="Mount Kinabalu summit view" loading="lazy" data-index="49">
+    </div>
+
+    <!-- See all button -->
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button class="btn-see-all" id="seeAllBtn" onclick="toggleFullGallery()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        See all 58 photos
+      </button>
+    </div>
+
+    <!-- Full gallery (hidden by default) -->
+    <div class="photo-grid" id="photoGrid" style="display:none; margin-top:1rem;">
+      <img src="images/kk_1.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="0">
       <img src="images/kk_2.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="1">
       <img src="images/kk_3.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="2">
       <img src="images/kk_4.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="3">
-      <img src="images/kk_5.jpg"  class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="4">
+      <img src="images/kk_5.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="4">
       <img src="images/kk_6.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="5">
       <img src="images/kk_7.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="6">
-      <img src="images/kk_8.jpg"  class="wide" alt="Mount Kinabalu panoramic photo by Kay Du" loading="lazy" data-index="7">
+      <img src="images/kk_8.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="7">
       <img src="images/kk_9.jpg"  alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="8">
       <img src="images/kk_10.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="9">
       <img src="images/kk_11.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="10">
       <img src="images/kk_12.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="11">
-      <img src="images/kk_13.jpg" class="wide" alt="Mount Kinabalu sunrise panoramic by Kay Du" loading="lazy" data-index="12">
+      <img src="images/kk_13.jpg" alt="Mount Kinabalu sunrise by Kay Du" loading="lazy" data-index="12">
       <img src="images/kk_14.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="13">
       <img src="images/kk_15.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="14">
-      <img src="images/kk_16.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="15">
+      <img src="images/kk_16.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="15">
       <img src="images/kk_17.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="16">
       <img src="images/kk_18.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="17">
       <img src="images/kk_19.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="18">
-      <img src="images/kk_20.jpg" class="wide" alt="Mount Kinabalu panoramic by Kay Du" loading="lazy" data-index="19">
+      <img src="images/kk_20.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="19">
       <img src="images/kk_21.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="20">
       <img src="images/kk_22.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="21">
-      <img src="images/kk_23.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="22">
+      <img src="images/kk_23.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="22">
       <img src="images/kk_24.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="23">
       <img src="images/kk_25.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="24">
-      <img src="images/kk_26.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="25">
+      <img src="images/kk_26.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="25">
       <img src="images/kk_27.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="26">
       <img src="images/kk_28.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="27">
-      <img src="images/kk_29.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="28">
+      <img src="images/kk_29.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="28">
       <img src="images/kk_30.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="29">
       <img src="images/kk_31.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="30">
       <img src="images/kk_32.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="31">
-      <img src="images/kk_33.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="32">
+      <img src="images/kk_33.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="32">
       <img src="images/kk_34.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="33">
-      <img src="images/kk_35.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="34">
+      <img src="images/kk_35.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="34">
       <img src="images/kk_36.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="35">
       <img src="images/kk_37.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="36">
-      <img src="images/kk_38.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="37">
-      <img src="images/kk_39.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="38">
+      <img src="images/kk_38.jpg" alt="Mount Kinabalu starry night" loading="lazy" data-index="37">
+      <img src="images/kk_39.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="38">
       <img src="images/kk_40.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="39">
-      <img src="images/kk_41.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="40">
+      <img src="images/kk_41.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="40">
       <img src="images/kk_42.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="41">
       <img src="images/kk_43.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="42">
-      <img src="images/kk_44.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="43">
+      <img src="images/kk_44.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="43">
       <img src="images/kk_45.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="44">
-      <img src="images/kk_46.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="45">
+      <img src="images/kk_46.jpg" alt="Mount Kinabalu group photo" loading="lazy" data-index="45">
       <img src="images/kk_47.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="46">
-      <img src="images/kk_48.jpg" class="tall" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="47">
-      <img src="images/kk_49.jpg" class="wide" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="48">
-      <img src="images/kk_50.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="49">
-      <img src="images/kk_51.jpg" alt="Mount Kinabalu We Only Live Once shirt" loading="lazy" data-index="50">
+      <img src="images/kk_48.jpg" alt="Mount Kinabalu photo by Kay Du" loading="lazy" data-index="47">
+      <img src="images/kk_49.jpg" alt="Mount Kinabalu Donkey's Ear peak" loading="lazy" data-index="48">
+      <img src="images/kk_50.jpg" alt="Mount Kinabalu summit view" loading="lazy" data-index="49">
+      <img src="images/kk_51.jpg" alt="We Only Live Once shirt" loading="lazy" data-index="50">
       <img src="images/kk_52.jpg" alt="Starry night at Mount Kinabalu" loading="lazy" data-index="51">
-      <img src="images/kk_53.jpg" alt="Mountain range view from Kinabalu summit" loading="lazy" data-index="52">
-      <img src="images/kk_54.jpg" class="wide" alt="GoPro at Mount Kinabalu summit above clouds" loading="lazy" data-index="53">
-      <img src="images/kk_55.jpg" alt="Mountain range panoramic from Kinabalu" loading="lazy" data-index="54">
-      <img src="images/kk_56.jpg" class="wide" alt="Kay Du and friends at Mount Kinabalu summit" loading="lazy" data-index="55">
-      <img src="images/kk_57.jpg" class="wide" alt="So Hikers Malaysia flag at Mount Kinabalu summit" loading="lazy" data-index="56">
-      <img src="images/kk_58.jpg" alt="So Hikers Malaysia team at Mount Kinabalu, backs turned watching Donkey's Ear peak" loading="lazy" data-index="57">
+      <img src="images/kk_53.jpg" alt="Mountain range from Kinabalu" loading="lazy" data-index="52">
+      <img src="images/kk_54.jpg" alt="Mount Kinabalu summit above clouds" loading="lazy" data-index="53">
+      <img src="images/kk_55.jpg" alt="Mount Kinabalu panoramic" loading="lazy" data-index="54">
+      <img src="images/kk_56.jpg" alt="Kay Du and friends at Kinabalu summit" loading="lazy" data-index="55">
+      <img src="images/kk_57.jpg" alt="So Hikers Malaysia flag at Kinabalu" loading="lazy" data-index="56">
+      <img src="images/kk_58.jpg" alt="So Hikers Malaysia team at Kinabalu" loading="lazy" data-index="57">
     </div>
   </div>
 </section>
@@ -952,9 +1000,26 @@ document.getElementById('glbPrev').addEventListener('click', () => goTo(current 
 document.getElementById('glbNext').addEventListener('click', () => goTo(current + 1));
 glb.addEventListener('click', e => { if (e.target === glb || e.target === glbImg.parentElement) closeGallery(); });
 
+// Wire up full grid clicks
 document.querySelectorAll('#photoGrid img').forEach(img => {
   img.addEventListener('click', () => openGallery(+img.dataset.index));
 });
+// Wire up preview clicks
+document.querySelectorAll('#photoPreview img').forEach(img => {
+  img.addEventListener('click', () => openGallery(+img.dataset.index));
+});
+
+// Toggle full gallery
+function toggleFullGallery() {
+  const grid = document.getElementById('photoGrid');
+  const btn  = document.getElementById('seeAllBtn');
+  const open = grid.style.display === 'none' || grid.style.display === '';
+  grid.style.display = open ? 'grid' : 'none';
+  btn.classList.toggle('active', open);
+  btn.innerHTML = open
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg> Hide photos'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> See all 58 photos';
+}
 
 document.addEventListener('keydown', e => {
   if (!glb.classList.contains('open')) return;

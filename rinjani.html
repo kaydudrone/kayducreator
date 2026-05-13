@@ -137,6 +137,12 @@ nav { position: sticky; top: 0; z-index: 100; background: #1d8aab; border-bottom
 
 .gallery-section { padding: 72px 0; background: var(--surface); }
 .gallery-header { margin-bottom: 2rem; }
+.photo-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+.photo-preview img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center 25%; border-radius: var(--radius-sm); cursor: pointer; transition: transform .35s ease, box-shadow .35s ease; }
+.photo-preview img:hover { transform: scale(1.025); box-shadow: 0 16px 40px rgba(0,0,0,.18); }
+.btn-see-all { display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 2rem; border-radius: 999px; background: #fff; border: 1.5px solid rgba(0,0,0,.1); font-size: .88rem; font-weight: 600; color: #1a1a1a; cursor: pointer; transition: .2s ease; }
+.btn-see-all:hover { border-color: #e85d26; color: #e85d26; background: #fff5f0; transform: translateY(-1px); }
+.btn-see-all.active { background: #e85d26; color: #fff; border-color: #e85d26; }
 .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
 .photo-grid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center 25%; border-radius: var(--radius-sm); cursor: pointer; transition: transform .35s ease, box-shadow .35s ease; background: var(--line); min-width: 0; }
 .photo-grid img:hover { transform: scale(1.025); box-shadow: 0 16px 40px rgba(0,0,0,.18); }
@@ -360,58 +366,76 @@ footer { background: var(--ink); color: rgba(255,255,255,.45); padding: 2rem 0; 
       <h2 class="section-title">Mount Rinjani · Through My Lens</h2>
       <p style="color:var(--muted); margin-top:.5rem; max-width:480px; font-size:.95rem;">51 photos from the journey. Tap any photo to view full screen.</p>
     </div>
-    <div class="photo-grid" id="photoGrid">
-      <img src="images/rinjani_4.jpg"   class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="0">
-      <img src="images/rinjani_5.jpg"   alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="1">
-      <img src="images/rinjani_6.jpg"   alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="2">
-      <img src="images/rinjani_7.jpg"   class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="3">
-      <img src="images/rinjani_8.jpg"   alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="4">
-      <img src="images/rinjani_9.jpg"   alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="5">
-      <img src="images/rinjani_10.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="6">
-      <img src="images/rinjani_11.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="7">
-      <img src="images/rinjani_12.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="8">
-      <img src="images/rinjani_13.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="9">
-      <img src="images/rinjani_14.jpg"  class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="10">
-      <img src="images/rinjani_15.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="11">
-      <img src="images/rinjani_16.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="12">
-      <img src="images/rinjani_17.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="13">
-      <img src="images/rinjani_18.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="14">
-      <img src="images/rinjani_19.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="15">
-      <img src="images/rinjani_20.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="16">
-      <img src="images/rinjani_21.jpg"  class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="17">
-      <img src="images/rinjani_22.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="18">
-      <img src="images/rinjani_23.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="19">
-      <img src="images/rinjani_24.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="20">
-      <img src="images/rinjani_25.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="21">
-      <img src="images/rinjani_27.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="22">
-      <img src="images/rinjani_28.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="23">
-      <img src="images/rinjani_30.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="24">
-      <img src="images/rinjani_31.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="25">
-      <img src="images/rinjani_32.jpg"  class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="26">
-      <img src="images/rinjani_33.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="27">
-      <img src="images/rinjani_34.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="28">
-      <img src="images/rinjani_37.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="29">
-      <img src="images/rinjani_38.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="30">
-      <img src="images/rinjani_39.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="31">
-      <img src="images/rinjani_40.jpg"  class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="32">
-      <img src="images/rinjani_41.jpg"  alt="Mount Rinjani campsite at sunset by Kay Du" loading="lazy" data-index="33">
-      <img src="images/rinjani_42.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="34">
-      <img src="images/rinjani_43.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="35">
-      <img src="images/rinjani_45.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="36">
-      <img src="images/rinjani_46.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="37">
-      <img src="images/rinjani_47.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="38">
-      <img src="images/rinjani_48.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="39">
-      <img src="images/rinjani_49.jpg"  class="tall" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="40">
-      <img src="images/rinjani_50.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="41">
-      <img src="images/rinjani_51.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="42">
-      <img src="images/rinjani_52.jpg"  class="wide" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="43">
-      <img src="images/rinjani_53.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="44">
-      <img src="images/rinjani_54.jpg"  class="wide" alt="Mount Rinjani volcanic crater drone shot by Kay Du" loading="lazy" data-index="45">
-      <img src="images/rinjani_55.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="46">
-      <img src="images/rinjani_58.jpg"  class="wide" alt="Group photo at Rinjani campsite during sunset" loading="lazy" data-index="47">
-      <img src="images/rinjani_59.jpg"  class="wide" alt="Waterfall group photo during Rinjani hike" loading="lazy" data-index="48">
-      <img src="images/rinjani_60.jpg"  alt="Waterfall photo during Rinjani hike" loading="lazy" data-index="49">
-      <img src="images/rinjani_61.jpg"  class="wide" alt="Gili Island aerial drone shot — blue sea by Kay Du" loading="lazy" data-index="50">
+
+    <!-- 2x2 preview -->
+    <div class="photo-preview" id="photoPreview">
+      <img src="images/rinjani_7.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="3">
+      <img src="images/rinjani_8.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="4">
+      <img src="images/rinjani_9.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="5">
+      <img src="images/rinjani_16.jpg" alt="Mount Rinjani with mountain view" loading="lazy" data-index="12">
+    </div>
+
+    <!-- See all button -->
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button class="btn-see-all" id="seeAllBtn" onclick="toggleFullGallery()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        See all 51 photos
+      </button>
+    </div>
+
+    <!-- Full gallery (hidden by default) -->
+    <div class="photo-grid" id="photoGrid" style="display:none; margin-top:1rem;">
+      <img src="images/rinjani_4.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="0">
+      <img src="images/rinjani_5.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="1">
+      <img src="images/rinjani_6.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="2">
+      <img src="images/rinjani_7.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="3">
+      <img src="images/rinjani_8.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="4">
+      <img src="images/rinjani_9.jpg"  alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="5">
+      <img src="images/rinjani_10.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="6">
+      <img src="images/rinjani_11.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="7">
+      <img src="images/rinjani_12.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="8">
+      <img src="images/rinjani_13.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="9">
+      <img src="images/rinjani_14.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="10">
+      <img src="images/rinjani_15.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="11">
+      <img src="images/rinjani_16.jpg" alt="Mount Rinjani with mountain view" loading="lazy" data-index="12">
+      <img src="images/rinjani_17.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="13">
+      <img src="images/rinjani_18.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="14">
+      <img src="images/rinjani_19.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="15">
+      <img src="images/rinjani_20.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="16">
+      <img src="images/rinjani_21.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="17">
+      <img src="images/rinjani_22.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="18">
+      <img src="images/rinjani_23.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="19">
+      <img src="images/rinjani_24.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="20">
+      <img src="images/rinjani_25.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="21">
+      <img src="images/rinjani_27.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="22">
+      <img src="images/rinjani_28.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="23">
+      <img src="images/rinjani_30.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="24">
+      <img src="images/rinjani_31.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="25">
+      <img src="images/rinjani_32.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="26">
+      <img src="images/rinjani_33.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="27">
+      <img src="images/rinjani_34.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="28">
+      <img src="images/rinjani_37.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="29">
+      <img src="images/rinjani_38.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="30">
+      <img src="images/rinjani_39.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="31">
+      <img src="images/rinjani_40.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="32">
+      <img src="images/rinjani_41.jpg" alt="Rinjani campsite at sunset" loading="lazy" data-index="33">
+      <img src="images/rinjani_42.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="34">
+      <img src="images/rinjani_43.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="35">
+      <img src="images/rinjani_45.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="36">
+      <img src="images/rinjani_46.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="37">
+      <img src="images/rinjani_47.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="38">
+      <img src="images/rinjani_48.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="39">
+      <img src="images/rinjani_49.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="40">
+      <img src="images/rinjani_50.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="41">
+      <img src="images/rinjani_51.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="42">
+      <img src="images/rinjani_52.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="43">
+      <img src="images/rinjani_53.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="44">
+      <img src="images/rinjani_54.jpg" alt="Rinjani volcanic crater drone shot" loading="lazy" data-index="45">
+      <img src="images/rinjani_55.jpg" alt="Mount Rinjani photo by Kay Du" loading="lazy" data-index="46">
+      <img src="images/rinjani_58.jpg" alt="Group at Rinjani campsite during sunset" loading="lazy" data-index="47">
+      <img src="images/rinjani_59.jpg" alt="Waterfall group photo Rinjani hike" loading="lazy" data-index="48">
+      <img src="images/rinjani_60.jpg" alt="Waterfall photo during Rinjani hike" loading="lazy" data-index="49">
+      <img src="images/rinjani_61.jpg" alt="Gili Island aerial drone shot" loading="lazy" data-index="50">
     </div>
   </div>
 </section>
@@ -563,6 +587,18 @@ document.getElementById('glbPrev').addEventListener('click', () => goTo(current 
 document.getElementById('glbNext').addEventListener('click', () => goTo(current + 1));
 glb.addEventListener('click', e => { if (e.target === glb) closeGallery(); });
 document.querySelectorAll('#photoGrid img').forEach(img => img.addEventListener('click', () => openGallery(+img.dataset.index)));
+document.querySelectorAll('#photoPreview img').forEach(img => img.addEventListener('click', () => openGallery(+img.dataset.index)));
+
+function toggleFullGallery() {
+  const grid = document.getElementById('photoGrid');
+  const btn  = document.getElementById('seeAllBtn');
+  const open = grid.style.display === 'none' || grid.style.display === '';
+  grid.style.display = open ? 'grid' : 'none';
+  btn.classList.toggle('active', open);
+  btn.innerHTML = open
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg> Hide photos'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> See all 51 photos';
+}
 document.addEventListener('keydown', e => {
   if (!glb.classList.contains('open')) return;
   if (e.key === 'ArrowLeft') goTo(current - 1);
