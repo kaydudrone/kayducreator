@@ -540,6 +540,51 @@ nav{
 @media(max-width:720px){.beyond-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.beyond-grid{grid-template-columns:1fr}}
 
+/* ── STORY CARDS (below About) ── */
+.stories-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
+  margin-top:2.5rem;
+}
+.story-card{
+  background:var(--surface);border-radius:var(--radius);
+  overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;color:inherit;display:block;
+}
+.story-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.story-card-img{
+  width:100%;aspect-ratio:3/2;overflow:hidden;position:relative;
+}
+.story-card-img img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  transition:transform .4s ease;display:block;
+}
+.story-card:hover .story-card-img img{transform:scale(1.04)}
+.story-card-overlay{
+  position:absolute;inset:0;
+  background:rgba(5,15,20,.35);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.story-card:hover .story-card-overlay{opacity:1}
+.story-card-overlay span{
+  font-family:"DM Mono",monospace;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:#fff;font-weight:600;
+  background:rgba(29,138,171,.75);padding:.45rem 1.1rem;border-radius:999px;
+  border:1px solid rgba(255,255,255,.3);
+}
+.story-card-info{padding:1rem 1.1rem 1.15rem;display:flex;align-items:center;gap:.7rem}
+.story-card-flag{font-size:1.4rem;line-height:1;flex-shrink:0}
+.story-card-text{}
+.story-card-name{font-weight:800;font-size:.98rem;color:var(--ink);line-height:1.2}
+.story-card-meta{
+  font-size:.78rem;color:var(--muted);margin-top:.2rem;
+  display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;
+}
+.story-card-meta .read-link{color:var(--primary);font-weight:600;white-space:nowrap}
+@media(max-width:600px){.stories-row{grid-template-columns:1fr}}
+
 /* ── CONTACT ── */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:stretch}
 .contact-card{
@@ -1027,6 +1072,50 @@ footer{
           <p>Beyond hiking, I have hands-on experience in <strong>content creation, drone piloting, video editing, and social media marketing</strong>. I enjoy turning real experiences into meaningful visuals — trail documentation, event highlights, or brand storytelling.</p>
         </div>
       </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MY STORIES — Kinabalu & Rinjani -->
+<section style="padding:0 0 56px">
+  <div class="container">
+    <div class="eyebrow fade-up">My Stories</div>
+    <div class="stories-row fade-up">
+
+      <a href="/kinabalu" class="story-card">
+        <div class="story-card-img">
+          <img src="images/kk_hero.jpg" alt="Mount Kinabalu summit" loading="lazy" />
+          <div class="story-card-overlay"><span>View Photos</span></div>
+        </div>
+        <div class="story-card-info">
+          <div class="story-card-flag">🇲🇾</div>
+          <div class="story-card-text">
+            <div class="story-card-name">Mount Kinabalu</div>
+            <div class="story-card-meta">
+              Sabah, Malaysia · 4,095 m
+              <span class="read-link">Read Story →</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/rinjani" class="story-card">
+        <div class="story-card-img">
+          <img src="images/rinjani_41.jpg" alt="Gunung Rinjani crater" loading="lazy" />
+          <div class="story-card-overlay"><span>View Photos</span></div>
+        </div>
+        <div class="story-card-info">
+          <div class="story-card-flag">🇮🇩</div>
+          <div class="story-card-text">
+            <div class="story-card-name">Gunung Rinjani</div>
+            <div class="story-card-meta">
+              Lombok, Indonesia · 3,726 m
+              <span class="read-link">Read Story →</span>
+            </div>
+          </div>
+        </div>
+      </a>
 
     </div>
   </div>
