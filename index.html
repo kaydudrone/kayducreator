@@ -772,36 +772,98 @@ footer{
 
 /* ── HAMBURGER NAV ── */
 .nav-hamburger{
-  display:none;background:none;border:none;cursor:pointer;
-  padding:.4rem;border-radius:8px;color:#fff;
-  transition:background .15s;
+  display:none;background:rgba(255,255,255,.12);border:none;cursor:pointer;
+  width:40px;height:40px;border-radius:10px;color:#fff;
+  align-items:center;justify-content:center;
+  transition:background .15s;flex-shrink:0;
 }
-.nav-hamburger:hover{background:rgba(255,255,255,.15)}
+.nav-hamburger:hover{background:rgba(255,255,255,.22)}
 .nav-hamburger span{
-  display:block;width:22px;height:2px;background:#fff;
-  border-radius:2px;transition:.25s ease;
+  display:block;width:18px;height:1.5px;background:#fff;
+  border-radius:2px;transition:.25s ease;position:absolute;
 }
-.nav-hamburger span+span{margin-top:5px}
-.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger span:nth-child(1){transform:translateY(-5px)}
+.nav-hamburger span:nth-child(3){transform:translateY(5px)}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg)}
 .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg)}
 
-/* Mobile slide-down menu */
+/* ── MOBILE FULL-SCREEN DRAWER ── */
 .nav-mobile{
-  display:none;position:fixed;top:72px;left:0;right:0;z-index:99;
-  background:#1d8aab;
-  border-top:1px solid rgba(255,255,255,.12);
-  flex-direction:column;gap:0;
-  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  display:none;
+  position:fixed;inset:0;z-index:200;
+  flex-direction:column;
+  background:linear-gradient(160deg,#1d8aab 0%,#145f76 100%);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
-.nav-mobile.open{display:flex}
-.nav-mobile a{
-  display:block;padding:1rem 1.5rem;
-  color:rgba(255,255,255,.9);font-size:.92rem;font-weight:500;
-  border-bottom:1px solid rgba(255,255,255,.1);
+.nav-mobile.open{display:flex;animation:drawerIn .28s cubic-bezier(.22,.61,.36,1) both}
+@keyframes drawerIn{from{opacity:0;transform:translateY(-12px) scale(.98)}to{opacity:1;transform:none}}
+
+/* Drawer header */
+.nav-mob-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.25rem;min-height:72px;
+  border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;
+}
+.nav-mob-brand{display:flex;align-items:center;gap:.65rem}
+.nav-mob-brand img{height:34px;width:auto;filter:brightness(0) invert(1)}
+.nav-mob-brand span{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.nav-mob-close{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(255,255,255,.15);border:none;cursor:pointer;
+  color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
   transition:background .15s;
 }
-.nav-mobile a:hover{background:rgba(255,255,255,.12);color:#fff}
+.nav-mob-close:hover{background:rgba(255,255,255,.25)}
+
+/* Drawer links */
+.nav-mob-links{flex:1;padding:.5rem 0 2rem}
+.nav-mob-links a{
+  display:flex;align-items:center;
+  padding:1.1rem 1.5rem;
+  font-size:1.05rem;font-weight:600;
+  color:rgba(255,255,255,.92);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:background .15s,color .15s;
+  text-decoration:none;gap:.75rem;
+}
+.nav-mob-links a:hover,
+.nav-mob-links a:active{background:rgba(255,255,255,.1);color:#fff}
+.nav-mob-links a .mob-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+/* Sub-items (stories) */
+.nav-mob-links a.sub{
+  padding:.85rem 1.5rem .85rem 2rem;
+  font-size:.9rem;font-weight:500;
+  color:rgba(255,255,255,.75);
+  border-bottom-color:rgba(255,255,255,.05);
+}
+.nav-mob-links a.sub .mob-icon{
+  width:28px;height:28px;font-size:.85rem;
+  background:rgba(255,255,255,.08);
+}
+/* Section divider */
+.nav-mob-divider{
+  font-family:"DM Mono",monospace;font-size:.58rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  padding:.9rem 1.5rem .4rem;
+}
+/* Staggered entrance for links */
+.nav-mob-links a:nth-child(1){animation:linkIn .3s .05s both}
+.nav-mob-links a:nth-child(2){animation:linkIn .3s .09s both}
+.nav-mob-links a:nth-child(3){animation:linkIn .3s .13s both}
+.nav-mob-links a:nth-child(4){animation:linkIn .3s .17s both}
+.nav-mob-links a:nth-child(5){animation:linkIn .3s .21s both}
+.nav-mob-links a:nth-child(6){animation:linkIn .3s .25s both}
+.nav-mob-links a:nth-child(7){animation:linkIn .3s .29s both}
+.nav-mob-links a:nth-child(8){animation:linkIn .3s .33s both}
+.nav-mob-links a:nth-child(9){animation:linkIn .3s .37s both}
+@keyframes linkIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
 
 /* ── RESPONSIVE ── */
 @media(max-width:980px){
@@ -809,7 +871,7 @@ footer{
   .about-photo{min-height:320px}
   .masonry{columns:2}
   .nav-links{display:none}
-  .nav-hamburger{display:flex;flex-direction:column;justify-content:center}
+  .nav-hamburger{display:flex;align-items:center;justify-content:center;position:relative}
   .progress-band{grid-template-columns:1fr;gap:1.5rem;padding:1.5rem}
   .progress-big{font-size:3.5rem}
   .photo-collage{grid-template-columns:1fr}
@@ -1002,15 +1064,43 @@ footer{
     </button>
   </div>
 </nav>
-<div class="nav-mobile" id="navMobile">
-  <a href="#about" class="nav-mobile-link">About</a>
-  <a href="#reels" class="nav-mobile-link">Reels</a>
-  <a href="#progress" class="nav-mobile-link">Challenge</a>
-  <a href="#mountains" class="nav-mobile-link">GPX Trails</a>
-  <a href="#beyond" class="nav-mobile-link">Beyond Malaysia</a>
-  <a href="/kinabalu" class="nav-mobile-link">🏔️ My Story · Mount Kinabalu</a>
-  <a href="/rinjani" class="nav-mobile-link">🌋 My Story · Mount Rinjani</a>
-  <a href="#contact" class="nav-mobile-link">Collaborate</a>
+<div class="nav-mobile" id="navMobile" aria-hidden="true">
+  <!-- Header -->
+  <div class="nav-mob-header">
+    <div class="nav-mob-brand">
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" />
+      <span>Kay Du Hiking Creator</span>
+    </div>
+    <button class="nav-mob-close" id="navClose" aria-label="Close menu">✕</button>
+  </div>
+  <!-- Links -->
+  <nav class="nav-mob-links">
+    <a href="#about">
+      <span class="mob-icon">👤</span>About
+    </a>
+    <a href="#reels">
+      <span class="mob-icon">🎬</span>Reels
+    </a>
+    <a href="#progress">
+      <span class="mob-icon">🏔</span>60 Mountains
+    </a>
+    <a href="#mountains">
+      <span class="mob-icon">🗺️</span>GPX Trails
+    </a>
+    <a href="#beyond">
+      <span class="mob-icon">✈️</span>Beyond Malaysia
+    </a>
+    <div class="nav-mob-divider">My Stories</div>
+    <a href="/kinabalu" class="sub">
+      <span class="mob-icon">🇲🇾</span>Mount Kinabalu
+    </a>
+    <a href="/rinjani" class="sub">
+      <span class="mob-icon">🇮🇩</span>Gunung Rinjani
+    </a>
+    <a href="#contact">
+      <span class="mob-icon">💬</span>Collaborate
+    </a>
+  </nav>
 </div>
 
 <!-- HERO -->
@@ -1947,25 +2037,37 @@ document.addEventListener('keydown', e => {
 
 // ── HAMBURGER NAV ──────────────────────────────────────────────
 const hamburger = document.getElementById('navHamburger');
-const navMobile = document.getElementById('navMobile');
-function closeNav(){
-  hamburger?.classList.remove('open');
-  navMobile?.classList.remove('open');
+const navMobile  = document.getElementById('navMobile');
+const navClose   = document.getElementById('navClose');
+
+function openNav(){
+  hamburger.classList.add('open');
+  navMobile.classList.add('open');
+  navMobile.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden'; // lock scroll
 }
+function closeNav(){
+  hamburger.classList.remove('open');
+  navMobile.classList.remove('open');
+  navMobile.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+
 hamburger?.addEventListener('click', e => {
   e.stopPropagation();
-  hamburger.classList.toggle('open');
-  navMobile.classList.toggle('open');
+  navMobile.classList.contains('open') ? closeNav() : openNav();
 });
-// Close when a link is tapped
-document.querySelectorAll('.nav-mobile-link').forEach(link => {
+
+navClose?.addEventListener('click', closeNav);
+
+// Close when any link inside the drawer is tapped
+navMobile?.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', closeNav);
 });
-// Close when tapping outside the nav
-document.addEventListener('click', e => {
-  if(navMobile?.classList.contains('open') && !navMobile.contains(e.target) && !hamburger.contains(e.target)){
-    closeNav();
-  }
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeNav();
 });
 
 // ── GALLERY LIGHTBOX ──────────────────────────────────────────
