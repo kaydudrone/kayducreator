@@ -31,12 +31,6 @@ export default async function handler(req, res) {
     );
     const postsData = await postsRes.json();
 
-    // Fetch account insights
-    const insightsRes = await fetch(
-      `https://graph.threads.net/v1.0/me/threads_publishing_limit?fields=config,quota_usage&access_token=${token}`
-    );
-    const insightsData = await insightsRes.json();
-
     const posts = (postsData.data || []).map(p => ({
       id: p.id,
       text: p.text?.substring(0, 150) || '',

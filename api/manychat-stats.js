@@ -56,7 +56,7 @@ export default async function handler(req, res) {
         total: allTags.length,
       },
       gpx: {
-        tag_exists: true,
+        tag_exists: linkClickedTags.length > 0 || !!mossyTag,
         requests: linkClickedTags.length,
         latest_click: latestDate,
         mossy_tag: !!mossyTag,

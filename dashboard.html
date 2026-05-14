@@ -31,6 +31,7 @@
 
   /* KPI grid */
   .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi-grid > .kpi:last-child:nth-child(odd) { grid-column: auto; }
   .kpi { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
   .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
   .kpi.ig::before { background: linear-gradient(90deg, #e1306c, #f77737); }
@@ -61,6 +62,7 @@
   /* Mountains table */
   .mountains-card { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
   .mountains-card h3 { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .mountains-card .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .mtn-num { background: linear-gradient(135deg, #1d8aab, #3dc4e8); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
 
   /* Insights */
@@ -251,6 +253,7 @@
     .insights-grid { grid-template-columns: 1fr; }
     .manychat-grid { grid-template-columns: 1fr; }
     .update-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid > .kpi:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .cal-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
     .cal-day { padding: 6px 3px; min-height: 70px; }
     .cal-post { font-size: 8px; padding: 2px 4px; }
@@ -519,7 +522,7 @@
           </tr>
           <tr>
             <td>May ⭐</td><td>7</td>
-            <td><span class="saves-badge">3,761</span></td>
+            <td><span class="views-badge">3,761</span></td>
             <td style="color:#63b3ed;font-size:12px">🔄 Partial</td>
           </tr>
         </tbody>
@@ -632,10 +635,12 @@
   <!-- Mountains Done -->
   <div class="mountains-card">
     <h3>🏔 Mountains Completed (15/60) · Updated May 13, 2026</h3>
+    <div class="table-scroll">
     <table>
       <thead><tr><th>#</th><th>Mountain</th><th>Difficulty</th><th>Date</th><th>IG Views</th><th>IG Likes</th><th>IG Saves</th><th>IG Shares</th></tr></thead>
       <tbody id="mountainTable"></tbody>
     </table>
+    </div>
   </div>
 
 </div>
@@ -645,7 +650,7 @@
 <script>
 const DATA = {
   ig_monthly_2025: [
-    {month:"Jan",views:9913},{month:"Mar",views:8232},{month:"Apr",views:30678},
+    {month:"Jan",views:9913},{month:"Feb",views:6100},{month:"Mar",views:8232},{month:"Apr",views:30678},
     {month:"May",views:12945},{month:"Jun",views:49918},{month:"Jul",views:585600},
     {month:"Aug",views:541028},{month:"Sep",views:344101},{month:"Oct",views:131998},
     {month:"Nov",views:564438},{month:"Dec",views:372550}
@@ -1192,7 +1197,7 @@ function updateIntelligence(data) {
   if (platformEl) platformEl.innerHTML = `Reach is stabilizing. Your <strong>Carousel avg (20K)</strong> is 2.6x higher than Reels. Re-post top Reels as Carousels.`;
   if (actionEl) {
     if (xhsCtr < 15) {
-      actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover. <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/kay-du-growth/references/xhs_playbook.md" class="intel-action">Open Playbook</a>`;
+      actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover.`;
     } else {
       actionEl.innerHTML = `Next Move: Plan and execute <strong>Mountain #16</strong> shoot. Choose a visually dramatic mountain near KL.`;
     }
@@ -1239,18 +1244,43 @@ async function fetchJobOpportunities() {
       return;
     }
 
-    listEl.innerHTML = data.jobs.map(job => `
-      <div class="job-card">
-        <span class="job-badge">${job.searchKeyword}</span>
-        <div style="flex:1">
-          <div class="job-text">${job.text}</div>
-          <div class="job-meta">
-            @${job.username || 'unknown'} · ${job.date ? new Date(job.date).toLocaleDateString('en-MY') : ''}
-            ${job.url ? `· <a class="job-link" href="${job.url}" target="_blank">View on Threads →</a>` : ''}
-          </div>
-        </div>
-      </div>
-    `).join('');
+    // Build job cards using DOM API to prevent XSS from untrusted Threads content
+    listEl.innerHTML = '';
+    data.jobs.forEach(job => {
+      const card = document.createElement('div');
+      card.className = 'job-card';
+
+      const badge = document.createElement('span');
+      badge.className = 'job-badge';
+      badge.textContent = job.searchKeyword || '';
+
+      const inner = document.createElement('div');
+      inner.style.flex = '1';
+
+      const text = document.createElement('div');
+      text.className = 'job-text';
+      text.textContent = job.text || '';
+
+      const meta = document.createElement('div');
+      meta.className = 'job-meta';
+      meta.textContent = `@${job.username || 'unknown'} · ${job.date ? new Date(job.date).toLocaleDateString('en-MY') : ''}`;
+
+      if (job.url) {
+        const link = document.createElement('a');
+        link.className = 'job-link';
+        link.href = job.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = ' · View on Threads →';
+        meta.appendChild(link);
+      }
+
+      inner.appendChild(text);
+      inner.appendChild(meta);
+      card.appendChild(badge);
+      card.appendChild(inner);
+      listEl.appendChild(card);
+    });
 
   } catch (err) {
     console.log('Job fetch failed:', err.message);

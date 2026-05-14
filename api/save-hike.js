@@ -28,8 +28,10 @@ export default async function handler(req, res) {
     } = req.body;
 
     // 1. Upload GPX to Vercel Blob
+    // Sanitize filename to prevent path traversal attacks
+    const safeFilename = gpxFilename.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.{2,}/g, '_');
     const gpxBuffer = Buffer.from(gpxBase64, 'base64');
-    const blobResult = await put(`gpx/${gpxFilename}`, gpxBuffer, {
+    const blobResult = await put(`gpx/${safeFilename}`, gpxBuffer, {
       access: 'public',
       contentType: 'application/gpx+xml',
       token: process.env.BLOB_READ_WRITE_TOKEN
