@@ -402,16 +402,12 @@
 
     <div class="up-next">
       <div class="up-next-label">⏭ Up Next — Mountain #16</div>
-      <div class="up-next-name" id="upNextName">Bukit Saga (#15) 🏔</div>
-      <div class="up-next-meta" id="upNextMeta" style="margin-bottom:10px;">Production brief ready for review.</div>
+      <div class="up-next-name" id="upNextName">Mountain #16 🏔</div>
+      <div class="up-next-meta" id="upNextMeta" style="margin-bottom:10px;">Bukit Saga (#15) ✅ posted. Plan your next hike.</div>
       <div class="up-next-tags">
-        <span class="tag orange">⏳ Post Pending</span>
-        <span class="tag green">📋 Brief Done</span>
+        <span class="tag blue">🔵 Planning</span>
+        <span class="tag green">✅ #15 Done</span>
       </div>
-      <a href="#" class="wiki-btn" onclick="return false;" title="Local wiki file — not available on live site">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        View Production Brief
-      </a>
     </div>
 
     <div class="schedule-card">
@@ -1129,7 +1125,7 @@ function buildCalendar() {
   if (pendingSlots.length > 0) {
     const pending = document.createElement('div');
     pending.className = 'cal-post pending';
-    pending.textContent = '⏳ Bukit Saga #15';
+    pending.textContent = '🔵 Mountain #16';
     pendingSlots[0].appendChild(pending);
   }
 }
@@ -1198,7 +1194,7 @@ function updateIntelligence(data) {
     if (xhsCtr < 15) {
       actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover. <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/kay-du-growth/references/xhs_playbook.md" class="intel-action">Open Playbook</a>`;
     } else {
-      actionEl.innerHTML = `Next Move: Execute <strong>Bukit Saga (#15)</strong> shoot plan. <a href="file:///Users/macos/Desktop/kaydu%20brain/Kay%20Du%20Brain/Creative_Director_Wiki/wiki/mountain_15_bukit_saga.md" class="intel-action">Open Brief</a>`;
+      actionEl.innerHTML = `Next Move: Plan and execute <strong>Mountain #16</strong> shoot. Choose a visually dramatic mountain near KL.`;
     }
   }
 }
