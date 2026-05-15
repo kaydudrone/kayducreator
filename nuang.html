@@ -314,6 +314,23 @@ nav {
   letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
 }
 
+/* Two-photo grid (matches Kinabalu tabur-grid) */
+.tabur-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.tabur-grid .story-photo { margin: 0; }
+.tabur-grid .story-photo img {
+  max-height: 420px;
+  aspect-ratio: 4/5;
+  object-position: center 70%;
+}
+@media (max-width: 560px) {
+  .tabur-grid { grid-template-columns: 1fr; }
+}
+
 /* Pull quote band */
 .pullquote-band {
   background: var(--ink); color: #fff;
