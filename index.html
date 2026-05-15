@@ -771,99 +771,127 @@ footer{
 @media(max-width:400px){.reels-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto}}
 
 /* ── HAMBURGER NAV ── */
+/* ── HAMBURGER ── */
 .nav-hamburger{
-  display:none;background:rgba(255,255,255,.12);border:none;cursor:pointer;
-  width:40px;height:40px;border-radius:10px;color:#fff;
-  align-items:center;justify-content:center;
-  transition:background .15s;flex-shrink:0;
+  display:none;background:none;border:none;cursor:pointer;
+  padding:.4rem;color:#fff;flex-direction:column;
+  justify-content:center;gap:5px;flex-shrink:0;
 }
-.nav-hamburger:hover{background:rgba(255,255,255,.22)}
 .nav-hamburger span{
-  display:block;width:18px;height:1.5px;background:#fff;
-  border-radius:2px;transition:.25s ease;position:absolute;
+  display:block;width:22px;height:1.5px;background:#fff;
+  border-radius:2px;transition:.3s ease;
 }
-.nav-hamburger span:nth-child(1){transform:translateY(-5px)}
-.nav-hamburger span:nth-child(3){transform:translateY(5px)}
-.nav-hamburger.open span:nth-child(1){transform:rotate(45deg)}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-/* ── MOBILE FULL-SCREEN DRAWER ── */
+/* ── FULL-SCREEN EDITORIAL NAV ── */
 .nav-mobile{
   display:none;
   position:fixed;inset:0;z-index:200;
-  flex-direction:column;
-  background:linear-gradient(160deg,#1d8aab 0%,#145f76 100%);
+  flex-direction:column;justify-content:space-between;
+  background:linear-gradient(160deg,#1d8aab 0%,#0e4d5f 100%);
   overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0 clamp(1.5rem,6vw,4rem);
 }
-.nav-mobile.open{display:flex;animation:drawerIn .28s cubic-bezier(.22,.61,.36,1) both}
-@keyframes drawerIn{from{opacity:0;transform:translateY(-12px) scale(.98)}to{opacity:1;transform:none}}
+.nav-mobile.open{
+  display:flex;
+  animation:nmFadeIn .35s cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes nmFadeIn{
+  from{opacity:0;clip-path:inset(0 0 100% 0)}
+  to{opacity:1;clip-path:inset(0 0 0% 0)}
+}
 
-/* Drawer header */
-.nav-mob-header{
+/* Top bar inside overlay */
+.nm-top{
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 1.25rem;min-height:72px;
-  border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;
+  padding:1.3rem 0;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  flex-shrink:0;
 }
-.nav-mob-brand{display:flex;align-items:center;gap:.65rem}
-.nav-mob-brand img{height:34px;width:auto;filter:brightness(0) invert(1)}
-.nav-mob-brand span{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75)}
-.nav-mob-close{
-  width:40px;height:40px;border-radius:10px;
-  background:rgba(255,255,255,.15);border:none;cursor:pointer;
-  color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
+.nm-brand{display:flex;align-items:center;gap:.6rem}
+.nm-brand img{height:30px;filter:brightness(0) invert(1);opacity:.9}
+.nm-brand span{
+  font-family:"DM Mono",monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);
 }
-.nav-mob-close:hover{background:rgba(255,255,255,.25)}
+.nm-close{
+  display:flex;align-items:center;gap:.45rem;
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.7);font-family:"DM Mono",monospace;
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  transition:color .2s;padding:0;
+}
+.nm-close:hover{color:#fff}
+.nm-close svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none}
 
-/* Drawer links */
-.nav-mob-links{flex:1;padding:.5rem 0 2rem}
-.nav-mob-links a{
-  display:flex;align-items:center;
-  padding:1.1rem 1.5rem;
-  font-size:1.05rem;font-weight:600;
-  color:rgba(255,255,255,.92);
+/* Main links — large editorial typography */
+.nm-links{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;
+  padding:2rem 0;gap:0;
+}
+.nm-links a{
+  display:block;text-decoration:none;
+  font-size:clamp(2rem,7vw,3.2rem);
+  font-weight:800;letter-spacing:-.02em;line-height:1.15;
+  color:rgba(255,255,255,.9);
+  padding:.3rem 0;
   border-bottom:1px solid rgba(255,255,255,.08);
-  transition:background .15s,color .15s;
-  text-decoration:none;gap:.75rem;
+  transition:color .2s,padding-left .2s;
+  opacity:0;transform:translateY(16px);
 }
-.nav-mob-links a:hover,
-.nav-mob-links a:active{background:rgba(255,255,255,.1);color:#fff}
-.nav-mob-links a .mob-icon{
-  width:34px;height:34px;border-radius:9px;
-  background:rgba(255,255,255,.1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1rem;flex-shrink:0;
+.nm-links a:first-child{color:rgba(255,255,255,.35);font-weight:700} /* muted = current */
+.nm-links a:hover{color:#fff;padding-left:.4rem}
+
+/* Sub-links — smaller, indented */
+.nm-sub-label{
+  font-family:"DM Mono",monospace;font-size:.6rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  margin-top:1.2rem;margin-bottom:.2rem;
+  opacity:0;transform:translateY(16px);
 }
-/* Sub-items (stories) */
-.nav-mob-links a.sub{
-  padding:.85rem 1.5rem .85rem 2rem;
-  font-size:.9rem;font-weight:500;
-  color:rgba(255,255,255,.75);
+.nm-links a.nm-sub{
+  font-size:clamp(1rem,3.5vw,1.35rem);
+  font-weight:600;letter-spacing:0;
+  color:rgba(255,255,255,.65);
+  padding:.45rem 0 .45rem .1rem;
   border-bottom-color:rgba(255,255,255,.05);
 }
-.nav-mob-links a.sub .mob-icon{
-  width:28px;height:28px;font-size:.85rem;
-  background:rgba(255,255,255,.08);
+.nm-links a.nm-sub:hover{color:rgba(255,255,255,.9);padding-left:.4rem}
+
+/* Bottom tagline */
+.nm-foot{
+  padding:1.4rem 0;
+  border-top:1px solid rgba(255,255,255,.1);
+  flex-shrink:0;
 }
-/* Section divider */
-.nav-mob-divider{
-  font-family:"DM Mono",monospace;font-size:.58rem;
-  letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(255,255,255,.4);
-  padding:.9rem 1.5rem .4rem;
+.nm-foot p{
+  font-family:"DM Mono",monospace;font-size:.62rem;
+  letter-spacing:.1em;color:rgba(255,255,255,.35);
+  text-transform:uppercase;
 }
-/* Staggered entrance for links */
-.nav-mob-links a:nth-child(1){animation:linkIn .3s .05s both}
-.nav-mob-links a:nth-child(2){animation:linkIn .3s .09s both}
-.nav-mob-links a:nth-child(3){animation:linkIn .3s .13s both}
-.nav-mob-links a:nth-child(4){animation:linkIn .3s .17s both}
-.nav-mob-links a:nth-child(5){animation:linkIn .3s .21s both}
-.nav-mob-links a:nth-child(6){animation:linkIn .3s .25s both}
-.nav-mob-links a:nth-child(7){animation:linkIn .3s .29s both}
-.nav-mob-links a:nth-child(8){animation:linkIn .3s .33s both}
-.nav-mob-links a:nth-child(9){animation:linkIn .3s .37s both}
-@keyframes linkIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+
+/* Animate links in when open */
+.nav-mobile.open .nm-links a,
+.nav-mobile.open .nm-sub-label{
+  animation:nmLinkUp .4s cubic-bezier(.22,.61,.36,1) both;
+}
+.nav-mobile.open .nm-links a:nth-child(1){animation-delay:.08s}
+.nav-mobile.open .nm-links a:nth-child(2){animation-delay:.12s}
+.nav-mobile.open .nm-links a:nth-child(3){animation-delay:.16s}
+.nav-mobile.open .nm-links a:nth-child(4){animation-delay:.20s}
+.nav-mobile.open .nm-links a:nth-child(5){animation-delay:.24s}
+.nav-mobile.open .nm-sub-label{animation-delay:.26s}
+.nav-mobile.open .nm-links a:nth-child(7){animation-delay:.30s}
+.nav-mobile.open .nm-links a:nth-child(8){animation-delay:.34s}
+.nav-mobile.open .nm-links a:nth-child(9){animation-delay:.38s}
+@keyframes nmLinkUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:980px){
@@ -871,7 +899,7 @@ footer{
   .about-photo{min-height:320px}
   .masonry{columns:2}
   .nav-links{display:none}
-  .nav-hamburger{display:flex;align-items:center;justify-content:center;position:relative}
+  .nav-hamburger{display:flex}
   .progress-band{grid-template-columns:1fr;gap:1.5rem;padding:1.5rem}
   .progress-big{font-size:3.5rem}
   .photo-collage{grid-template-columns:1fr}
@@ -1065,42 +1093,39 @@ footer{
   </div>
 </nav>
 <div class="nav-mobile" id="navMobile" aria-hidden="true">
-  <!-- Header -->
-  <div class="nav-mob-header">
-    <div class="nav-mob-brand">
+
+  <!-- Top bar -->
+  <div class="nm-top">
+    <div class="nm-brand">
       <img src="/so_hikers_logo_transparent.png" alt="So Hikers" />
       <span>Kay Du Hiking Creator</span>
     </div>
-    <button class="nav-mob-close" id="navClose" aria-label="Close menu">✕</button>
+    <button class="nm-close" id="navClose" aria-label="Close menu">
+      <span>close</span>
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
   </div>
-  <!-- Links -->
-  <nav class="nav-mob-links">
-    <a href="#about">
-      <span class="mob-icon">👤</span>About
-    </a>
-    <a href="#reels">
-      <span class="mob-icon">🎬</span>Reels
-    </a>
-    <a href="#progress">
-      <span class="mob-icon">🏔</span>60 Mountains
-    </a>
-    <a href="#mountains">
-      <span class="mob-icon">🗺️</span>GPX Trails
-    </a>
-    <a href="#beyond">
-      <span class="mob-icon">✈️</span>Beyond Malaysia
-    </a>
-    <div class="nav-mob-divider">My Stories</div>
-    <a href="/kinabalu" class="sub">
-      <span class="mob-icon">🇲🇾</span>Mount Kinabalu
-    </a>
-    <a href="/rinjani" class="sub">
-      <span class="mob-icon">🇮🇩</span>Gunung Rinjani
-    </a>
-    <a href="#contact">
-      <span class="mob-icon">💬</span>Collaborate
-    </a>
+
+  <!-- Main links -->
+  <nav class="nm-links">
+    <a href="#top">Home</a>
+    <a href="#about">About</a>
+    <a href="#progress">Challenge</a>
+    <a href="#mountains">GPX Trails</a>
+    <a href="#beyond">Beyond Malaysia</a>
+    <div class="nm-sub-label">My Stories</div>
+    <a href="/kinabalu" class="nm-sub">🇲🇾 Mount Kinabalu</a>
+    <a href="/rinjani" class="nm-sub">🇮🇩 Gunung Rinjani</a>
+    <a href="#contact">Collaborate</a>
   </nav>
+
+  <!-- Footer tagline -->
+  <div class="nm-foot">
+    <p>60 Mountains Challenge · Hiking Drone Creator · Malaysia</p>
+  </div>
+
 </div>
 
 <!-- HERO -->
