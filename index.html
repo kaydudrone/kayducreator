@@ -817,10 +817,13 @@ footer{
 .nm-links a{
   display:block;text-decoration:none;text-align:center;
   font-family:"Inter",sans-serif;
-  font-size:clamp(1.6rem,7vw,2.4rem);
-  font-weight:800;letter-spacing:.12em;text-transform:uppercase;
-  color:#fff;padding:.55rem 1rem;
+  font-size:clamp(1.25rem,5.5vw,1.75rem);
+  font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;
+  padding:.35rem 0;          /* vertical only — no horizontal box */
+  line-height:1.2;
   transition:opacity .15s;opacity:0;
+  white-space:nowrap;        /* prevent wrapping */
 }
 .nm-links a:hover{opacity:.55}
 
@@ -828,30 +831,33 @@ footer{
 .nm-links a.nm-cta{
   background:rgba(255,255,255,.15);
   border-radius:999px;
-  padding:.65rem 2.8rem;
-  margin-top:.8rem;
-  letter-spacing:.14em;
-  border:1px solid rgba(255,255,255,.2);
+  padding:.7rem 2.5rem;
+  margin-top:.6rem;
+  letter-spacing:.12em;
+  border:1px solid rgba(255,255,255,.22);
   transition:background .2s,opacity .15s;
+  white-space:nowrap;
 }
 .nm-links a.nm-cta:hover{background:rgba(255,255,255,.25);opacity:1}
 
 /* Sub-section */
 .nm-divider{
-  width:40px;height:1px;
-  background:rgba(255,255,255,.25);
-  margin:.4rem 0;flex-shrink:0;opacity:0;
+  width:36px;height:1px;
+  background:rgba(255,255,255,.3);
+  margin:.5rem 0;flex-shrink:0;opacity:0;
 }
 .nm-sub-label{
-  font-family:"DM Mono",monospace;font-size:.58rem;
+  font-family:"DM Mono",monospace;font-size:.6rem;
   letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.38);margin-bottom:.1rem;
+  color:rgba(255,255,255,.4);margin-bottom:.2rem;
   opacity:0;text-align:center;
 }
 .nm-links a.nm-sub{
-  font-size:clamp(.8rem,3vw,1rem);
-  letter-spacing:.08em;font-weight:600;
-  color:rgba(255,255,255,.55);padding:.3rem 1rem;
+  font-size:clamp(1rem,3.8vw,1.2rem);
+  letter-spacing:.06em;font-weight:600;
+  color:rgba(255,255,255,.65);
+  padding:.25rem 0;
+  white-space:nowrap;
 }
 .nm-links a.nm-sub:hover{opacity:.9;color:#fff}
 
