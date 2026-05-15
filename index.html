@@ -789,7 +789,7 @@ footer{
 .nav-mobile{
   display:none;position:fixed;inset:0;z-index:200;
   flex-direction:column;align-items:center;justify-content:space-between;
-  background:linear-gradient(180deg,#1d8aab 0%,#0f5570 100%);
+  background-color:#1a85a6;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
   padding:1.4rem 1.5rem 2.5rem;
 }
@@ -812,18 +812,21 @@ footer{
 /* Main links — centered, uppercase */
 .nm-links{
   display:flex;flex-direction:column;align-items:center;
-  gap:.15rem;flex:1;justify-content:center;width:100%;
+  gap:0;flex:1;justify-content:center;width:100%;
+  background:transparent;
 }
 .nm-links a{
   display:block;text-decoration:none;text-align:center;
   font-family:"Inter",sans-serif;
   font-size:clamp(1.25rem,5.5vw,1.75rem);
   font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  color:#fff;
-  padding:.35rem 0;          /* vertical only — no horizontal box */
+  color:#fff;background:transparent;
+  padding:.35rem 0;
   line-height:1.2;
   transition:opacity .15s;opacity:0;
-  white-space:nowrap;        /* prevent wrapping */
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  outline:none;
 }
 .nm-links a:hover{opacity:.55}
 
