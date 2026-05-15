@@ -583,7 +583,8 @@ nav{
   display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;
 }
 .story-card-meta .read-link{color:var(--primary);font-weight:600;white-space:nowrap}
-@media(max-width:600px){.stories-row{grid-template-columns:1fr}}
+@media(max-width:860px){.stories-row{grid-template-columns:1fr 1fr!important}}
+@media(max-width:520px){.stories-row{grid-template-columns:1fr!important}}
 
 /* ── CONTACT ── */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:stretch}
@@ -1110,6 +1111,7 @@ footer{
     <div class="nm-sub-label">My Stories</div>
     <a href="/kinabalu" class="nm-sub">🇲🇾 Mount Kinabalu</a>
     <a href="/rinjani" class="nm-sub">🇮🇩 Gunung Rinjani</a>
+    <a href="/nuang" class="nm-sub">🏔 Gunung Nuang</a>
   </nav>
 
 </div>
@@ -1182,7 +1184,7 @@ footer{
 <section style="padding:0 0 56px">
   <div class="container">
     <div class="eyebrow fade-up">My Stories</div>
-    <div class="stories-row fade-up">
+    <div class="stories-row fade-up" style="grid-template-columns:repeat(3,1fr)">
 
       <a href="/kinabalu" class="story-card">
         <div class="story-card-img">
@@ -1212,6 +1214,23 @@ footer{
             <div class="story-card-name">Gunung Rinjani</div>
             <div class="story-card-meta">
               Lombok, Indonesia · 3,726 m
+              <span class="read-link">Read Story →</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/nuang" class="story-card">
+        <div class="story-card-img">
+          <img src="images/nuang_hero.jpg" alt="Gunung Nuang jungle trail Selangor" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#c8e6f0,#9ad3e4)';this.style.display='none'" />
+          <div class="story-card-overlay"><span>Read Guide</span></div>
+        </div>
+        <div class="story-card-info">
+          <div class="story-card-flag">🏔</div>
+          <div class="story-card-text">
+            <div class="story-card-name">Gunung Nuang</div>
+            <div class="story-card-meta">
+              Hulu Langat, Selangor · 1,493 m
               <span class="read-link">Read Story →</span>
             </div>
           </div>
