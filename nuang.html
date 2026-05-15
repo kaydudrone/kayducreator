@@ -446,13 +446,29 @@ footer {
 .route-badge.hard { background: #fee2e2; color: #dc2626; border-color: rgba(220,38,38,.2); }
 .route-badge.moderate { background: #fef3c7; color: #d97706; border-color: rgba(217,119,6,.2); }
 
+/* Tips section grid */
+.tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
 @media(max-width:640px) {
   .section { padding: 48px 0; }
+  .section-sm { padding: 36px 0; }
   .info-grid { grid-template-columns: 1fr; }
   .info-item { border-right: none; }
   .info-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
   .info-item:last-child { border-bottom: none; }
   .tips-card { padding: 1.4rem; }
+  .tips-card ul li { font-size: .9rem; }
+  /* Tips two-col → single col on mobile */
+  .tips-grid { grid-template-columns: 1fr; }
+  /* Pullquote: hide oversized quote mark that clips on mobile */
+  .pullquote-band blockquote::before { display: none; }
+  .pullquote-band { padding: 3rem 1.25rem; }
+  /* Hero padding reduced on mobile */
+  .hero-inner { padding: 56px 0 48px; }
 }
 </style>
 </head>
@@ -757,7 +773,7 @@ footer {
       <div class="eyebrow">Before You Go</div>
       <h2 style="font-family:'Droid Serif',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:2rem;letter-spacing:-.01em">Tips Before Hiking Gunung Nuang 🎒</h2>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem" class="fade-up">
+    <div class="tips-grid fade-up">
       <div class="tips-card">
         <h3>🎒 What to Bring</h3>
         <ul>
