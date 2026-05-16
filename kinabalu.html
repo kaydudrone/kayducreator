@@ -42,8 +42,8 @@
   }
 }
 </script>
-<link rel="icon" type="image/png" href="so_hikers_logo_transparent.png" />
-<link rel="apple-touch-icon" href="so_hikers_logo_transparent.png" />
+<link rel="icon" type="image/png" href="/so_hikers_logo_transparent.png" />
+<link rel="apple-touch-icon" href="/so_hikers_logo_transparent.png" />
 <meta name="theme-color" content="#1d8aab" />
 <link rel="preload" as="image" href="images/kk_hero.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -101,7 +101,7 @@ nav {
   width: min(1160px, calc(100% - 2.5rem));
   margin: 0 auto;
   min-height: 72px;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
 }
 .nav-brand { display: flex; align-items: center; gap: .75rem; }
 .nav-brand img { height: 34px; width: auto; filter: brightness(0) invert(1); }
@@ -181,7 +181,7 @@ nav {
   display: inline-flex; align-items: center; gap: .4rem;
   background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
   padding: .35rem .8rem; border-radius: 999px;
-  font-family: "DM Mono", monospace; font-size: .6rem;
+  font-family: "DM Mono", monospace; font-size: .7rem;
   letter-spacing: .1em; text-transform: uppercase;
   color: rgba(255,255,255,.7);
 }
@@ -226,7 +226,7 @@ nav {
 }
 .stat-item span {
   display: block; margin-top: .35rem;
-  font-family: "DM Mono", monospace; font-size: .58rem;
+  font-family: "DM Mono", monospace; font-size: .7rem;
   letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,255,255,.65);
 }
@@ -297,7 +297,7 @@ nav {
 }
 .photo-caption {
   margin-top: .65rem; text-align: center;
-  font-family: "DM Mono", monospace; font-size: .6rem;
+  font-family: "DM Mono", monospace; font-size: .7rem;
   letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
 }
 
@@ -517,6 +517,8 @@ footer {
   border-top: 1px solid rgba(255,255,255,.08);
   flex-shrink: 0;
   scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent;
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
 .glb-thumb {
   width: 52px; height: 52px; border-radius: 6px;
@@ -547,7 +549,7 @@ footer {
 <nav>
   <div class="nav-inner">
     <a href="/" class="nav-brand">
-      <img src="so_hikers_logo_transparent.png" alt="So Hikers Malaysia">
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers Malaysia">
       <span>Kay Du Hiking Creator</span>
     </a>
     <a href="/" class="nav-back">

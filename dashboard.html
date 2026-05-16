@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #050f14; color: #e8eef0; min-height: 100vh; min-height: 100svh; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #050f14; color: #e8eef0; min-height: 100vh; min-height: 100svh; overflow-x: hidden; }
   .header { background: linear-gradient(135deg, #071a22 0%, #0a2535 50%, #0d3d52 100%); padding: 28px 32px; border-bottom: 1px solid #1d8aab30; }
   .header h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
   .header p { color: #8892a4; font-size: 13px; margin-top: 4px; }
@@ -199,7 +199,7 @@
 
   /* Intelligence Panel */
   .intelligence-panel { background: linear-gradient(135deg, #0a1f28 0%, #0d2d3d 100%); border: 1px solid #3dc4e830; border-radius: 16px; padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-  .intelligence-panel::after { content: 'AI'; position: absolute; top: -10px; right: -5px; font-size: 80px; font-weight: 900; color: #3dc4e808; pointer-events: none; }
+  .intelligence-panel::after { content: 'AI'; position: absolute; top: -10px; right: -5px; font-size: clamp(36px, 10vw, 80px); font-weight: 900; color: #3dc4e808; pointer-events: none; }
   .intel-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
   .intel-icon { background: #3dc4e8; color: #050f14; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .intel-title { font-size: 16px; font-weight: 700; color: #fff; }
@@ -228,7 +228,7 @@
   /* Password Gate */
   .gate { position: fixed; inset: 0; background: #050f14; display: flex; align-items: center; justify-content: center; z-index: 9999; }
   .gate-box { background: #0d1f28; border: 1px solid #1d8aab30; border-radius: 20px; padding: 40px; width: 90%; max-width: 380px; text-align: center; }
-  .gate-logo { font-size: 40px; margin-bottom: 16px; }
+  .gate-logo { font-size: clamp(24px, 6vw, 40px); margin-bottom: 16px; }
   .gate-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
   .gate-sub { font-size: 13px; color: #8892a4; margin-bottom: 24px; }
   .gate-input { width: 100%; background: #ffffff08; border: 1px solid #1d8aab40; border-radius: 10px; padding: 12px 16px; color: #e8eef0; font-size: 15px; outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 2px; }
@@ -252,6 +252,7 @@
     .quick-row { grid-template-columns: 1fr; }
     .insights-grid { grid-template-columns: 1fr; }
     .manychat-grid { grid-template-columns: 1fr; }
+    .intel-grid { grid-template-columns: 1fr; }
     .update-grid { grid-template-columns: repeat(2, 1fr); }
     .kpi-grid > .kpi:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .cal-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
@@ -259,8 +260,12 @@
     .cal-post { font-size: 8px; padding: 2px 4px; }
     .mountains-card table { font-size: 11px; }
     thead th, tbody td { padding: 6px 6px; }
-    .week-grid { gap: 3px; }
+    .week-grid { grid-template-columns: repeat(4, 1fr); gap: 3px; }
     .day-cell { padding: 6px 2px; }
+  }
+
+  @media (max-width: 640px) {
+    .intel-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 480px) {
@@ -270,6 +275,13 @@
     .challenge-bar { padding: 14px 16px; }
     .mountain-dots { gap: 3px; }
     .dot { width: 14px; height: 14px; font-size: 7px; }
+    .week-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 400px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    .update-grid { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: repeat(4, 1fr); }
   }
 </style>
 </head>
@@ -497,6 +509,7 @@
     </div>
     <div class="card">
       <h3>📋 Month Summary</h3>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
       <table>
         <thead><tr><th>Month</th><th>Posts</th><th>Avg Views</th><th>Status</th></tr></thead>
         <tbody>
@@ -527,6 +540,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <div class="notice">⚠ Target: Max 3x/week · 10–14 posts/month<br>Quality beats quantity — March proves it.</div>
     </div>
   </div>
@@ -550,11 +564,13 @@
       <div class="mc-label">🌿 Active Campaign</div>
       <div class="mc-main" style="font-size:14px;margin-top:4px;line-height:1.3">Gunung Lari Tembakau</div>
       <div class="mc-sub">Mossy Forest · Genting</div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
       <table class="mc-table">
         <tr><td style="color:#8892a4">Keyword</td><td style="color:#3dc4e8;font-weight:700">MOSSY</td></tr>
         <tr><td style="color:#8892a4">Posted</td><td style="color:#68d391">May 7, 2026</td></tr>
         <tr><td style="color:#8892a4">Total Tags</td><td id="mcTotalTags" style="color:#8892a4">—</td></tr>
       </table>
+      </div>
     </div>
   </div>
 
@@ -618,17 +634,21 @@
   <div class="tables-row">
     <div class="card">
       <h3>🏆 Top 5 Instagram Posts (2026)</h3>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
       <table>
         <thead><tr><th>Hook</th><th>Type</th><th>Views</th><th>Saves</th></tr></thead>
         <tbody id="igTable"></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
       <h3>🏆 Top 5 XHS Posts by Views</h3>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
       <table>
         <thead><tr><th>Title</th><th>Views</th><th>Saves</th></tr></thead>
         <tbody id="xhsTable"></tbody>
       </table>
+      </div>
     </div>
   </div>
 
