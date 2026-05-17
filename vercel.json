@@ -1,6 +1,4 @@
 {
-  "buildCommand": "",
-  "outputDirectory": ".",
   "cleanUrls": true,
   "functions": {
     "api/job-opportunities.js": { "maxDuration": 60 }
