@@ -770,6 +770,55 @@ footer{
 .reel-footer svg{flex-shrink:0;color:#e1306c}
 @media(max-width:640px){.reels-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}}
 @media(max-width:400px){.reels-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto}}
+.reel-thumb-link { display: block; border-radius: var(--radius); overflow: hidden; text-decoration: none; }
+.reel-thumb-wrap { position: relative; }
+.reel-thumb-wrap img { width: 100%; height: auto; display: block; transition: transform .3s ease; }
+.reel-thumb-link:hover .reel-thumb-wrap img { transform: scale(1.03); }
+.reel-play-btn {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.25); transition: background .2s;
+}
+.reel-thumb-link:hover .reel-play-btn { background: rgba(0,0,0,.4); }
+.reel-play-btn svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+
+/* Email subscribe */
+.section-sm { padding: 48px 0; }
+.subscribe-band {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+  background: var(--primary-light); border-radius: var(--radius);
+  padding: 2.5rem 2rem; border: 1px solid rgba(29,138,171,.15);
+}
+.subscribe-text { flex: 1; min-width: 200px; }
+.subscribe-heading {
+  font-family: "DM Mono", monospace; font-size: clamp(1.1rem,2.5vw,1.5rem);
+  font-weight: 700; margin-bottom: .4rem; color: var(--ink);
+}
+.subscribe-sub { font-size: .95rem; color: var(--muted); }
+.subscribe-form { flex: 1; min-width: 260px; }
+.subscribe-row { display: flex; gap: .5rem; margin-bottom: .5rem; }
+.subscribe-input {
+  flex: 1; padding: .7rem 1rem; border-radius: 999px;
+  border: 1.5px solid rgba(29,138,171,.3); font-size: .9rem;
+  font-family: inherit; outline: none; background: #fff;
+  transition: border-color .2s;
+}
+.subscribe-input:focus { border-color: var(--primary); }
+.subscribe-btn {
+  padding: .7rem 1.4rem; border-radius: 999px;
+  background: var(--primary); color: #fff; font-weight: 700;
+  font-size: .85rem; border: none; cursor: pointer;
+  white-space: nowrap; transition: background .2s;
+}
+.subscribe-btn:hover { background: var(--primary-dark); }
+.subscribe-note { font-size: .72rem; color: var(--muted); }
+.subscribe-note a { color: var(--primary); }
+@media(max-width:520px) {
+  .subscribe-band { flex-direction: column; }
+  .subscribe-row { flex-direction: column; }
+  .subscribe-btn { width: 100%; }
+}
 
 /* ── HAMBURGER NAV ── */
 /* ── HAMBURGER ── */
@@ -1051,7 +1100,7 @@ footer{
 <nav>
   <div class="container nav-inner">
     <a href="#top" class="nav-brand">
-      <img src="/so_hikers_logo_transparent.png" alt="So Hikers">
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" width="120" height="34">
       <span>Kay Du Hiking Creator</span>
     </a>
     <ul class="nav-links">
@@ -1078,6 +1127,10 @@ footer{
             <span class="story-icon" style="background:#e8f6fa">🌿</span>
             <span class="story-meta">Gunung Nuang<span>Selangor · 1,493m</span></span>
           </a>
+          <a href="/sepang">
+            <span class="story-icon" style="background:#fef3e2">🏜️</span>
+            <span class="story-meta">Sepang<span>Sepang, Selangor · Easy</span></span>
+          </a>
         </div>
       </li>
       <li><a href="#contact">Collaborate</a></li>
@@ -1092,7 +1145,7 @@ footer{
   <!-- Top bar -->
   <div class="nm-top">
     <div class="nm-brand">
-      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" />
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" width="120" height="34" />
       <span>Kay Du Hiking Creator</span>
     </div>
     <button class="nm-close" id="navClose" aria-label="Close menu">
@@ -1116,6 +1169,7 @@ footer{
     <a href="/kinabalu" class="nm-sub">🇲🇾 Mount Kinabalu</a>
     <a href="/rinjani" class="nm-sub">🇮🇩 Gunung Rinjani</a>
     <a href="/nuang" class="nm-sub">🏔 Gunung Nuang</a>
+    <a href="/sepang" class="nm-sub">🏜️ Sepang, Selangor · Easy</a>
   </nav>
 
 </div>
@@ -1164,7 +1218,7 @@ footer{
 
       <!-- Photo left -->
       <div class="about-photo">
-        <img src="images/kk_about.jpg" alt="Kay Du at Mount Kinabalu summit" loading="lazy" onerror="this.src='images/kk_1.jpg'">
+        <img src="images/kk_about.jpg" alt="Kay Du at Mount Kinabalu summit" loading="lazy" width="1440" height="1920" onerror="this.src='images/kk_1.jpg'">
         <div class="about-photo-label">Mt. Kinabalu · 4,095m</div>
       </div>
 
@@ -1192,7 +1246,7 @@ footer{
 
       <a href="/kinabalu" class="story-card">
         <div class="story-card-img">
-          <img src="images/kk_hero.jpg" alt="Mount Kinabalu summit" loading="lazy" />
+          <img src="images/kk_hero.jpg" alt="Mount Kinabalu summit" loading="lazy" width="1920" height="1080" />
           <div class="story-card-overlay"><span>View Photos</span></div>
         </div>
         <div class="story-card-info">
@@ -1209,7 +1263,7 @@ footer{
 
       <a href="/rinjani" class="story-card">
         <div class="story-card-img">
-          <img src="images/rinjani_41.jpg" alt="Gunung Rinjani crater" loading="lazy" />
+          <img src="images/rinjani_41.jpg" alt="Gunung Rinjani crater" loading="lazy" width="1440" height="1920" />
           <div class="story-card-overlay"><span>View Photos</span></div>
         </div>
         <div class="story-card-info">
@@ -1226,7 +1280,7 @@ footer{
 
       <a href="/nuang" class="story-card">
         <div class="story-card-img">
-          <img src="images/nuang_signboard.jpg" alt="Gunung Nuang jungle trail Selangor" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#c8e6f0,#9ad3e4)';this.style.display='none'" />
+          <img src="images/nuang_signboard.jpg" alt="Gunung Nuang jungle trail Selangor" loading="lazy" width="2160" height="2880" onerror="this.parentElement.style.background='linear-gradient(135deg,#c8e6f0,#9ad3e4)';this.style.display='none'" />
           <div class="story-card-overlay"><span>Read Guide</span></div>
         </div>
         <div class="story-card-info">
@@ -1257,7 +1311,7 @@ footer{
 
       <a class="reel-card" href="https://www.instagram.com/reel/DR9YuclEpD9/" target="_blank" rel="noopener noreferrer">
         <div class="reel-thumb">
-          <img src="images/reel_1.jpg" alt="Hidden Mountain in Gombak — Bukit Madei reel by Kay Du" loading="lazy">
+          <img src="images/reel_1.jpg" alt="Hidden Mountain in Gombak — Bukit Madei reel by Kay Du" loading="lazy" width="1080" height="1440">
           <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
         </div>
         <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
@@ -1265,7 +1319,7 @@ footer{
 
       <a class="reel-card" href="https://www.instagram.com/reel/DLuTjlaSfTU/" target="_blank" rel="noopener noreferrer">
         <div class="reel-thumb">
-          <img src="images/reel_2.jpg" alt="Must Visit Waterfalls in Malaysia reel by Kay Du" loading="lazy">
+          <img src="images/reel_2.jpg" alt="Must Visit Waterfalls in Malaysia reel by Kay Du" loading="lazy" width="1206" height="2361">
           <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
         </div>
         <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
@@ -1273,7 +1327,7 @@ footer{
 
       <a class="reel-card" href="https://www.instagram.com/reel/DOTG_eLEo5E/" target="_blank" rel="noopener noreferrer">
         <div class="reel-thumb">
-          <img src="images/reel_3.jpg" alt="Top Places to See Sunrise in Malaysia reel by Kay Du" loading="lazy">
+          <img src="images/reel_3.jpg" alt="Top Places to See Sunrise in Malaysia reel by Kay Du" loading="lazy" width="1206" height="2357">
           <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
         </div>
         <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
@@ -1281,7 +1335,7 @@ footer{
 
       <a class="reel-card" href="https://www.instagram.com/p/DW6GRB9EphJ/" target="_blank" rel="noopener noreferrer">
         <div class="reel-thumb">
-          <img src="images/reel_4.jpg" alt="How to use GPX Files — reel by Kay Du" loading="lazy">
+          <img src="images/reel_4.jpg" alt="How to use GPX Files — reel by Kay Du" loading="lazy" width="1206" height="2349">
           <div class="reel-play"><div class="reel-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a1a"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
         </div>
         <div class="reel-footer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Watch on Instagram</div>
@@ -1853,7 +1907,7 @@ footer{
       <!-- Mount Kinabalu -->
       <a href="/kinabalu" class="beyond-card beyond-card-link">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/kk_20.jpg" alt="Mount Kinabalu aerial drone view by Kay Du — Malaysia's highest peak at 4,095m" loading="lazy">
+          <img src="images/kk_20.jpg" alt="Mount Kinabalu aerial drone view by Kay Du — Malaysia's highest peak at 4,095m" loading="lazy" width="1440" height="1920">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇲🇾</div>
@@ -1867,7 +1921,7 @@ footer{
       <!-- Rinjani -->
       <a href="/rinjani" class="beyond-card beyond-card-link">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/rinjani_4.jpg" alt="Gunung Rinjani hiking trail, Lombok Indonesia — drone footage by Kay Du" loading="lazy">
+          <img src="images/rinjani_4.jpg" alt="Gunung Rinjani hiking trail, Lombok Indonesia — drone footage by Kay Du" loading="lazy" width="1440" height="1920">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇮🇩</div>
@@ -1881,7 +1935,7 @@ footer{
       <!-- Bromo + Tumpak Sewu + Ijen combined -->
       <div class="beyond-card" data-gallery="bromo">
         <div class="beyond-photos beyond-photos-1">
-          <img src="images/bromo_1.jpg" alt="Mount Bromo volcanic crater sunrise, East Java Indonesia — drone footage by Kay Du" loading="lazy">
+          <img src="images/bromo_1.jpg" alt="Mount Bromo volcanic crater sunrise, East Java Indonesia — drone footage by Kay Du" loading="lazy" width="1920" height="1440">
         </div>
         <div class="beyond-info">
           <div class="beyond-flag">🇮🇩</div>
@@ -1937,13 +1991,34 @@ footer{
       </div>
       <div class="photo-collage">
         <div class="col">
-          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Kay Du on a Malaysian hiking trail during the 60 Mountains Challenge" loading="lazy"></div>
-          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Kay Du and fellow hikers at a mountain summit in Malaysia" loading="lazy"></div>
+          <div class="photo-frame"><img src="images/contact_1.jpg" alt="Kay Du on a Malaysian hiking trail during the 60 Mountains Challenge" loading="lazy" width="1440" height="1920"></div>
+          <div class="photo-frame"><img src="images/contact_2.jpg" alt="Kay Du and fellow hikers at a mountain summit in Malaysia" loading="lazy" width="1440" height="1920"></div>
         </div>
         <div class="col">
-          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape aerial drone shot by Kay Du, hiking creator Malaysia" loading="lazy"></div>
+          <div class="photo-frame" style="min-height:370px"><img src="images/contact_3.jpg" alt="Mountain landscape aerial drone shot by Kay Du, hiking creator Malaysia" loading="lazy" width="1297" height="1920"></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL SUBSCRIBE -->
+<section class="section-sm" style="background:var(--surface)">
+  <div class="container">
+    <div class="subscribe-band fade-up">
+      <div class="subscribe-text">
+        <div class="eyebrow">Stay Updated</div>
+        <h2 class="subscribe-heading">Get New Trail Alerts 🏔</h2>
+        <p class="subscribe-sub">New GPX file dropped every few weeks. No spam — just mountains.</p>
+      </div>
+      <form class="subscribe-form" action="https://app.kit.com/forms/YOUR_FORM_ID/subscriptions" method="post" target="_blank">
+        <!-- TODO: Replace YOUR_FORM_ID with your Kit (ConvertKit) form ID after signing up at kit.com (free) -->
+        <div class="subscribe-row">
+          <input type="email" name="email_address" placeholder="your@email.com" required class="subscribe-input" aria-label="Email address" />
+          <button type="submit" class="subscribe-btn">Subscribe →</button>
+        </div>
+        <p class="subscribe-note">Free · Unsubscribe anytime · Powered by <a href="https://kit.com" target="_blank" rel="noopener">Kit</a></p>
+      </form>
     </div>
   </div>
 </section>
@@ -1953,7 +2028,7 @@ footer{
   <div class="container footer-inner">
     <span>© 2026 Kay Du · So Hikers Malaysia</span>
     <div class="footer-logo-wrap" id="footerLogo" title="">
-      <img src="/so_hikers_logo_transparent.png" alt="So Hikers Malaysia" />
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers Malaysia" width="120" height="34" />
       <span class="footer-tap-hint" id="footerTapHint">· · ·</span>
     </div>
     <span>60 Mountains Challenge · 15 / 60 Done</span>
