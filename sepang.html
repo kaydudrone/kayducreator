@@ -304,7 +304,7 @@ nav {
   letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
 }
 
-/* Two-photo grid — magazine side by side */
+/* Two-photo grid */
 .tabur-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -319,6 +319,28 @@ nav {
 }
 @media (max-width: 560px) {
   .tabur-grid { grid-template-columns: 1fr; }
+}
+
+/* Three-photo magazine grid */
+.magazine-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.magazine-grid .story-photo { margin: 0; }
+.magazine-grid .story-photo img {
+  max-height: 380px;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .magazine-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .magazine-grid { grid-template-columns: 1fr; }
 }
 
 /* Pull quote band */
@@ -574,16 +596,19 @@ footer {
 
       <p class="fade-up">If you've ever flown Malaysia Airlines and flipped through that magazine, you might have already seen this landscape without knowing it was right here in Sepang 😂</p>
 
-      <!-- Photos 1 & 2 — Magazine feature side by side -->
-      <div class="tabur-grid fade-up">
+      <!-- Photos 1, 2 & 3 — Magazine feature grid -->
+      <div class="magazine-grid fade-up">
         <div class="story-photo">
           <img src="images/sepang_1.jpg" alt="Sepang South Africa — featured in Malaysia Airlines Going Places Magazine March 2024" loading="lazy" />
         </div>
         <div class="story-photo">
           <img src="images/sepang_2.jpg" alt="Sepang South Africa rock formations — Malaysia Airlines Going Places Magazine March 2024" loading="lazy" />
         </div>
+        <div class="story-photo">
+          <img src="images/sepang_3.jpg" alt="Sepang South Africa landscape — Malaysia Airlines Going Places Magazine March 2024" loading="lazy" />
+        </div>
       </div>
-      <p class="photo-caption">Both photos featured in Malaysia Airlines Going Places Magazine — March 2024 Issue ✈️</p>
+      <p class="photo-caption">All 3 photos featured in Malaysia Airlines Going Places Magazine — March 2024 Issue ✈️</p>
 
       <div class="divider fade-up"></div>
 
@@ -598,9 +623,9 @@ footer {
 
       <p class="fade-up">That contrast — this otherworldly landscape existing quietly in the middle of suburban Selangor — is exactly what makes this place so special.</p>
 
-      <!-- Photo 3 -->
+      <!-- Photo 4 -->
       <div class="story-photo fade-up">
-        <img src="images/sepang_3.jpg" alt="Sepang South Africa dramatic rock formations — Malaysia's hidden grand canyon" loading="lazy" />
+        <img src="images/sepang_4.jpg" alt="Sepang South Africa dramatic rock formations — Malaysia's hidden grand canyon" loading="lazy" />
       </div>
       <p class="photo-caption">Sepang South Africa — the landscape that earned Malaysia's most misleading place name 🏜️</p>
 
