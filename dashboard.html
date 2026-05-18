@@ -416,12 +416,13 @@
     </div>
 
     <div class="up-next">
-      <div class="up-next-label">⏭ Up Next — Mountain #16</div>
-      <div class="up-next-name" id="upNextName">Mountain #16 🏔</div>
-      <div class="up-next-meta" id="upNextMeta" style="margin-bottom:10px;">Bukit Saga (#15) ✅ posted. Plan your next hike.</div>
+      <div class="up-next-label">⏭ Content Queue — Do These First</div>
+      <div class="up-next-name" id="upNextName">2 Carousels Queued 🃏</div>
+      <div class="up-next-meta" id="upNextMeta" style="margin-bottom:10px;">Zero filming needed — retrofit existing shoots for 2–3x reach.</div>
       <div class="up-next-tags">
-        <span class="tag blue">🔵 Planning</span>
-        <span class="tag green">✅ #15 Done</span>
+        <span class="tag orange">📸 Bukit Saga — Ahpek hook</span>
+        <span class="tag orange">📸 Sepang — Magazine hook</span>
+        <span class="tag blue">🔵 Mountain #16 after</span>
       </div>
     </div>
 
@@ -600,8 +601,8 @@
   <div class="insights-grid">
     <div class="insight">
       <div class="insight-icon">🔑</div>
-      <div class="insight-title">The "Hidden" Formula</div>
-      <div class="insight-body">7 of your top 10 IG posts in 2026 use <span class="highlight">"hidden"</span> in the opening line. Template: <em>Hidden + [location type] + [proximity to KL]</em>. Your best post hit <span class="highlight">102K views</span> with this exact formula.</div>
+      <div class="insight-title">Hook Formulas That Work</div>
+      <div class="insight-body">Your all-time #1 is <span class="highlight">Zombie Tunnel (104K)</span> — specific name beats generic "hidden". 2nd is Tanjung Tuan (<span class="highlight">102K</span>) using Hidden + near KL. Template mix: <em>specific name</em> <strong>OR</strong> <em>Hidden + location + proximity</em>.</div>
     </div>
     <div class="insight">
       <div class="insight-icon">🃏</div>
@@ -654,7 +655,7 @@
 
   <!-- Mountains Done -->
   <div class="mountains-card">
-    <h3>🏔 Mountains Completed (15/60) · Updated May 13, 2026</h3>
+    <h3>🏔 Mountains Completed (15/60) · Updated May 18, 2026</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th>#</th><th>Mountain</th><th>Difficulty</th><th>Date</th><th>IG Views</th><th>IG Likes</th><th>IG Saves</th><th>IG Shares</th></tr></thead>
@@ -1145,13 +1146,19 @@ function buildCalendar() {
     grid.appendChild(div);
   });
 
-  // Add pending Bukit Saga to next Tue/Thu/Sat
+  // Add pending carousel retrofits to next IG post days
   const pendingSlots = grid.querySelectorAll('.cal-day.post-day');
   if (pendingSlots.length > 0) {
-    const pending = document.createElement('div');
-    pending.className = 'cal-post pending';
-    pending.textContent = '🔵 Mountain #16';
-    pendingSlots[0].appendChild(pending);
+    const p1 = document.createElement('div');
+    p1.className = 'cal-post pending';
+    p1.textContent = '🃏 Bukit Saga Carousel';
+    pendingSlots[0].appendChild(p1);
+  }
+  if (pendingSlots.length > 1) {
+    const p2 = document.createElement('div');
+    p2.className = 'cal-post pending';
+    p2.textContent = '🃏 Sepang Carousel';
+    pendingSlots[1].appendChild(p2);
   }
 }
 buildCalendar();
@@ -1213,13 +1220,13 @@ function updateIntelligence(data) {
   const xhsCtrRaw = $get('xhsCtrDisplay','textContent') || '12.6%';
   const xhsCtr = parseFloat(xhsCtrRaw.match(/[\d.]+/)) || 12.6;
 
-  if (contentEl) contentEl.innerHTML = `<strong>80% Mountain Rule</strong> is being followed. Your niche authority is strengthening. Keep gear/lifestyle in Stories.`;
-  if (platformEl) platformEl.innerHTML = `Reach is stabilizing. Your <strong>Carousel avg (20K)</strong> is 2.6x higher than Reels. Re-post top Reels as Carousels.`;
+  if (contentEl) contentEl.innerHTML = `<strong>2 Carousels queued</strong> with zero filming needed — Bukit Saga (Ahpek/Uncle Hill hook) + Sepang (Malaysia Airlines magazine hook). Do these before planning Mountain #16 for fastest reach gains.`;
+  if (platformEl) platformEl.innerHTML = `New all-time #1: <strong>Zombie Tunnel (104K)</strong>. Lesson: specific names beat generic hooks. Next carousel — use a specific name or angle, not just "Hidden".`;
   if (actionEl) {
     if (xhsCtr < 15) {
-      actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover.`;
+      actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover image — current ${xhsCtr}% is leaving reach on the table.`;
     } else {
-      actionEl.innerHTML = `Next Move: Plan and execute <strong>Mountain #16</strong> shoot. Choose a visually dramatic mountain near KL.`;
+      actionEl.innerHTML = `Next: Post <strong>Bukit Saga Carousel</strong> (Ahpek hook) this week — then Sepang carousel — then plan Mountain #16.`;
     }
   }
 }
@@ -1358,11 +1365,11 @@ function buildNextPanel(igData) {
   // ── Hook ideas ───────────────────────────────────────
   const mountainName = posts.find(p => p.caption?.toLowerCase().includes('bukit') || p.caption?.toLowerCase().includes('gunung'))?.caption?.substring(0, 30) || 'next mountain';
   const hooks = [
-    `<strong>Hidden</strong> + [location type] + near KL`,
-    `"I just found a hidden waterfall in [location] 💧"`,
-    `"Most people drive past [place] not knowing..."`,
-    `"We found a [adjective] forest near Genting 🌿"`,
-    `"POV: You're the first person to film this peak"`,
+    `🃏 <strong>Bukit Saga:</strong> "This hill is so popular with uncles, they named it after them 😂"`,
+    `🃏 <strong>Sepang:</strong> "This photo was in Malaysia Airlines magazine — 30 mins from KLIA"`,
+    `<strong>Hidden</strong> + [location type] + near KL formula`,
+    `"Most people drive past [place] not knowing it exists..."`,
+    `"They call it [specific name] for a reason 🕳️" — proven: 104K views`,
   ];
 
   const hooksEl = document.getElementById('nextHooks');
