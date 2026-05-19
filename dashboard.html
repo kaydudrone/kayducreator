@@ -159,12 +159,20 @@
   /* Post Performance Alert */
   .perf-alert { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 18px 22px; margin-bottom: 24px; display: none; }
   .perf-alert.visible { display: block; border-color: #48bb7850; background: #0a1f15; }
-  .perf-alert-title { font-size: 13px; font-weight: 700; color: #68d391; margin-bottom: 10px; }
-  .perf-alert-body { font-size: 12px; color: #8892a4; line-height: 1.6; }
-  .perf-posts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-  .perf-post { background: #ffffff08; border-radius: 8px; padding: 10px 14px; font-size: 12px; border-left: 3px solid #68d391; }
-  .perf-post-title { color: #e8eef0; font-weight: 600; margin-bottom: 4px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .perf-post-stats { color: #8892a4; font-size: 11px; }
+  .perf-alert-title { font-size: 13px; font-weight: 700; color: #68d391; margin-bottom: 4px; }
+  .perf-alert-body { font-size: 12px; color: #8892a4; line-height: 1.6; margin-bottom: 14px; }
+  .perf-posts { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .perf-post { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 10px; background: #ffffff06; border-radius: 8px; padding: 9px 12px; font-size: 12px; border-left: 3px solid #48bb7840; transition: background .15s; }
+  .perf-post:hover { background: #ffffff0e; }
+  .perf-post.rank-1 { border-left-color: #ffd700; background: #ffd70008; }
+  .perf-post.rank-2 { border-left-color: #c0c0c0; background: #c0c0c006; }
+  .perf-post.rank-3 { border-left-color: #cd7f32; background: #cd7f3206; }
+  .perf-rank { font-size: 14px; text-align: center; }
+  .perf-post-title { color: #e8eef0; font-weight: 600; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .perf-post-stats { color: #8892a4; font-size: 11px; margin-top: 2px; }
+  .perf-reach { color: #3dc4e8; font-weight: 700; font-size: 13px; white-space: nowrap; text-align: right; }
+  .perf-show-more { margin-top: 8px; background: none; border: 1px solid #ffffff15; border-radius: 8px; color: #8892a4; font-size: 12px; padding: 7px; width: 100%; cursor: pointer; transition: background .15s; }
+  .perf-show-more:hover { background: #ffffff08; color: #e8eef0; }
 
   /* TikTok Manual Update Panel */
   .update-panel { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
@@ -926,18 +934,44 @@ async function fetchLiveStats() {
       $class('viralCard','active');
     }
 
-    // Post performance alert — flag posts above 500 saves or 5000 reach
-    const highPerf = data.posts.filter(p => (p.saved||0) > 500 || (p.reach||0) > 5000);
+    // Post performance — top posts ranked by reach (already sorted desc from API)
+    const highPerf = data.posts.filter(p => (p.reach||0) > 0);
     if (highPerf.length > 0) {
       const alertEl = document.getElementById('perfAlert');
       const postsEl = document.getElementById('perfPosts');
       if (alertEl) alertEl.classList.add('visible');
-      if (postsEl) postsEl.innerHTML = highPerf.map(p => `
-        <div class="perf-post">
-          <div class="perf-post-title">${(p.caption||'(no caption)').substring(0,50)}...</div>
-          <div class="perf-post-stats">👁 ${(p.reach||0).toLocaleString()} reach · 💾 ${(p.saved||0).toLocaleString()} saves · 📤 ${(p.shares||0).toLocaleString()} shares</div>
-        </div>
-      `).join('');
+      if (!postsEl) return;
+
+      const medals = ['🥇','🥈','🥉'];
+      const SHOW = 10;
+      const total = highPerf.length;
+
+      function renderRows(limit) {
+        const rows = highPerf.slice(0, limit).map((p, i) => {
+          const rankClass = i < 3 ? `rank-${i+1}` : '';
+          const medal = i < 3 ? medals[i] : `<span style="color:#4a5568;font-size:11px">#${i+1}</span>`;
+          const title = (p.caption||'(no caption)').substring(0, 55) + (p.caption?.length > 55 ? '…' : '');
+          const reach = (p.reach||0).toLocaleString();
+          return `<div class="perf-post ${rankClass}">
+            <div class="perf-rank">${medal}</div>
+            <div>
+              <div class="perf-post-title">${title}</div>
+              <div class="perf-post-stats">💾 ${(p.saved||0).toLocaleString()} saves · 📤 ${(p.shares||0).toLocaleString()} shares</div>
+            </div>
+            <div class="perf-reach">👁 ${reach}</div>
+          </div>`;
+        }).join('');
+
+        const moreBtn = limit < total
+          ? `<button class="perf-show-more" onclick="expandPerf()">Show ${total - limit} more posts ▾</button>`
+          : (total > SHOW ? `<button class="perf-show-more" onclick="collapsePerf()">Show less ▴</button>` : '');
+
+        postsEl.innerHTML = rows + moreBtn;
+      }
+
+      window.expandPerf   = () => renderRows(total);
+      window.collapsePerf = () => renderRows(SHOW);
+      renderRows(SHOW);
     }
 
     // Auto-update mountain stats from live API posts (matches by ig_id)
