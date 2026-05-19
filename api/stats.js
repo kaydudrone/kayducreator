@@ -26,41 +26,68 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Token expired or invalid', message: profile.error.message || 'Check IG_ACCESS_TOKEN in Vercel' });
     }
 
-    // Fetch latest 10 posts with insights
+    // Fetch up to 200 posts (2 pages of 100) with insights
+    const FIELDS = 'id,caption,media_type,timestamp,like_count,comments_count';
+    let allMedia = [];
+
+    // Page 1 — latest 100
     const mediaRes = await fetch(
-      `https://graph.instagram.com/me/media?fields=id,caption,media_type,timestamp,like_count,comments_count,thumbnail_url,media_url&limit=10&access_token=${token}`
+      `https://graph.instagram.com/me/media?fields=${FIELDS}&limit=100&access_token=${token}`
     );
     const mediaData = await mediaRes.json();
+    allMedia = allMedia.concat(mediaData.data || []);
+
+    // Page 2 — next 100 (if cursor exists)
+    const nextCursor = mediaData.paging?.cursors?.after;
+    if (nextCursor) {
+      const mediaRes2 = await fetch(
+        `https://graph.instagram.com/me/media?fields=${FIELDS}&limit=100&after=${nextCursor}&access_token=${token}`
+      );
+      const mediaData2 = await mediaRes2.json();
+      allMedia = allMedia.concat(mediaData2.data || []);
+    }
 
     // Fetch insights for each post (reach, saved, shares)
-    const posts = await Promise.all(
-      (mediaData.data || []).map(async (post) => {
-        try {
-          const insightRes = await fetch(
-            `https://graph.instagram.com/${post.id}/insights?metric=reach,saved,shares&access_token=${token}`
-          );
-          const insights = await insightRes.json();
+    // Run in batches of 10 to avoid overwhelming the API
+    const BATCH = 10;
+    let posts = [];
+    for (let i = 0; i < allMedia.length; i += BATCH) {
+      const batch = allMedia.slice(i, i + BATCH);
+      const batchResults = await Promise.all(
+        batch.map(async (post) => {
+          try {
+            const insightRes = await fetch(
+              `https://graph.instagram.com/${post.id}/insights?metric=reach,saved,shares&access_token=${token}`
+            );
+            const insights = await insightRes.json();
 
-          const reach = insights.data?.find(m => m.name === 'reach')?.values?.[0]?.value || 0;
-          const saved = insights.data?.find(m => m.name === 'saved')?.values?.[0]?.value || 0;
-          const shares = insights.data?.find(m => m.name === 'shares')?.values?.[0]?.value || 0;
+            // Handle both old (values[0].value) and new (value) API response formats
+            const getVal = (name) => {
+              const m = insights.data?.find(m => m.name === name);
+              return m?.value ?? m?.values?.[0]?.value ?? 0;
+            };
 
-          return {
-            id: post.id,
-            caption: post.caption?.substring(0, 80) || '',
-            type: post.media_type,
-            date: post.timestamp,
-            likes: post.like_count || 0,
-            comments: post.comments_count || 0,
-            reach,
-            saved,
-            shares,
-          };
-        } catch {
-          return { ...post, reach: 0, saved: 0, shares: 0 };
-        }
-      })
-    );
+            return {
+              id: post.id,
+              caption: post.caption?.substring(0, 80) || '',
+              type: post.media_type,
+              date: post.timestamp,
+              likes: post.like_count || 0,
+              comments: post.comments_count || 0,
+              reach: getVal('reach'),
+              saved: getVal('saved'),
+              shares: getVal('shares'),
+            };
+          } catch {
+            return { id: post.id, caption: post.caption?.substring(0,80)||'', type: post.media_type, date: post.timestamp, likes: post.like_count||0, comments: post.comments_count||0, reach: 0, saved: 0, shares: 0 };
+          }
+        })
+      );
+      posts = posts.concat(batchResults);
+    }
+
+    // Sort by reach descending — best posts always first
+    posts.sort((a, b) => b.reach - a.reach);
 
     // Return clean stats
     res.status(200).json({
