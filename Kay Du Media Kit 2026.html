@@ -894,6 +894,14 @@
     padding: 16px 20px;
     margin-top: 20px;
     box-shadow: var(--shadow-soft);
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .press-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-light);
+    }
   }
   .press-emoji { font-size: 28px; flex-shrink: 0; }
   .press-pub { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
@@ -1337,13 +1345,13 @@
   <p class="body-text">I'm Kay Du — a Hiking Drone Creator based in Malaysia 🇲🇾. I'm running a personal project called <strong>60 Mountains in Malaysia</strong>, documenting each summit and publishing free GPX navigation files so fellow hikers can plan with confidence.</p>
   <p class="body-text">I'm also Co-Founder of <strong>So Hikers Malaysia</strong>, alongside founder Khor Phor Xiang. Together we've grown one of Malaysia's most engaged outdoor communities — 300+ attendees across our events.</p>
   <p class="body-text">Beyond hiking, I work across content creation, drone piloting, video editing, and social media marketing — turning real trail experience into brand stories that don't feel manufactured.</p>
-  <div class="press-card">
+  <a href="https://goingplaces.ink-live.com/html5/reader/production/default.aspx?pubname=&edid=8a6e7382-b755-4673-b64a-f9f43d390e95" target="_blank" class="press-card" style="text-decoration:none;color:inherit;display:flex;cursor:pointer;">
     <div class="press-emoji">✈️</div>
-    <div>
-      <div class="press-pub">Malaysia Airlines Going Places Magazine</div>
-      <div class="press-detail">March 2024 · Sepang South Africa feature</div>
+    <div style="flex:1;">
+      <div class="press-pub">Malaysia Airlines Going Places Magazine <span style="font-size:11px;color:var(--primary);margin-left:4px;">↗</span></div>
+      <div class="press-detail">March 2024 · Sepang South Africa feature · Read online</div>
     </div>
-  </div>
+  </a>
 
   <div class="brand-logos-wrap">
     <div class="brand-logos-label">Brands &amp; partnerships</div>
