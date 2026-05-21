@@ -427,6 +427,26 @@ nav{
 .diff-hard{background:var(--hard-bg);color:var(--hard)}
 .diff-very-hard{background:var(--very-hard-bg);color:var(--very-hard)}
 
+/* Trail card cover gradient */
+.trail-cover{height:68px;flex-shrink:0;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;transition:transform 280ms cubic-bezier(0.23,1,0.32,1)}
+@media(hover:hover) and (pointer:fine){.trail-card:hover .trail-cover{transform:scale(1.03)}}
+.cover-easy{background:linear-gradient(135deg,#1e6b45 0%,#52b788 100%)}
+.cover-moderate{background:linear-gradient(135deg,#8a6400 0%,#d4a017 100%)}
+.cover-slightly-hard{background:linear-gradient(135deg,#943d00 0%,#e07c2a 100%)}
+.cover-hard{background:linear-gradient(135deg,#8b1a1a 0%,#c0392b 100%)}
+.cover-very-hard{background:linear-gradient(135deg,#4a1c6e 0%,#8e44ad 100%)}
+
+/* Trail filter buttons */
+.trail-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0 1.6rem}
+.filter-btn{padding:.38rem .9rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:.75rem;font-weight:600;color:var(--muted);cursor:pointer;transition:background 150ms ease-out,color 150ms ease-out,border-color 150ms ease-out;font-family:inherit}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.filter-btn[data-filter="easy"].active{background:var(--easy);border-color:var(--easy)}
+.filter-btn[data-filter="moderate"].active{background:var(--moderate);border-color:var(--moderate);color:#fff}
+.filter-btn[data-filter="slightly-hard"].active{background:var(--slightly-hard);border-color:var(--slightly-hard);color:#fff}
+.filter-btn[data-filter="hard"].active{background:var(--hard);border-color:var(--hard)}
+.filter-btn[data-filter="very-hard"].active{background:var(--very-hard);border-color:var(--very-hard)}
+
 /* Stats strip */
 .trail-stats{
   display:flex;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -1102,6 +1122,7 @@ footer{
                    : socialUrl.includes('tiktok') ? 'TikTok'
                    : socialUrl.includes('xhslink') ? 'RedNote'
                    : socialUrl.includes('facebook') ? 'Facebook'
+                   : socialUrl.includes('youtube') ? 'YouTube'
                    : socialText;
       gtag('event', 'social_click', {
         platform: platform,
@@ -1383,10 +1404,20 @@ footer{
       <h2 class="title">GPX Trail Downloads</h2>
       <p class="text-muted" style="margin-top:.6rem;max-width:540px">Free GPX files recorded by Kay Du. Load into any hiking app like Wikiloc, AllTrails, or Garmin.</p>
     </div>
-    <div class="mountains-grid fade-up">
+    <div class="trail-filter fade-up" role="group" aria-label="Filter by difficulty">
+      <button class="filter-btn active" data-filter="all">All (15)</button>
+      <button class="filter-btn" data-filter="easy">Easy</button>
+      <button class="filter-btn" data-filter="moderate">Moderate</button>
+      <button class="filter-btn" data-filter="slightly-hard">Slightly Hard</button>
+      <button class="filter-btn" data-filter="hard">Hard</button>
+      <button class="filter-btn" data-filter="very-hard">Very Hard</button>
+    </div>
+
+    <div class="mountains-grid fade-up" id="trailGrid">
 
       <!-- 01 Bukit Pudu -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">01 · Completed</div>
           <div class="trail-name">Bukit Pudu</div>
@@ -1425,6 +1456,7 @@ footer{
 
       <!-- 02 Guling Ayam -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">02 · Completed</div>
           <div class="trail-name">Guling Ayam</div>
@@ -1463,6 +1495,7 @@ footer{
 
       <!-- 03 Gunung Lari Tembakau -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">03 · Completed</div>
           <div class="trail-name">Gunung Lari Tembakau</div>
@@ -1501,6 +1534,7 @@ footer{
 
       <!-- 04 Bukit Besi -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">04 · Completed</div>
           <div class="trail-name">Bukit Besi</div>
@@ -1539,6 +1573,7 @@ footer{
 
       <!-- 05 Gunung Nuang -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">05 · Completed</div>
           <div class="trail-name">Gunung Nuang</div>
@@ -1585,6 +1620,7 @@ footer{
 
       <!-- 06 Bukit Kutu -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">06 · Completed</div>
           <div class="trail-name">Bukit Kutu</div>
@@ -1631,6 +1667,7 @@ footer{
 
       <!-- 07 Sepang South Africa -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">07 · Completed</div>
           <div class="trail-name">Sepang South Africa</div>
@@ -1669,6 +1706,7 @@ footer{
 
       <!-- 08 Sri Bintang -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">08 · Completed</div>
           <div class="trail-name">Sri Bintang</div>
@@ -1710,6 +1748,7 @@ footer{
 
       <!-- 09 Bukit Dinding -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">09 · Completed</div>
           <div class="trail-name">Bukit Dinding</div>
@@ -1798,6 +1837,7 @@ footer{
 
       <!-- 10 Tanjung Tuan -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">10 · Completed</div>
           <div class="trail-name">Tanjung Tuan</div>
@@ -1818,6 +1858,7 @@ footer{
 
       <!-- 11 Bukit Batu Chondong -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">11 · Completed</div>
           <div class="trail-name">Bukit Batu Chondong</div>
@@ -1838,6 +1879,7 @@ footer{
 
       <!-- 12 Bukit Madei -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">12 · Completed</div>
           <div class="trail-name">Bukit Madei</div>
@@ -1858,6 +1900,7 @@ footer{
 
       <!-- 13 Sungai Pisang Waterfall -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">13 · Completed</div>
           <div class="trail-name">Sungai Pisang Waterfall</div>
@@ -1882,6 +1925,7 @@ footer{
 
       <!-- 14 Bukit Lagong -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">14 · Completed</div>
           <div class="trail-name">Bukit Lagong</div>
@@ -1903,6 +1947,7 @@ footer{
 
       <!-- 15 Bukit Saga -->
       <article class="trail-card">
+        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">15 · Completed</div>
           <div class="trail-name">Bukit Saga</div>
@@ -2127,6 +2172,11 @@ footer{
           <a class="social-btn" href="https://www.facebook.com/kay.du.9" target="_blank" rel="noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             <span>Facebook</span>
+          </a>
+          <!-- YouTube -->
+          <a class="social-btn" href="https://www.youtube.com/@kaydu3310" target="_blank" rel="me noopener noreferrer" style="background:#1d8aab;border-color:#1d8aab;color:#fff">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>YouTube</span>
           </a>
         </div>
         <div class="contact-note" style="display:none">
@@ -2520,6 +2570,35 @@ document.addEventListener('keydown', e => {
     const diff = touchStartX - e.changedTouches[0].clientX;
     if(Math.abs(diff) > 40) galleryNav(diff > 0 ? 1 : -1);
   }, {passive:true});
+})();
+
+// Trail card cover colors (derived from difficulty badge class)
+document.querySelectorAll('.trail-card').forEach(card => {
+  const badge = card.querySelector('.difficulty');
+  const cover = card.querySelector('.trail-cover');
+  if (!badge || !cover) return;
+  const cls = [...badge.classList].find(c => c.startsWith('diff-'));
+  if (cls) cover.classList.add(cls.replace('diff-', 'cover-'));
+});
+
+// Trail difficulty filter
+(function() {
+  const btns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('#trailGrid .trail-card');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let shown = 0;
+      cards.forEach(card => {
+        const badge = card.querySelector('.difficulty');
+        const matches = filter === 'all' || (badge && badge.classList.contains('diff-' + filter));
+        card.style.display = matches ? '' : 'none';
+        if (matches) shown++;
+      });
+    });
+  });
 })();
 </script>
 </body>
