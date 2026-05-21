@@ -1091,27 +1091,21 @@
     gap: 10px;
   }
   .brand-logo-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    padding: 14px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 62px;
-    box-shadow: var(--shadow-soft);
+    min-height: 44px;
+    padding: 4px 8px;
   }
   .brand-logo-card img {
     max-width: 100%;
-    max-height: 36px;
+    max-height: 40px;
     object-fit: contain;
     display: block;
-    filter: grayscale(0%);
-    transition: filter 0.2s ease;
+    transition: opacity 0.2s ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    .brand-logo-card { transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease; }
-    .brand-logo-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .brand-logo-card img:hover { opacity: 0.75; }
   }
   .brand-logo-pill {
     font-family: var(--font-mono);
