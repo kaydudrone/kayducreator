@@ -427,14 +427,6 @@ nav{
 .diff-hard{background:var(--hard-bg);color:var(--hard)}
 .diff-very-hard{background:var(--very-hard-bg);color:var(--very-hard)}
 
-/* Trail card cover gradient */
-.trail-cover{height:68px;flex-shrink:0;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;transition:transform 280ms cubic-bezier(0.23,1,0.32,1)}
-@media(hover:hover) and (pointer:fine){.trail-card:hover .trail-cover{transform:scale(1.03)}}
-.cover-easy{background:linear-gradient(135deg,#1e6b45 0%,#52b788 100%)}
-.cover-moderate{background:linear-gradient(135deg,#8a6400 0%,#d4a017 100%)}
-.cover-slightly-hard{background:linear-gradient(135deg,#943d00 0%,#e07c2a 100%)}
-.cover-hard{background:linear-gradient(135deg,#8b1a1a 0%,#c0392b 100%)}
-.cover-very-hard{background:linear-gradient(135deg,#4a1c6e 0%,#8e44ad 100%)}
 
 /* Trail filter buttons */
 .trail-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0 1.6rem}
@@ -1417,7 +1409,6 @@ footer{
 
       <!-- 01 Bukit Pudu -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">01 · Completed</div>
           <div class="trail-name">Bukit Pudu</div>
@@ -1456,7 +1447,6 @@ footer{
 
       <!-- 02 Guling Ayam -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">02 · Completed</div>
           <div class="trail-name">Guling Ayam</div>
@@ -1495,7 +1485,6 @@ footer{
 
       <!-- 03 Gunung Lari Tembakau -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">03 · Completed</div>
           <div class="trail-name">Gunung Lari Tembakau</div>
@@ -1534,7 +1523,6 @@ footer{
 
       <!-- 04 Bukit Besi -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">04 · Completed</div>
           <div class="trail-name">Bukit Besi</div>
@@ -1573,7 +1561,6 @@ footer{
 
       <!-- 05 Gunung Nuang -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">05 · Completed</div>
           <div class="trail-name">Gunung Nuang</div>
@@ -1620,7 +1607,6 @@ footer{
 
       <!-- 06 Bukit Kutu -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">06 · Completed</div>
           <div class="trail-name">Bukit Kutu</div>
@@ -1667,7 +1653,6 @@ footer{
 
       <!-- 07 Sepang South Africa -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">07 · Completed</div>
           <div class="trail-name">Sepang South Africa</div>
@@ -1706,7 +1691,6 @@ footer{
 
       <!-- 08 Sri Bintang -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">08 · Completed</div>
           <div class="trail-name">Sri Bintang</div>
@@ -1748,7 +1732,6 @@ footer{
 
       <!-- 09 Bukit Dinding -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">09 · Completed</div>
           <div class="trail-name">Bukit Dinding</div>
@@ -1837,7 +1820,6 @@ footer{
 
       <!-- 10 Tanjung Tuan -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">10 · Completed</div>
           <div class="trail-name">Tanjung Tuan</div>
@@ -1858,7 +1840,6 @@ footer{
 
       <!-- 11 Bukit Batu Chondong -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">11 · Completed</div>
           <div class="trail-name">Bukit Batu Chondong</div>
@@ -1879,7 +1860,6 @@ footer{
 
       <!-- 12 Bukit Madei -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">12 · Completed</div>
           <div class="trail-name">Bukit Madei</div>
@@ -1900,7 +1880,6 @@ footer{
 
       <!-- 13 Sungai Pisang Waterfall -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">13 · Completed</div>
           <div class="trail-name">Sungai Pisang Waterfall</div>
@@ -1925,7 +1904,6 @@ footer{
 
       <!-- 14 Bukit Lagong -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">14 · Completed</div>
           <div class="trail-name">Bukit Lagong</div>
@@ -1947,7 +1925,6 @@ footer{
 
       <!-- 15 Bukit Saga -->
       <article class="trail-card">
-        <div class="trail-cover"></div>
         <div class="trail-header">
           <div class="trail-num">15 · Completed</div>
           <div class="trail-name">Bukit Saga</div>
@@ -2571,15 +2548,6 @@ document.addEventListener('keydown', e => {
     if(Math.abs(diff) > 40) galleryNav(diff > 0 ? 1 : -1);
   }, {passive:true});
 })();
-
-// Trail card cover colors (derived from difficulty badge class)
-document.querySelectorAll('.trail-card').forEach(card => {
-  const badge = card.querySelector('.difficulty');
-  const cover = card.querySelector('.trail-cover');
-  if (!badge || !cover) return;
-  const cls = [...badge.classList].find(c => c.startsWith('diff-'));
-  if (cls) cover.classList.add(cls.replace('diff-', 'cover-'));
-});
 
 // Trail difficulty filter
 (function() {
