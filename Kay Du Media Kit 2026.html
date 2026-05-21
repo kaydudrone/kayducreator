@@ -1074,6 +1074,55 @@
     }
   }
 
+  /* ── BRAND LOGOS ─────────────────────────────────── */
+  .brand-logos-wrap { margin-top: 20px; }
+  .brand-logos-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .brand-logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .brand-logo-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 62px;
+    box-shadow: var(--shadow-soft);
+  }
+  .brand-logo-card img {
+    max-width: 100%;
+    max-height: 36px;
+    object-fit: contain;
+    display: block;
+    filter: grayscale(0%);
+    transition: filter 0.2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .brand-logo-card { transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease; }
+    .brand-logo-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  }
+  .brand-logo-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
   /* Active / press feedback — all devices */
   .cta-btn:active  { transform: scale(0.97) !important; }
   .cta-btn-wa:active { transform: scale(0.97) !important; }
@@ -1301,11 +1350,31 @@
     </div>
   </div>
 
-  <div class="collabs-past">
-    <span class="collabs-label">Past brands</span>
-    <span class="collab-pill">Deuter</span>
-    <span class="collab-pill">Spritzer</span>
-    <span class="collab-pill">Malaysia Airlines</span>
+  <div class="brand-logos-wrap">
+    <div class="brand-logos-label">Brands &amp; partnerships</div>
+    <div class="brand-logos-grid">
+      <div class="brand-logo-card">
+        <img src="https://kayducreator.com/logos/suunto.png" alt="Suunto" loading="lazy">
+      </div>
+      <div class="brand-logo-card">
+        <img src="https://kayducreator.com/logos/amazfit.png" alt="Amazfit" loading="lazy">
+      </div>
+      <div class="brand-logo-card">
+        <img src="https://kayducreator.com/logos/airasiaMove.png" alt="AirAsia Move" loading="lazy">
+      </div>
+      <div class="brand-logo-card">
+        <img src="https://kayducreator.com/logos/deuter.png" alt="Deuter" loading="lazy">
+      </div>
+      <div class="brand-logo-card">
+        <img src="https://kayducreator.com/logos/insta360.png" alt="Insta360" loading="lazy">
+      </div>
+      <div class="brand-logo-card">
+        <span class="brand-logo-pill">Spritzer</span>
+      </div>
+      <div class="brand-logo-card">
+        <span class="brand-logo-pill">Malaysia Airlines</span>
+      </div>
+    </div>
   </div>
 
   <a href="https://kayducreator.com" class="about-link" target="_blank" style="margin-top:20px;display:inline-flex;">kayducreator.com <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
