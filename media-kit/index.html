@@ -1551,26 +1551,38 @@
   }
 
   /* ── PRINT / SAVE AS PDF ─────────────────────────── */
-  @page { size: A4 portrait; margin: 0; }
+  /* Explicit portrait mm — more reliable than keyword "A4 portrait" in Chrome */
+  @page { size: 210mm 297mm; margin: 0; }
 
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
-    /* Force 960px render width → triggers 900px+ desktop layout.
-       Chrome auto-scales 960px → 210mm A4 = full-page coverage. */
-    html {
-      width: 960px !important;
-      background: var(--bg) !important;
-      scroll-behavior: auto !important;
-    }
-    body {
-      width: 960px !important;
-      max-width: 960px !important;
-      min-width: 960px !important;
+    html, body {
+      width: 210mm !important;
+      max-width: 210mm !important;
+      min-width: 0 !important;
       margin: 0 !important;
       padding: 0 !important;
       box-shadow: none !important;
       overflow: visible !important;
+      background: var(--bg) !important;
+      scroll-behavior: auto !important;
+    }
+
+    /* ── A4 PAGE WRAPPERS ─────────────────────────────
+       Each .mk-page = exactly one A4 page (210×297mm).
+       Content fills from top; background fills the rest. */
+    .mk-page {
+      width: 210mm !important;
+      min-height: 297mm !important;
+      max-height: 297mm !important;
+      box-sizing: border-box !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      display: block !important;
+      overflow: hidden !important;
     }
 
     /* ── HIDE UI ── */
@@ -1579,12 +1591,17 @@
     .hero-floater { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(255,255,255,0.18) !important; }
     .tag { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 
-    /* ── DESKTOP GRIDS ── */
+    /* mk-page handles all page breaks now */
+    #s-content, #s-about, #s-audience, #s-platforms,
+    #s-viral, #s-viral-fb, #s-collab, #s-mountains, #s-rates,
+    .contact-section { page-break-before: auto !important; break-before: auto !important; }
+
+    /* ── FORCE DESKTOP GRIDS ── */
     .stats-bar { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; }
     .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
     .stat-item.full-width { grid-column: auto !important; border-top: none !important; border-right: none !important; border-bottom: none !important; }
-    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 52px !important; align-items: start !important; }
-    .about-section .skills-list { margin-top: 52px !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
+    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 48px !important; align-items: start !important; }
+    .about-section .skills-list { margin-top: 48px !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
     .skills-list { display: flex !important; flex-direction: column !important; gap: 8px !important; }
     .audience-grid { display: flex !important; flex-direction: row !important; }
     .audience-card { flex: 1 !important; }
@@ -1597,31 +1614,27 @@
     .mountains-grid  { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
     .rate-grid       { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
     .contact-grid    { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
-    .brand-logos-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
+    .brand-logos-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important; }
     .cta-row { flex-direction: row !important; justify-content: center !important; }
     .cta-btn, .cta-btn-wa { width: auto !important; }
-
-    /* ── PAGE BREAKS (by ID — no accidental blanks) ── */
-    #s-content, #s-about, #s-audience, #s-platforms,
-    #s-viral, #s-collab, #s-mountains, #s-rates,
-    .contact-section { page-break-before: always !important; break-before: page !important; }
 
     /* No mid-card breaks */
     .platform-card, .viral-card, .collab-card, .mountain-card,
     .skill-row, .rate-card, .audience-card, .content-card,
-    .press-card, .engagement-banner, .press-photos,
-    .brand-logos-wrap { page-break-inside: avoid !important; break-inside: avoid !important; }
+    .press-card, .press-photos, .brand-logos-wrap,
+    .engagement-banner { page-break-inside: avoid !important; break-inside: avoid !important; }
 
     /* Images */
     img { max-width: 100% !important; }
     .hero-photo img { object-fit: cover !important; object-position: center 65% !important; }
     .press-photo img { object-fit: cover !important; }
-    .brand-logo-card img { max-height: 30px !important; }
+    .brand-logo-card img { max-height: 28px !important; }
   }
 </style>
 </head>
 <body>
 
+<div class="mk-page" id="pg-1">
 <!-- ─── HERO ─────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-photo">
@@ -1689,8 +1702,10 @@
   </div>
 </div>
 
+</div><!-- /pg-1 -->
+
+<div class="mk-page" id="pg-2">
 <!-- ─── CONTENT GALLERY ──────────────────────────── -->
-<!-- id=s-content for print page break -->
 <section id="s-content" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Content Samples</span></div>
   <h2>What the <em>content looks like</em>.</h2>
@@ -1738,6 +1753,9 @@
   </div>
 </section>
 
+</div><!-- /pg-2 -->
+
+<div class="mk-page" id="pg-3">
 <!-- ─── ABOUT ────────────────────────────────────── -->
 <section id="s-about" class="section about-section">
   <div class="about-text">
@@ -1853,6 +1871,9 @@
   </div>
 </section>
 
+</div><!-- /pg-3 -->
+
+<div class="mk-page" id="pg-4">
 <!-- ─── AUDIENCE ─────────────────────────────────── -->
 <section id="s-audience" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Audience Profile</span></div>
@@ -1908,6 +1929,9 @@
   </div>
 </section>
 
+</div><!-- /pg-4 -->
+
+<div class="mk-page" id="pg-5">
 <!-- ─── PLATFORMS ────────────────────────────────── -->
 <section id="s-platforms" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Platforms</span></div>
@@ -2019,6 +2043,9 @@
   </div>
 </section>
 
+</div><!-- /pg-5 -->
+
+<div class="mk-page" id="pg-6">
 <!-- ─── VIRAL PROOF ──────────────────────────────── -->
 <section id="s-viral" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Proven Reach</span></div>
@@ -2070,8 +2097,15 @@
     </div>
   </div>
 
-  <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--line);">
-    <div style="font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">📘 Facebook Top Videos</div>
+</section>
+</div><!-- /pg-6 -->
+
+<div class="mk-page" id="pg-7">
+<section id="s-viral-fb" class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Proven Reach</span></div>
+  <h2>Facebook <em>top videos</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">Real numbers from real videos — not averages, not estimates.</p>
+  <div style="font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin:16px 0 12px;">📘 Facebook Top Videos</div>
     <div class="viral-grid">
       <div class="viral-card viral-gold">
         <div class="viral-rank">🥇 #1 Facebook</div>
@@ -2109,9 +2143,10 @@
         <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
       </div>
     </div>
-  </div>
 </section>
+</div><!-- /pg-7 -->
 
+<div class="mk-page" id="pg-8">
 <!-- ─── COLLAB ───────────────────────────────────── -->
 <section id="s-collab" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Collaboration Types</span></div>
@@ -2163,6 +2198,9 @@
   </div>
 </section>
 
+</div><!-- /pg-8 -->
+
+<div class="mk-page" id="pg-9">
 <!-- ─── MOUNTAINS ────────────────────────────────── -->
 <section id="s-mountains" class="section">
   <div class="eyebrow-row">
@@ -2218,6 +2256,9 @@
   <div class="mountains-footer">+ 11 more documented · Free GPX files at kayducreator.com</div>
 </section>
 
+</div><!-- /pg-9 -->
+
+<div class="mk-page" id="pg-10">
 <!-- ─── RATE CARD ────────────────────────────────── -->
 <section id="s-rates" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Rates</span></div>
@@ -2273,6 +2314,9 @@
   <div class="rate-footnote" style="margin-top:6px;">🚁 Drone add-on coming soon — recently crashed, back in the air shortly</div>
 </section>
 
+</div><!-- /pg-10 -->
+
+<div class="mk-page" id="pg-11">
 <!-- ─── CONTACT ──────────────────────────────────── -->
 <section class="contact-section">
   <div class="eyebrow-row"><span class="eyebrow">Let's work together</span></div>
@@ -2364,8 +2408,8 @@
   max-width: 210px;
   pointer-events: none;
 ">
-  <div style="font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;color:#3dc4e8;">In print dialog:</div>
-  ✓ Paper: <strong>A4</strong><br>
+  <div style="font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;color:#3dc4e8;">In print dialog set:</div>
+  ✓ Paper: <strong>A4 PORTRAIT ← important</strong><br>
   ✓ Margins: <strong>None</strong><br>
   ✓ Headers &amp; footers: <strong>Off</strong><br>
   ✓ Background graphics: <strong>On</strong>
@@ -2384,26 +2428,22 @@ async function exportPDF() {
   btn.disabled = true;
   label.textContent = 'Preparing…';
 
-  // Force desktop viewport to trigger 900px+ layout before print
-  const meta = document.querySelector('meta[name="viewport"]');
-  const origViewport = meta ? meta.getAttribute('content') : null;
-  if (meta) meta.setAttribute('content', 'width=960');
-
-  // Wait for fonts + images
+  // Wait for fonts + images before opening print dialog
   await document.fonts.ready;
   const imgs = [...document.images].filter(i => !i.complete);
   if (imgs.length) await Promise.all(imgs.map(i => new Promise(r => { i.onload = r; i.onerror = r; })));
 
   setTimeout(() => {
     window.print();
-    // Restore viewport after print dialog closes
-    if (meta && origViewport) meta.setAttribute('content', origViewport);
     label.textContent = 'Save as PDF';
     btn.disabled = false;
   }, 400);
 }
 </script>
 
+</div><!-- /pg-11 -->
+
+<div class="mk-page" id="pg-12">
 <!-- ─── FOOTER ──────────────────────────────────── -->
 <div class="footer">
   <div class="footer-text">
@@ -2412,6 +2452,7 @@ async function exportPDF() {
     <a href="https://kayducreator.com" class="footer-link" target="_blank">kayducreator.com ↗</a>
   </div>
 </div>
+</div><!-- /pg-12 -->
 
 </body>
 </html>
