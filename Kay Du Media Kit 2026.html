@@ -1259,6 +1259,258 @@
     h2 { font-size: clamp(28px, 3vw, 38px); }
   }
 
+  /* ── ENGAGEMENT BANNER ───────────────────────────── */
+  .engagement-banner {
+    background: linear-gradient(135deg, #e8f6fa 0%, #f0fafe 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 24px clamp(18px,5vw,32px);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .eng-stat { flex-shrink: 0; }
+  .eng-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(42px,9vw,60px);
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .eng-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+  .eng-divider {
+    width: 1px;
+    height: 52px;
+    background: var(--primary);
+    opacity: 0.15;
+    flex-shrink: 0;
+  }
+  .eng-body { flex: 1; min-width: 200px; }
+  .eng-headline {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(14px,3vw,18px);
+    color: var(--ink);
+    margin-bottom: 5px;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .eng-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .eng-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  @media (max-width: 480px) {
+    .eng-divider { display: none; }
+  }
+
+  /* ── CONTENT GALLERY ─────────────────────────────── */
+  .content-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .content-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 22px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+  }
+  .content-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+  .cc-views {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(32px,7vw,44px);
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .cc-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .cc-platform {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .cc-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .cc-watch {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    align-self: flex-end;
+    position: relative;
+    z-index: 1;
+    margin-top: 4px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .content-card {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .content-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    .content-card:hover .cc-watch { color: rgba(255,255,255,0.9); }
+  }
+  @media (min-width: 520px) {
+    .content-gallery { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ── RATE CARD ───────────────────────────────────── */
+  .rate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .rate-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .rate-card.rate-featured {
+    border-color: var(--primary);
+    border-width: 2px;
+  }
+  .rate-tag {
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+  }
+  .rate-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .rate-price {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .rate-price sup {
+    font-size: 15px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    vertical-align: super;
+    margin-right: 2px;
+  }
+  .rate-price-note {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    margin-bottom: 16px;
+  }
+  .rate-divider { height: 1px; background: var(--line); margin-bottom: 16px; }
+  .rate-items { display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .rate-item {
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .rate-item::before {
+    content: '✓';
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rate-footnote {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 16px;
+  }
+  @media (min-width: 520px) {
+    .rate-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .content-gallery { grid-template-columns: repeat(4, 1fr); }
+    .rate-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
   /* ── PRINT / SAVE AS PDF ─────────────────────────── */
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -1325,6 +1577,20 @@
   <div class="stat-item full-width">
     <div class="stat-num">300+</div>
     <div class="stat-label">Event Attendees · So Hikers Malaysia</div>
+  </div>
+</div>
+
+<!-- ─── ENGAGEMENT BANNER ────────────────────────── -->
+<div class="engagement-banner">
+  <div class="eng-stat">
+    <div class="eng-num">49×</div>
+    <div class="eng-label">Reach Multiplier</div>
+  </div>
+  <div class="eng-divider"></div>
+  <div class="eng-body">
+    <div class="eng-headline">Content that reaches far beyond the follower count.</div>
+    <div class="eng-sub">3,752 followers · up to 183,000 reach per post · industry average is 2–5× · save rate 65%+</div>
+    <div class="eng-badge">Top nano-creator reach in MY outdoor niche</div>
   </div>
 </div>
 
@@ -1677,6 +1943,47 @@
   </div>
 </section>
 
+<!-- ─── CONTENT GALLERY ──────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Content Samples</span></div>
+  <h2>What the <em>content looks like</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">Real posts, real numbers — click to watch.</p>
+  <div class="content-gallery">
+    <a href="https://www.instagram.com/reel/DR9YuclEpD9/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0a2236 0%,#1d6a8a 100%);">
+      <div class="cc-views">232K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Instagram Reel</span>
+        <span class="cc-label">Summit aerial · drone cinematic</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.facebook.com/share/r/1B7MAYBJ6F/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0d1a3a 0%,#1877f2 100%);">
+      <div class="cc-views">360K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Facebook Video</span>
+        <span class="cc-label">Drone landscape · top performer</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.instagram.com/reel/DLuTjlaSfTU/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0d1f14 0%,#1a6b2a 100%);">
+      <div class="cc-views">195K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Instagram Reel</span>
+        <span class="cc-label">Jungle trail · B-roll cinematic</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.facebook.com/share/r/1GoNAXAcXD/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#1a0a2a 0%,#7c3aed 100%);">
+      <div class="cc-views">353K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Facebook Video</span>
+        <span class="cc-label">Trail highlights · wide reach</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+  </div>
+</section>
+
 <!-- ─── COLLAB ───────────────────────────────────── -->
 <section class="section">
   <div class="eyebrow-row"><span class="eyebrow">Collaboration Types</span></div>
@@ -1781,6 +2088,59 @@
   </div>
 
   <div class="mountains-footer">+ 11 more documented · Free GPX files at kayducreator.com</div>
+</section>
+
+<!-- ─── RATE CARD ────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Rates</span></div>
+  <h2>Simple, <em>transparent pricing</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">All rates in Malaysian Ringgit. Usage rights included. Custom packages available.</p>
+  <div class="rate-grid">
+
+    <div class="rate-card">
+      <div class="rate-name">Starter</div>
+      <div class="rate-price"><sup>RM </sup>500</div>
+      <div class="rate-price-note">Per deliverable · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">1 Instagram Reel or Story Set</div>
+        <div class="rate-item">Caption + hashtags</div>
+        <div class="rate-item">1 revision round</div>
+        <div class="rate-item">3-month usage rights</div>
+      </div>
+    </div>
+
+    <div class="rate-card rate-featured">
+      <div class="rate-tag">Most Popular</div>
+      <div class="rate-name">Trail Pack</div>
+      <div class="rate-price"><sup>RM </sup>1,200</div>
+      <div class="rate-price-note">Per campaign · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">1 Reel + 5 Stories</div>
+        <div class="rate-item">Drone aerial footage</div>
+        <div class="rate-item">Raw files included</div>
+        <div class="rate-item">2 revision rounds</div>
+        <div class="rate-item">6-month usage rights</div>
+      </div>
+    </div>
+
+    <div class="rate-card">
+      <div class="rate-name">Summit Campaign</div>
+      <div class="rate-price"><sup>RM </sup>2,800</div>
+      <div class="rate-price-note">Full campaign · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">2 Reels + Stories + TikTok</div>
+        <div class="rate-item">Full drone video package</div>
+        <div class="rate-item">Event / on-ground coverage</div>
+        <div class="rate-item">Raw + edited files</div>
+        <div class="rate-item">12-month usage rights</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="rate-footnote">Gifted &amp; barter collabs considered for aligned outdoor brands · WhatsApp to discuss custom scope</div>
 </section>
 
 <!-- ─── CONTACT ──────────────────────────────────── -->
