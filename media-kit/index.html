@@ -1551,17 +1551,88 @@
   }
 
   /* ── PRINT / SAVE AS PDF ─────────────────────────── */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
   @media print {
-    button { display: none !important; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    html, body {
+
+    html {
+      scroll-behavior: auto !important;
       background: var(--bg) !important;
-      margin: 0 !important;
-      max-width: 480px !important;
     }
+
+    html, body {
+      width: 210mm !important;
+      max-width: 210mm !important;
+      min-width: 210mm !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      overflow: visible !important;
+    }
+
+    /* Hide UI chrome */
+    button { display: none !important; }
     .hero-floater { backdrop-filter: none !important; background: rgba(255,255,255,0.18) !important; }
     .tag { backdrop-filter: none !important; }
-    @page { margin: 0; size: A4; }
+
+    /* Scale headings for A4 */
+    h1 { font-size: 52px !important; }
+    h2 { font-size: 26px !important; }
+    .stat-num { font-size: 22px !important; }
+    .eng-num { font-size: 42px !important; }
+
+    /* Tighten padding for print */
+    .hero { min-height: 300px !important; padding: 48px !important; }
+    .section, .contact-section { padding: 32px 48px !important; }
+    .footer { padding: 14px 48px !important; }
+    .engagement-banner { padding: 16px 48px !important; }
+
+    /* ── FORCE DESKTOP LAYOUTS ── */
+    .stats-bar { grid-template-columns: repeat(5, 1fr) !important; }
+    .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
+    .stat-item.full-width { grid-column: auto !important; border-top: none !important; border-right: none !important; border-bottom: none !important; }
+
+    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 48px !important; align-items: start !important; }
+    .about-section .skills-list { margin-top: 40px !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
+
+    .audience-grid { flex-direction: row !important; }
+    .audience-card { flex: 1 !important; }
+    .demo-row { grid-template-columns: repeat(3, 1fr) !important; }
+    .demo-row .demo-card:last-child { grid-column: auto !important; }
+
+    .platforms-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .viral-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .content-gallery { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
+    .collab-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .mountains-grid { grid-template-columns: repeat(4, 1fr) !important; }
+    .rate-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .contact-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
+    .cta-row { flex-direction: row !important; justify-content: center !important; }
+    .cta-btn, .cta-btn-wa { width: auto !important; }
+    .brand-logos-grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important; }
+    .skills-list { display: flex !important; flex-direction: column !important; gap: 8px !important; }
+
+    /* ── PAGE BREAKS ── */
+    /* Page 1: hero + stats + engagement banner */
+    /* Every .section and contact starts on a fresh page */
+    .section { page-break-before: always !important; break-before: page !important; }
+    .contact-section { page-break-before: always !important; break-before: page !important; }
+
+    /* Avoid breaks inside cards */
+    .platform-card, .viral-card, .collab-card, .mountain-card,
+    .skill-row, .rate-card, .audience-card, .content-card,
+    .press-card, .engagement-banner, .press-photos,
+    .brand-logos-wrap { page-break-inside: avoid !important; break-inside: avoid !important; }
+
+    /* Images */
+    img { max-width: 100% !important; }
+    .hero-photo img { object-fit: cover !important; object-position: center 65% !important; }
+    .press-photo img { object-fit: cover !important; }
+    .brand-logo-card img { max-height: 30px !important; }
   }
 </style>
 </head>
@@ -2263,7 +2334,7 @@
 </section>
 
 <!-- ─── PDF BUTTON ──────────────────────────────── -->
-<button onclick="window.print()" style="
+<button id="pdf-btn" onclick="exportPDF()" style="
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -2286,8 +2357,36 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,0.32)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-  Save as PDF
+  <span id="pdf-btn-label">Save as PDF</span>
 </button>
+
+<script>
+async function exportPDF() {
+  const btn = document.getElementById('pdf-btn');
+  const label = document.getElementById('pdf-btn-label');
+  btn.disabled = true;
+  label.textContent = 'Preparing…';
+
+  // Wait for fonts
+  await document.fonts.ready;
+
+  // Wait for any unloaded images
+  const imgs = Array.from(document.images).filter(i => !i.complete);
+  if (imgs.length) {
+    await Promise.all(imgs.map(i => new Promise(r => {
+      i.addEventListener('load', r);
+      i.addEventListener('error', r);
+    })));
+  }
+
+  // Small delay for final render
+  setTimeout(() => {
+    window.print();
+    label.textContent = 'Save as PDF';
+    btn.disabled = false;
+  }, 350);
+}
+</script>
 
 <!-- ─── FOOTER ──────────────────────────────────── -->
 <div class="footer">
