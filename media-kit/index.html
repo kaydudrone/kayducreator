@@ -1551,93 +1551,62 @@
   }
 
   /* ── PRINT / SAVE AS PDF ─────────────────────────── */
-  @page {
-    size: A4 portrait;
-    margin: 0; /* zero page margins — sections carry their own padding */
-  }
+  @page { size: A4 portrait; margin: 0; }
 
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
+    /* Force 960px render width → triggers 900px+ desktop layout.
+       Chrome auto-scales 960px → 210mm A4 = full-page coverage. */
     html {
-      scroll-behavior: auto !important;
+      width: 960px !important;
       background: var(--bg) !important;
-      width: 210mm !important;
+      scroll-behavior: auto !important;
     }
-
-    /* Nuclear override: remove ALL width constraints, fill full A4 */
     body {
-      width: 210mm !important;
-      max-width: 210mm !important;
-      min-width: 210mm !important;
+      width: 960px !important;
+      max-width: 960px !important;
+      min-width: 960px !important;
       margin: 0 !important;
       padding: 0 !important;
       box-shadow: none !important;
       overflow: visible !important;
     }
 
-    /* Hide UI chrome + page counter overlays */
-    button,
-    .no-print,
-    .pdf-btn,
-    .page-indicator,
-    .preview-page-indicator,
-    .pdf-page-label { display: none !important; }
+    /* ── HIDE UI ── */
+    button, #pdf-btn, #print-tips, .no-print,
+    .page-indicator, .preview-page-indicator, .pdf-page-label { display: none !important; }
+    .hero-floater { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(255,255,255,0.18) !important; }
+    .tag { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 
-    .hero-floater { backdrop-filter: none !important; background: rgba(255,255,255,0.18) !important; }
-    .tag { backdrop-filter: none !important; }
-
-    /* Headings scaled for A4 */
-    h1 { font-size: 54px !important; }
-    h2 { font-size: 28px !important; }
-    .stat-num { font-size: 24px !important; }
-    .eng-num { font-size: 44px !important; }
-
-    /* All sections: use 12mm side padding so content has breathing room */
-    .hero { min-height: 320px !important; padding: 12mm !important; }
-    .stats-bar { padding: 0 !important; }
-    .section, .contact-section { padding: 10mm 12mm !important; }
-    .footer { padding: 5mm 12mm !important; }
-    .engagement-banner { padding: 8mm 12mm !important; }
-
-    /* Wipe any inner max-width constraints */
-    .section > *,
-    .contact-section > *,
-    .hero > * { max-width: 100% !important; }
-    .contact-grid { max-width: 100% !important; }
-    .hero-content { max-width: 55% !important; }
-    .hero-desc { max-width: 100% !important; }
-
-    /* ── FORCE FULL DESKTOP LAYOUTS ── */
+    /* ── DESKTOP GRIDS ── */
     .stats-bar { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; }
     .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
     .stat-item.full-width { grid-column: auto !important; border-top: none !important; border-right: none !important; border-bottom: none !important; }
-
-    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10mm !important; align-items: start !important; }
-    .about-section .skills-list { margin-top: 8mm !important; display: flex !important; flex-direction: column !important; gap: 6px !important; }
-
+    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 52px !important; align-items: start !important; }
+    .about-section .skills-list { margin-top: 52px !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
+    .skills-list { display: flex !important; flex-direction: column !important; gap: 8px !important; }
     .audience-grid { display: flex !important; flex-direction: row !important; }
     .audience-card { flex: 1 !important; }
-    .demo-row { grid-template-columns: repeat(3, 1fr) !important; }
+    .demo-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
     .demo-row .demo-card:last-child { grid-column: auto !important; }
-
-    .platforms-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-    .viral-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .platforms-grid  { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .viral-grid      { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
     .content-gallery { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
-    .collab-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-    .mountains-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
-    .rate-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-    .contact-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .collab-grid     { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .mountains-grid  { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
+    .rate-grid       { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .contact-grid    { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
+    .brand-logos-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
     .cta-row { flex-direction: row !important; justify-content: center !important; }
     .cta-btn, .cta-btn-wa { width: auto !important; }
-    .brand-logos-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)) !important; }
-    .skills-list { display: flex !important; flex-direction: column !important; gap: 6px !important; }
 
-    /* ── PAGE BREAKS ── */
-    .section { page-break-before: always !important; break-before: page !important; }
+    /* ── PAGE BREAKS (by ID — no accidental blanks) ── */
+    #s-content, #s-about, #s-audience, #s-platforms,
+    #s-viral, #s-collab, #s-mountains, #s-rates,
     .contact-section { page-break-before: always !important; break-before: page !important; }
 
-    /* Avoid breaks inside cards */
+    /* No mid-card breaks */
     .platform-card, .viral-card, .collab-card, .mountain-card,
     .skill-row, .rate-card, .audience-card, .content-card,
     .press-card, .engagement-banner, .press-photos,
@@ -1647,7 +1616,7 @@
     img { max-width: 100% !important; }
     .hero-photo img { object-fit: cover !important; object-position: center 65% !important; }
     .press-photo img { object-fit: cover !important; }
-    .brand-logo-card img { max-height: 28px !important; }
+    .brand-logo-card img { max-height: 30px !important; }
   }
 </style>
 </head>
@@ -1721,7 +1690,8 @@
 </div>
 
 <!-- ─── CONTENT GALLERY ──────────────────────────── -->
-<section class="section">
+<!-- id=s-content for print page break -->
+<section id="s-content" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Content Samples</span></div>
   <h2>What the <em>content looks like</em>.</h2>
   <p class="body-text" style="margin-bottom:0;">Real posts, real numbers — click to watch.</p>
@@ -1769,7 +1739,7 @@
 </section>
 
 <!-- ─── ABOUT ────────────────────────────────────── -->
-<section class="section about-section">
+<section id="s-about" class="section about-section">
   <div class="about-text">
   <div class="eyebrow-row"><span class="eyebrow">About</span></div>
   <h2>Trails, <em>drones</em> &amp; the people who hike them.</h2>
@@ -1884,7 +1854,7 @@
 </section>
 
 <!-- ─── AUDIENCE ─────────────────────────────────── -->
-<section class="section">
+<section id="s-audience" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Audience Profile</span></div>
   <h2>Who shows up <em>when I post</em>.</h2>
   <p class="body-text">An engaged community of active outdoor people across Malaysia and Southeast Asia — not passive scrollers.</p>
@@ -1939,7 +1909,7 @@
 </section>
 
 <!-- ─── PLATFORMS ────────────────────────────────── -->
-<section class="section">
+<section id="s-platforms" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Platforms</span></div>
   <h2>Where the <em>audience lives</em>.</h2>
 
@@ -2050,7 +2020,7 @@
 </section>
 
 <!-- ─── VIRAL PROOF ──────────────────────────────── -->
-<section class="section">
+<section id="s-viral" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Proven Reach</span></div>
   <h2>When it <em>goes viral</em>.</h2>
   <p class="body-text" style="margin-bottom:0;">Real numbers from real posts — not averages, not estimates.</p>
@@ -2143,7 +2113,7 @@
 </section>
 
 <!-- ─── COLLAB ───────────────────────────────────── -->
-<section class="section">
+<section id="s-collab" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Collaboration Types</span></div>
   <h2>Ways we can <em>work together</em>.</h2>
 
@@ -2194,7 +2164,7 @@
 </section>
 
 <!-- ─── MOUNTAINS ────────────────────────────────── -->
-<section class="section">
+<section id="s-mountains" class="section">
   <div class="eyebrow-row">
     <span class="eyebrow">60 Mountains Challenge <span style="opacity: 0.5; margin: 0 4px;">·</span> 15 / 60 Documented</span>
   </div>
@@ -2249,7 +2219,7 @@
 </section>
 
 <!-- ─── RATE CARD ────────────────────────────────── -->
-<section class="section">
+<section id="s-rates" class="section">
   <div class="eyebrow-row"><span class="eyebrow">Rates</span></div>
   <h2>Simple, <em>transparent pricing</em>.</h2>
   <p class="body-text" style="margin-bottom:0;">All rates in Malaysian Ringgit. Usage rights included. Custom packages available.</p>
@@ -2375,31 +2345,62 @@
   <span id="pdf-btn-label">Save as PDF</span>
 </button>
 
+<!-- Print tips tooltip -->
+<div id="print-tips" style="
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  right: 24px;
+  z-index: 1000;
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  max-width: 210px;
+  pointer-events: none;
+">
+  <div style="font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;color:#3dc4e8;">In print dialog:</div>
+  ✓ Paper: <strong>A4</strong><br>
+  ✓ Margins: <strong>None</strong><br>
+  ✓ Headers &amp; footers: <strong>Off</strong><br>
+  ✓ Background graphics: <strong>On</strong>
+</div>
+
 <script>
+const _btn = document.getElementById('pdf-btn');
+const _tips = document.getElementById('print-tips');
+_btn.addEventListener('mouseenter', () => _tips.style.display = 'block');
+_btn.addEventListener('mouseleave', () => _tips.style.display = 'none');
+
 async function exportPDF() {
   const btn = document.getElementById('pdf-btn');
   const label = document.getElementById('pdf-btn-label');
+  _tips.style.display = 'none';
   btn.disabled = true;
   label.textContent = 'Preparing…';
 
-  // Wait for fonts
+  // Force desktop viewport to trigger 900px+ layout before print
+  const meta = document.querySelector('meta[name="viewport"]');
+  const origViewport = meta ? meta.getAttribute('content') : null;
+  if (meta) meta.setAttribute('content', 'width=960');
+
+  // Wait for fonts + images
   await document.fonts.ready;
+  const imgs = [...document.images].filter(i => !i.complete);
+  if (imgs.length) await Promise.all(imgs.map(i => new Promise(r => { i.onload = r; i.onerror = r; })));
 
-  // Wait for any unloaded images
-  const imgs = Array.from(document.images).filter(i => !i.complete);
-  if (imgs.length) {
-    await Promise.all(imgs.map(i => new Promise(r => {
-      i.addEventListener('load', r);
-      i.addEventListener('error', r);
-    })));
-  }
-
-  // Small delay for final render
   setTimeout(() => {
     window.print();
+    // Restore viewport after print dialog closes
+    if (meta && origViewport) meta.setAttribute('content', origViewport);
     label.textContent = 'Save as PDF';
     btn.disabled = false;
-  }, 350);
+  }, 400);
 }
 </script>
 
