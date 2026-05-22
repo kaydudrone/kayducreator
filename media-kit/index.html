@@ -1596,9 +1596,14 @@
     .stats-bar { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; }
     .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
     .stat-item.full-width { grid-column: auto !important; border-top: none !important; border-right: none !important; border-bottom: none !important; }
-    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 48px !important; align-items: start !important; }
-    .about-section .skills-list { margin-top: 48px !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
-    .skills-list { display: flex !important; flex-direction: column !important; gap: 8px !important; }
+    .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 32px !important; align-items: start !important; }
+    .about-section .skills-list { margin-top: 16px !important; display: flex !important; flex-direction: column !important; gap: 6px !important; }
+    .skills-list { display: flex !important; flex-direction: column !important; gap: 6px !important; }
+    /* pg-3: tighten padding so About fits within one A4 page */
+    #pg-3 .section { padding: 36px 32px !important; }
+    /* Brand logos: fixed row height in print — no aspect-ratio:1 overflow */
+    #pg-3 .brand-logo-card { aspect-ratio: unset !important; height: 48px !important; padding: 4px 6px !important; }
+    #pg-3 .brand-logo-card img { max-height: 36px !important; width: auto !important; max-width: 100% !important; }
     .audience-grid { display: flex !important; flex-direction: row !important; }
     .audience-card { flex: 1 !important; }
     .demo-row { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
