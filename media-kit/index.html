@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kay Du · Media Kit 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Droid+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand tokens — Kay Du Creator design system */
+    --primary:        #1d8aab;
+    --primary-dark:   #145f76;
+    --primary-light:  #e8f6fa;
+    --primary-accent: #3dc4e8;
+
+    --bg:        #f5f4ef;     /* warm off-white — signature */
+    --surface:   #ffffff;
+    --ink:       #1a1a1a;
+    --muted:     #6b6960;
+    --line:      rgba(0,0,0,0.07);
+    --line-strong: rgba(0,0,0,0.12);
+
+    /* Difficulty scale */
+    --easy:           #16a34a;  --easy-bg:          #dcfce7;
+    --moderate:       #d97706;  --moderate-bg:      #fef3c7;
+    --slightly-hard:  #c2410c;  --slightly-hard-bg: #ffedd5;
+    --hard:           #dc2626;  --hard-bg:          #fee2e2;
+    --very-hard:      #7c3aed;  --very-hard-bg:     #ede9fe;
+
+    --radius-lg:   20px;
+    --radius-md:   16px;
+    --radius-sm:   12px;
+    --radius-pill: 999px;
+
+    --shadow-soft:  0 4px 24px rgba(0,0,0,0.06);
+    --shadow-hover: 0 12px 40px rgba(29,138,171,0.14);
+
+    --font-serif: 'Droid Serif', Georgia, serif;
+    --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono:  'DM Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── DM Mono utilities ────────────────────────────── */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .eyebrow-row::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    max-width: 80px;
+  }
+
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 620px;
+    padding: 64px 36px 48px;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background: #0a1418;
+    background-size: cover;
+    background-position: center 65%;
+    z-index: -2;
+  }
+
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(5,15,20,0.55) 0%,
+      rgba(5,15,20,0.35) 35%,
+      rgba(5,15,20,0.92) 100%);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 65%;
+    display: block;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 508px;
+  }
+
+  .hero .eyebrow {
+    color: #fff;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+
+  .hero .eyebrow .dot { opacity: 0.5; margin: 0 6px; }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--primary-accent);
+    font-weight: 400;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.88);
+    max-width: 380px;
+    margin-bottom: 28px;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 6px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+  }
+
+  .tag.accent {
+    border-color: rgba(61,196,232,0.65);
+    color: #b6e8f3;
+    background: rgba(29,138,171,0.18);
+  }
+
+  /* Hero stats card (glass) */
+  .hero-floater {
+    position: absolute;
+    top: 36px;
+    right: 28px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    text-align: right;
+  }
+
+  .floater-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .floater-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ── STATS BAR ────────────────────────────────────── */
+  .stats-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-item {
+    padding: 22px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+
+  .stat-item:nth-child(odd) { border-right: 1px solid var(--line); }
+  .stat-item:nth-child(2n)  { border-right: none; }
+  .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  .stat-item.full-width {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+
+  .stat-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ── SECTION ──────────────────────────────────────── */
+  .section {
+    padding: 56px 32px;
+  }
+
+  .section + .section {
+    border-top: 1px solid var(--line);
+  }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--primary);
+    font-weight: 400;
+  }
+
+  .body-text {
+    font-size: 14.5px;
+    color: #3d3a32;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+    margin-top: 8px;
+  }
+
+  /* ── SKILLS ───────────────────────────────────────── */
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .skill-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .skill-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .skill-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .skill-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── AUDIENCE ─────────────────────────────────────── */
+  .audience-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .audience-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .aud-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aud-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .aud-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .aud-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── PLATFORMS ────────────────────────────────────── */
+  .platforms-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .platform-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .platform-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .plat-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .plat-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .plat-platform {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .plat-handle {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .plat-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .pstat strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .pstat span {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.3;
+    display: block;
+  }
+
+  .platform-card.two-stat .plat-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ── COLLAB ───────────────────────────────────────── */
+  .collab-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .collab-card {
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .collab-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+    padding-top: 2px;
+    min-width: 28px;
+  }
+
+  .collab-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .collab-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── MOUNTAINS ────────────────────────────────────── */
+  .mountains-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mountain-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mt-num {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .mt-name {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  .mt-loc {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .mt-stats {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .mt-stat strong {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .mt-stat span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .difficulty-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+
+  .diff-easy        { background: var(--easy-bg);          color: var(--easy); }
+  .diff-moderate    { background: var(--moderate-bg);      color: var(--moderate); }
+  .diff-slightly    { background: var(--slightly-hard-bg); color: var(--slightly-hard); }
+  .diff-hard        { background: var(--hard-bg);          color: var(--hard); }
+  .diff-veryhard    { background: var(--very-hard-bg);     color: var(--very-hard); }
+
+  .mountains-footer {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ── CONTACT ──────────────────────────────────────── */
+  .contact-section {
+    text-align: center;
+    background: var(--primary);
+    color: #fff;
+    padding: 56px 32px;
+  }
+
+  .contact-section h2 { color: #fff; }
+  .contact-section h2 em { color: #b6e8f3; }
+
+  .contact-section .eyebrow { color: rgba(255,255,255,0.85); }
+  .contact-section .eyebrow-row { justify-content: center; }
+  .contact-section .eyebrow-row::after,
+  .contact-section .eyebrow-row::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    max-width: 60px;
+  }
+
+  .contact-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 36px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 14px;
+    margin-bottom: 36px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-item {
+    text-align: left;
+  }
+
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 4px;
+  }
+
+  .contact-val {
+    font-size: 13px;
+    color: #fff;
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: #fff;
+    color: var(--primary-dark);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+  }
+
+  .cta-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────── */
+  .footer {
+    background: #0a1418;
+    padding: 22px 32px;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+  }
+
+  .footer-text .dot { margin: 0 6px; opacity: 0.5; }
+
+  .footer-link {
+    color: var(--primary-accent);
+    text-decoration: none;
+  }
+
+  /* ── ANIMATIONS ──────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * {
+    animation: fadeUp 0.55s cubic-bezier(0.23,1,0.32,1) both;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.25s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.35s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ── VIRAL PROOF ────────────────────────────────── */
+  .viral-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+
+  .viral-card {
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    gap: 4px 12px;
+    align-items: start;
+  }
+  .viral-card.viral-gold   { background: linear-gradient(135deg, #fffdf0, #fff); border-color: #e8c840; }
+  .viral-card.viral-silver { background: linear-gradient(135deg, #f8f8f8, #fff); border-color: #c0c0c0; }
+  .viral-card.viral-bronze { background: linear-gradient(135deg, #fff5f0, #fff); border-color: #cd7f32; }
+
+  .viral-rank {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    grid-column: 1;
+  }
+  .viral-gold   .viral-rank { color: #a08800; }
+  .viral-silver .viral-rank { color: #808080; }
+  .viral-bronze .viral-rank { color: #8b5a2b; }
+
+  .viral-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 38px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+  .viral-gold   .viral-num { color: #a08800; }
+  .viral-silver .viral-num { color: #606060; }
+  .viral-bronze .viral-num { color: #8b5a2b; }
+
+  .viral-meta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .viral-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.4;
+    grid-column: 1 / -1;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .viral-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .viral-pill {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: var(--radius-pill);
+    padding: 3px 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── PRESS / CREDIBILITY ────────────────────────── */
+  .press-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-top: 20px;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .press-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-light);
+    }
+  }
+  .press-emoji { font-size: 28px; flex-shrink: 0; }
+  .press-pub { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .press-detail { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .collabs-past {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .collabs-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .collab-pill {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── AUDIENCE DEMOGRAPHICS ──────────────────────── */
+  .demo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .demo-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .demo-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .demo-lbl {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* ── CONTACT BUTTONS ────────────────────────────── */
+  .cta-row { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-top: 0; }
+  .cta-btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: #25d366;
+    color: #fff;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cta-btn-wa svg { width: 14px; height: 14px; fill: currentColor; }
+  .cta-btn-wa:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(37,211,102,0.4); }
+  .contact-val a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ══ REDESIGN: Mobile-first refinements & desktop polish ══ */
+
+  /* Smooth scrolling */
+  html { scroll-behavior: smooth; }
+
+  /* Desktop document presentation — centered, card-like */
+  body { max-width: 680px; margin-inline: auto; }
+  @media (min-width: 700px) {
+    body { box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 40px 100px rgba(0,0,0,0.07); }
+  }
+
+  /* Fluid typography — scales gracefully on all screen sizes */
+  h1 { font-size: clamp(38px, 11vw, 72px); }
+  h2 { font-size: clamp(22px, 7vw, 34px); }
+  .stat-num { font-size: clamp(22px, 6vw, 32px); }
+  .floater-num { font-size: clamp(20px, 5vw, 28px); }
+
+  /* Fluid spacing */
+  .hero {
+    padding-top: clamp(40px, 8vw, 64px);
+    padding-left: clamp(18px, 5vw, 36px);
+    padding-right: clamp(18px, 5vw, 36px);
+  }
+  .section,
+  .contact-section {
+    padding-left: clamp(18px, 5vw, 32px);
+    padding-right: clamp(18px, 5vw, 32px);
+  }
+  .footer {
+    padding-left: clamp(18px, 5vw, 32px);
+    padding-right: clamp(18px, 5vw, 32px);
+  }
+
+  /* ── PLATFORM BRAND COLORS ────────────────────────── */
+  .platform-card.plat-instagram .plat-icon { background: #fce4ec; color: #E1306C; }
+  .platform-card.plat-instagram { border-left: 3px solid #E1306C; }
+  .platform-card.plat-facebook .plat-icon  { background: #e3f2fd; color: #1877F2; }
+  .platform-card.plat-facebook  { border-left: 3px solid #1877F2; }
+  .platform-card.plat-tiktok .plat-icon    { background: #f0f0f0; color: #010101; }
+  .platform-card.plat-tiktok    { border-left: 3px solid #010101; }
+  .platform-card.plat-rednote .plat-icon   { background: #ffebee; color: #FF2442; }
+  .platform-card.plat-rednote   { border-left: 3px solid #FF2442; }
+  .platform-card.plat-youtube .plat-icon   { background: #ffebee; color: #FF0000; }
+  .platform-card.plat-youtube   { border-left: 3px solid #FF0000; }
+  .platform-card.plat-sohikers .plat-icon  { background: var(--primary-light); color: var(--primary); }
+  .platform-card.plat-sohikers  { border-left: 3px solid var(--primary); }
+
+  /* ── HOVER GUARDS (desktop pointer only) ─────────────*/
+  /* Reset unguarded hover — prevents ghost states on touch */
+  .cta-btn:hover, .cta-btn-wa:hover { transform: none; box-shadow: none; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cta-btn {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.26);
+    }
+    .cta-btn-wa {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .cta-btn-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(37,211,102,0.45);
+    }
+    .platform-card {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .platform-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .skill-row {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .skill-row:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+    }
+    .viral-card {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .viral-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+  }
+
+  /* ── BRAND LOGOS ─────────────────────────────────── */
+  .brand-logos-wrap { margin-top: 20px; }
+  .brand-logos-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .brand-logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 4px;
+  }
+  .brand-logo-card {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+  }
+  .brand-logo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: multiply;
+    transition: opacity 0.2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .brand-logo-card img:hover { opacity: 0.65; }
+  }
+
+  /* Active / press feedback — all devices */
+  .cta-btn:active  { transform: scale(0.97) !important; }
+  .cta-btn-wa:active { transform: scale(0.97) !important; }
+
+  /* ── MOBILE ADJUSTMENTS (≤ 480px) ──────────────────── */
+  @media (max-width: 480px) {
+    /* Full-width CTAs for easy tap */
+    .cta-btn, .cta-btn-wa {
+      width: 100%;
+      justify-content: center;
+    }
+    /* Tighten floater on small screens */
+    .hero-floater {
+      top: 16px;
+      right: 12px;
+      padding: 10px 13px;
+    }
+    /* Demo row: 2-col, last card spans full */
+    .demo-row { grid-template-columns: 1fr 1fr; }
+    .demo-row .demo-card:last-child { grid-column: 1 / -1; }
+    /* Contact: single column, easier to read */
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      max-width: 100%;
+    }
+  }
+
+  /* ── DESKTOP GRID ENHANCEMENTS (≥ 520px) ─────────────*/
+  @media (min-width: 520px) {
+    /* Stats bar: 4 columns, last item full-width bottom row */
+    .stats-bar { grid-template-columns: repeat(4, 1fr); }
+    .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
+    .stat-item:nth-child(4) { border-right: none !important; }
+    .stat-item.full-width {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--line);
+      border-right: none !important;
+      border-bottom: none !important;
+    }
+    /* Platforms: 2-col grid */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    /* Viral proof: 2-col grid */
+    .viral-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    /* Collab: 2-col grid */
+    .collab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    /* Skills: 2-col grid */
+    .skills-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  /* ── DESKTOP LAYOUT (≥ 900px) ────────────────────── */
+  @media (min-width: 900px) {
+    /* Remove mobile document cap — full width */
+    body { max-width: 1200px; box-shadow: none; }
+
+    /* Hero: taller, content constrained to left half */
+    .hero { min-height: 700px; padding: 100px 72px 80px; }
+    .hero-content { min-height: 480px; }
+    .hero h1 { max-width: 580px; }
+    .hero-desc { max-width: 460px; font-size: 16px; }
+    .hero-floater { top: 56px; right: 72px; padding: 20px 28px; }
+    .floater-num { font-size: 34px; }
+    .floater-label { font-size: 10px; }
+
+    /* Stats: all 5 in a single row */
+    .stats-bar { grid-template-columns: repeat(5, 1fr); }
+    .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
+    .stat-item.full-width {
+      grid-column: auto;
+      border-top: none !important;
+      border-right: none !important;
+      border-bottom: none !important;
+    }
+    .stat-num { font-size: 28px; }
+
+    /* Section / contact padding */
+    .section, .contact-section { padding: 80px 72px; }
+    .footer { padding: 28px 72px; }
+
+    /* About: 2-column (text left, skills right) */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .about-section .about-text { /* text column */ }
+    .about-section .skills-list {
+      margin-top: 56px; /* align with h2 baseline */
+      display: flex !important;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Audience: cards as horizontal row */
+    .audience-grid { flex-direction: row; }
+    .audience-card { flex: 1; }
+
+    /* Demo row: always 3-col, undo mobile override */
+    .demo-row { grid-template-columns: repeat(3, 1fr); }
+    .demo-row .demo-card:last-child { grid-column: auto; }
+
+    /* Platforms: 3-column */
+    .platforms-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Viral proof: 3-column */
+    .viral-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Collab: 3-column */
+    .collab-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Mountains: 4-column */
+    .mountains-grid { grid-template-columns: repeat(4, 1fr); }
+
+    /* Contact: wider grid */
+    .contact-grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 600px;
+      gap: 20px 28px;
+    }
+
+    /* CTA buttons: inline, not stacked */
+    .cta-row { flex-direction: row; justify-content: center; }
+    .cta-btn, .cta-btn-wa { width: auto; }
+
+    /* h2 scale up */
+    h2 { font-size: clamp(28px, 3vw, 38px); }
+  }
+
+  /* ── PRESS PHOTOS ───────────────────────────────── */
+  .press-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 14px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .press-photo {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    cursor: zoom-in;
+    position: relative;
+  }
+  .press-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  .press-photo:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+  .press-photo:last-child  { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  @media (hover: hover) and (pointer: fine) {
+    .press-photo:hover img { transform: scale(1.06); }
+  }
+  .press-caption {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* ── ENGAGEMENT BANNER ───────────────────────────── */
+  .engagement-banner {
+    background: linear-gradient(135deg, #e8f6fa 0%, #f0fafe 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 24px clamp(18px,5vw,32px);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .eng-stat { flex-shrink: 0; }
+  .eng-num {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(42px,9vw,60px);
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .eng-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary);
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+  .eng-divider {
+    width: 1px;
+    height: 52px;
+    background: var(--primary);
+    opacity: 0.15;
+    flex-shrink: 0;
+  }
+  .eng-body { flex: 1; min-width: 200px; }
+  .eng-headline {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(14px,3vw,18px);
+    color: var(--ink);
+    margin-bottom: 5px;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .eng-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .eng-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  @media (max-width: 480px) {
+    .eng-divider { display: none; }
+  }
+
+  /* ── CONTENT GALLERY ─────────────────────────────── */
+  .content-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .content-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 22px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+  }
+  .content-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+  .cc-views {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(32px,7vw,44px);
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .cc-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .cc-platform {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .cc-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .cc-watch {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    align-self: flex-end;
+    position: relative;
+    z-index: 1;
+    margin-top: 4px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .content-card {
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    }
+    .content-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    .content-card:hover .cc-watch { color: rgba(255,255,255,0.9); }
+  }
+  @media (min-width: 520px) {
+    .content-gallery { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ── RATE CARD ───────────────────────────────────── */
+  .rate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .rate-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .rate-card.rate-featured {
+    border-color: var(--primary);
+    border-width: 2px;
+  }
+  .rate-tag {
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+  }
+  .rate-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .rate-price {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .rate-price sup {
+    font-size: 15px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    vertical-align: super;
+    margin-right: 2px;
+  }
+  .rate-price-note {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    margin-bottom: 16px;
+  }
+  .rate-divider { height: 1px; background: var(--line); margin-bottom: 16px; }
+  .rate-items { display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .rate-item {
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .rate-item::before {
+    content: '✓';
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rate-footnote {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 16px;
+  }
+  @media (min-width: 520px) {
+    .rate-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .content-gallery { grid-template-columns: repeat(4, 1fr); }
+    .rate-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ── PRINT / SAVE AS PDF ─────────────────────────── */
+  @media print {
+    button { display: none !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body {
+      background: var(--bg) !important;
+      margin: 0 !important;
+      max-width: 480px !important;
+    }
+    .hero-floater { backdrop-filter: none !important; background: rgba(255,255,255,0.18) !important; }
+    .tag { backdrop-filter: none !important; }
+    @page { margin: 0; size: A4; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-photo">
+    <img
+      src="https://kayducreator.com/images/kk_about.jpg"
+      alt="Kay Du on a Malaysian summit"
+      onerror="this.style.display='none';"
+    >
+  </div>
+
+  <div class="hero-floater">
+    <div class="floater-num">15 / 60</div>
+    <div class="floater-label">Mountains Documented</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Hiking Drone Creator <span class="dot">·</span> Malaysia 🇲🇾</div>
+    <h1>Kay <em>Du</em></h1>
+    <p class="hero-desc">Outdoor content creator, drone pilot &amp; co-founder of So Hikers Malaysia — connecting brands with Malaysia's most engaged hiking community.</p>
+    <div class="hero-tags">
+      <span class="tag accent">Hiking</span>
+      <span class="tag accent">Drone Videography</span>
+      <span class="tag">Video Editing</span>
+      <span class="tag">Brand Collab</span>
+      <span class="tag">Event Coverage</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">16,500+</div>
+    <div class="stat-label">Total Followers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5.7M+</div>
+    <div class="stat-label">Cross-Platform Views</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">360K</div>
+    <div class="stat-label">Top Video Views</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">15 / 60</div>
+    <div class="stat-label">Mountains Documented</div>
+  </div>
+  <div class="stat-item full-width">
+    <div class="stat-num">300+</div>
+    <div class="stat-label">Event Attendees · So Hikers Malaysia</div>
+  </div>
+</div>
+
+<!-- ─── ENGAGEMENT BANNER ────────────────────────── -->
+<div class="engagement-banner">
+  <div class="eng-stat">
+    <div class="eng-num">49×</div>
+    <div class="eng-label">Reach Multiplier</div>
+  </div>
+  <div class="eng-divider"></div>
+  <div class="eng-body">
+    <div class="eng-headline">Content that reaches far beyond the follower count.</div>
+    <div class="eng-sub">3,752 followers · up to 183,000 reach per post · industry average is 2–5× · save rate 65%+</div>
+    <div class="eng-badge">Top nano-creator reach in MY outdoor niche</div>
+  </div>
+</div>
+
+<!-- ─── CONTENT GALLERY ──────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Content Samples</span></div>
+  <h2>What the <em>content looks like</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">Real posts, real numbers — click to watch.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;">
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-pill);padding:5px 13px;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--ink);">📱 iPhone 17 Pro · Apple ProRAW Log</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-pill);padding:5px 13px;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--ink);">🎥 Insta360 X5</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-pill);padding:5px 13px;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--ink);">🎨 Colour graded &amp; edited on Mac</span>
+  </div>
+
+  <div class="content-gallery" style="margin-top:16px;">
+    <a href="https://www.instagram.com/reel/DR9YuclEpD9/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0a2236 0%,#1d6a8a 100%);">
+      <div class="cc-views">232K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Instagram Reel</span>
+        <span class="cc-label">Summit cinematic · iPhone 17 Pro</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.facebook.com/share/r/1B7MAYBJ6F/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0d1a3a 0%,#1877f2 100%);">
+      <div class="cc-views">360K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Facebook Video</span>
+        <span class="cc-label">Drone landscape · top performer</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.instagram.com/reel/DLuTjlaSfTU/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#0d1f14 0%,#1a6b2a 100%);">
+      <div class="cc-views">195K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Instagram Reel</span>
+        <span class="cc-label">Jungle trail · B-roll cinematic</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+    <a href="https://www.facebook.com/share/r/1GoNAXAcXD/" target="_blank" class="content-card" style="--card-bg: linear-gradient(155deg,#1a0a2a 0%,#7c3aed 100%);">
+      <div class="cc-views">353K</div>
+      <div class="cc-meta">
+        <span class="cc-platform">Facebook Video</span>
+        <span class="cc-label">Trail highlights · wide reach</span>
+      </div>
+      <div class="cc-watch">Watch ↗</div>
+    </a>
+  </div>
+</section>
+
+<!-- ─── ABOUT ────────────────────────────────────── -->
+<section class="section about-section">
+  <div class="about-text">
+  <div class="eyebrow-row"><span class="eyebrow">About</span></div>
+  <h2>Trails, <em>drones</em> &amp; the people who hike them.</h2>
+  <p class="body-text">I'm Kay Du — a Hiking Drone Creator based in Malaysia 🇲🇾. I'm running a personal project called <strong>60 Mountains in Malaysia</strong>, documenting each summit and publishing free GPX navigation files so fellow hikers can plan with confidence.</p>
+  <p class="body-text">I'm also Co-Founder of <strong>So Hikers Malaysia</strong>, alongside founder Khor Phor Xiang. Together we've grown one of Malaysia's most engaged outdoor communities — 300+ attendees across our events.</p>
+  <p class="body-text">Beyond hiking, I work across content creation, drone piloting, video editing, and social media marketing — turning real trail experience into brand stories that don't feel manufactured.</p>
+  <a href="https://goingplaces.ink-live.com/html5/reader/production/default.aspx?pubname=&edid=8a6e7382-b755-4673-b64a-f9f43d390e95" target="_blank" class="press-card" style="text-decoration:none;color:inherit;display:flex;cursor:pointer;">
+    <div class="press-emoji">✈️</div>
+    <div style="flex:1;">
+      <div class="press-pub">Malaysia Airlines Going Places Magazine <span style="font-size:11px;color:var(--primary);margin-left:4px;">↗</span></div>
+      <div class="press-detail">March 2024 · Page 92 · Sepang South Africa feature · Read online</div>
+    </div>
+  </a>
+
+  <div class="press-photos">
+    <div class="press-photo">
+      <img src="https://kayducreator.com/press/sepang_photo1.jpg" alt="Malaysia Airlines Going Places Magazine — Sepang feature" loading="lazy">
+    </div>
+    <div class="press-photo">
+      <img src="https://kayducreator.com/press/sepang_photo2.jpg" alt="Malaysia Airlines Going Places Magazine — Sepang feature" loading="lazy">
+    </div>
+    <div class="press-photo">
+      <img src="https://kayducreator.com/press/sepang_photo3.jpg" alt="Malaysia Airlines Going Places Magazine — Sepang feature" loading="lazy">
+    </div>
+  </div>
+  <div class="press-caption">As featured in Malaysia Airlines Going Places Magazine · March 2024 · Page 92</div>
+
+  <a href="https://kayducreator.com" class="about-link" target="_blank" style="margin-top:20px;display:inline-flex;">kayducreator.com <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+  </div><!-- /about-text -->
+
+  <div class="skills-list">
+    <div class="skill-row">
+      <div class="skill-icon">
+        <!-- drone / aperture -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94"/><path d="M9.69 8h11.48"/><path d="M7.38 12l5.74-9.94"/><path d="M9.69 16L3.95 6.06"/><path d="M14.31 16H2.83"/><path d="M16.62 12l-5.74 9.94"/></svg>
+      </div>
+      <div>
+        <div class="skill-title">Cinematic Trail Videography</div>
+        <div class="skill-desc">Shot on iPhone 17 Pro in Apple ProRAW Log + Insta360 X5 — professional-grade visuals colour graded on Mac for brand campaigns.</div>
+      </div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-icon">
+        <!-- film -->
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+      </div>
+      <div>
+        <div class="skill-title">Short-Form Video &amp; Reels</div>
+        <div class="skill-desc">Cinematic, high-retention trail content built for Instagram and TikTok.</div>
+      </div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-icon">
+        <!-- users -->
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="skill-title">Event Coverage</div>
+        <div class="skill-desc">Full on-ground documentation of outdoor events and community gatherings.</div>
+      </div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-icon">
+        <!-- target -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <div>
+        <div class="skill-title">Brand Integration</div>
+        <div class="skill-desc">Natural product placement woven into authentic trail narratives — never forced.</div>
+      </div>
+    </div>
+    <div class="skill-row" style="opacity:0.6;border-style:dashed;">
+      <div class="skill-icon" style="background:#fff3cd;color:#92700a;">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <div>
+        <div class="skill-title" style="display:flex;align-items:center;gap:8px;">
+          Drone Aerial Videography
+          <span style="background:#92700a;color:#fff;font-family:var(--font-mono);font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:2px 8px;border-radius:999px;">Coming Soon</span>
+        </div>
+        <div class="skill-desc">Drone recently crashed — back in the air soon. Aerial content available for future campaigns.</div>
+      </div>
+    </div>
+
+    <div class="brand-logos-wrap" style="margin-top:24px;">
+      <div class="brand-logos-label">Brands &amp; partnerships</div>
+      <div class="brand-logos-grid">
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/suunto.png" alt="Suunto" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/amazfit.png" alt="Amazfit" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/airasiaMove.png" alt="AirAsia Move" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/deuter.png" alt="Deuter" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/insta360.png" alt="Insta360" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/spritzer.png" alt="Spritzer" loading="lazy">
+        </div>
+        <div class="brand-logo-card">
+          <img src="https://kayducreator.com/logos/malaysia-airlines.png" alt="Malaysia Airlines" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AUDIENCE ─────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Audience Profile</span></div>
+  <h2>Who shows up <em>when I post</em>.</h2>
+  <p class="body-text">An engaged community of active outdoor people across Malaysia and Southeast Asia — not passive scrollers.</p>
+
+  <div class="demo-row">
+    <div class="demo-card">
+      <div class="demo-num">🇲🇾</div>
+      <div class="demo-lbl">Malaysia-first audience</div>
+    </div>
+    <div class="demo-card">
+      <div class="demo-num">22–38</div>
+      <div class="demo-lbl">Core age range</div>
+    </div>
+    <div class="demo-card">
+      <div class="demo-num">65%+</div>
+      <div class="demo-lbl">Save or share posts</div>
+    </div>
+  </div>
+
+  <div class="audience-grid">
+    <div class="audience-card">
+      <div class="aud-icon">
+        <!-- mountain -->
+        <svg viewBox="0 0 24 24"><path d="M8 3l-6 18h20L14 3l-3 7-3-7z"/></svg>
+      </div>
+      <div>
+        <div class="aud-title">Active Outdoor Enthusiasts</div>
+        <div class="aud-desc">Hikers, trail runners, and nature lovers seeking real outdoor experiences across Malaysia and SEA.</div>
+      </div>
+    </div>
+    <div class="audience-card">
+      <div class="aud-icon">
+        <!-- map / compass -->
+        <svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      </div>
+      <div>
+        <div class="aud-title">Adventure Drivers</div>
+        <div class="aud-desc">Audience who drive to trailheads, plan road trips, and value vehicles that support an active outdoor lifestyle.</div>
+      </div>
+    </div>
+    <div class="audience-card">
+      <div class="aud-icon">
+        <!-- heart-handshake -->
+        <svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0L12 5.36l-.78-.78a5.4 5.4 0 0 0-7.65 7.65l.78.78L12 20.66l7.65-7.65.78-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>
+      </div>
+      <div>
+        <div class="aud-title">Engaged Community</div>
+        <div class="aud-desc">Followers who show up to real events, share content, and act on recommendations.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PLATFORMS ────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Platforms</span></div>
+  <h2>Where the <em>audience lives</em>.</h2>
+
+  <div class="platforms-grid" style="margin-top: 28px;">
+
+    <div class="platform-card plat-instagram">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <!-- instagram -->
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">Instagram</div>
+          <div class="plat-handle"><a href="https://www.instagram.com/kaydu_3310" target="_blank" style="color:inherit;text-decoration:none;">@kaydu_3310 ↗</a></div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>3,752</strong><span>Followers</span></div>
+        <div class="pstat"><strong>183K</strong><span>Top Reach</span></div>
+        <div class="pstat"><strong>4.3M</strong><span>Total Views</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card plat-facebook two-stat">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">Facebook</div>
+          <div class="plat-handle"><a href="https://www.facebook.com/kay.du.9/" target="_blank" style="color:inherit;text-decoration:none;">kay.du.9 ↗</a></div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>10,279</strong><span>Followers</span></div>
+        <div class="pstat"><strong>360K</strong><span>Top Video</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card plat-tiktok">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">TikTok</div>
+          <div class="plat-handle"><a href="https://www.tiktok.com/@kaydu3310drone" target="_blank" style="color:inherit;text-decoration:none;">@kaydu3310drone ↗</a></div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>1,003</strong><span>Followers</span></div>
+        <div class="pstat"><strong>830K</strong><span>Total Views</span></div>
+        <div class="pstat"><strong>23K</strong><span>Best Day</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card plat-rednote">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <!-- book -->
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">RedNote 小红书</div>
+          <div class="plat-handle"><a href="https://www.xiaohongshu.com/user/profile/623d19210000000010009303" target="_blank" style="color:inherit;text-decoration:none;">Kay Du ↗</a></div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>1,431</strong><span>Followers</span></div>
+        <div class="pstat"><strong>65K</strong><span>Impressions/mo</span></div>
+        <div class="pstat"><strong>20K</strong><span>Top Post</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card plat-youtube two-stat">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">YouTube</div>
+          <div class="plat-handle"><a href="https://www.youtube.com/@kaydu3310" target="_blank" style="color:inherit;text-decoration:none;">@kaydu3310 ↗</a></div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>63</strong><span>Subscribers</span></div>
+        <div class="pstat"><strong>83.7K</strong><span>Total Views</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card plat-sohikers two-stat">
+      <div class="platform-head">
+        <div class="plat-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 21l6-12 4 7 3-5 5 10z"/><circle cx="9" cy="6" r="2"/></svg>
+        </div>
+        <div>
+          <div class="plat-platform">So Hikers Malaysia</div>
+          <div class="plat-handle">Community Brand</div>
+        </div>
+      </div>
+      <div class="plat-stats">
+        <div class="pstat"><strong>300+</strong><span>Event Reach</span></div>
+        <div class="pstat"><strong>3 Yrs</strong><span>Active</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── VIRAL PROOF ──────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Proven Reach</span></div>
+  <h2>When it <em>goes viral</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">Real numbers from real posts — not averages, not estimates.</p>
+
+  <div style="font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;margin-top:28px;">📸 Instagram Reels</div>
+  <div class="viral-grid">
+    <div class="viral-card viral-gold">
+      <div class="viral-rank">🥇 #1 All Time</div>
+      <div class="viral-num">232K</div>
+      <div class="viral-meta">Views</div>
+      <div class="viral-title"><a href="https://www.instagram.com/reel/DR9YuclEpD9/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View Reel on Instagram ↗</a></div>
+      <div class="viral-pills">
+        <span class="viral-pill">IG Reel</span>
+      </div>
+    </div>
+    <div class="viral-card viral-silver">
+      <div class="viral-rank">🥈 #2 All Time</div>
+      <div class="viral-num">195K</div>
+      <div class="viral-meta">Views</div>
+      <div class="viral-title"><a href="https://www.instagram.com/reel/DLuTjlaSfTU/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View Reel on Instagram ↗</a></div>
+      <div class="viral-pills">
+        <span class="viral-pill">IG Reel</span>
+      </div>
+    </div>
+    <div class="viral-card viral-bronze">
+      <div class="viral-rank">🥉 #3 All Time</div>
+      <div class="viral-num">170K</div>
+      <div class="viral-meta">Views</div>
+      <div class="viral-title"><a href="https://www.instagram.com/reel/DOTG_eLEo5E/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View Reel on Instagram ↗</a></div>
+      <div class="viral-pills">
+        <span class="viral-pill">IG Reel</span>
+      </div>
+    </div>
+    <div class="viral-card" style="border-color:#1d8aab40;background:linear-gradient(135deg,#f0f9fc,#fff);">
+      <div class="viral-rank" style="color:var(--primary);">#4</div>
+      <div class="viral-num" style="color:var(--primary);">161K</div>
+      <div class="viral-meta">Views</div>
+      <div class="viral-title"><a href="https://www.instagram.com/reel/DM2bzqrSVDo/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View Reel on Instagram ↗</a></div>
+      <div class="viral-pills"><span class="viral-pill">IG Reel</span></div>
+    </div>
+    <div class="viral-card" style="border-color:#1d8aab40;background:linear-gradient(135deg,#f0f9fc,#fff);">
+      <div class="viral-rank" style="color:var(--primary);">#5</div>
+      <div class="viral-num" style="color:var(--primary);">145K</div>
+      <div class="viral-meta">Views</div>
+      <div class="viral-title"><a href="https://www.instagram.com/reel/DLpSndFSFrc/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View Reel on Instagram ↗</a></div>
+      <div class="viral-pills"><span class="viral-pill">IG Reel</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--line);">
+    <div style="font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">📘 Facebook Top Videos</div>
+    <div class="viral-grid">
+      <div class="viral-card viral-gold">
+        <div class="viral-rank">🥇 #1 Facebook</div>
+        <div class="viral-num">360K</div>
+        <div class="viral-meta">Views</div>
+        <div class="viral-title"><a href="https://www.facebook.com/share/r/1B7MAYBJ6F/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View on Facebook ↗</a></div>
+        <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
+      </div>
+      <div class="viral-card viral-silver">
+        <div class="viral-rank">🥈 #2 Facebook</div>
+        <div class="viral-num">353K</div>
+        <div class="viral-meta">Views</div>
+        <div class="viral-title"><a href="https://www.facebook.com/share/r/1GoNAXAcXD/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View on Facebook ↗</a></div>
+        <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
+      </div>
+      <div class="viral-card viral-bronze">
+        <div class="viral-rank">🥉 #3 Facebook</div>
+        <div class="viral-num">331K</div>
+        <div class="viral-meta">Views</div>
+        <div class="viral-title"><a href="https://www.facebook.com/share/r/16xybU3KYD/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View on Facebook ↗</a></div>
+        <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
+      </div>
+      <div class="viral-card" style="border-color:#1d8aab40;background:linear-gradient(135deg,#f0f9fc,#fff);">
+        <div class="viral-rank" style="color:var(--primary);">#4 Facebook</div>
+        <div class="viral-num" style="color:var(--primary);">265K</div>
+        <div class="viral-meta">Views</div>
+        <div class="viral-title"><a href="https://www.facebook.com/share/r/1Dsi67QvSz/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View on Facebook ↗</a></div>
+        <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
+      </div>
+      <div class="viral-card" style="border-color:#1d8aab40;background:linear-gradient(135deg,#f0f9fc,#fff);">
+        <div class="viral-rank" style="color:var(--primary);">#5 Facebook</div>
+        <div class="viral-num" style="color:var(--primary);">127K</div>
+        <div class="viral-meta">Views</div>
+        <div class="viral-title"><a href="https://www.facebook.com/share/r/1GiWVkZUxn/" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">View on Facebook ↗</a></div>
+        <div class="viral-pills"><span class="viral-pill">FB Video</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COLLAB ───────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Collaboration Types</span></div>
+  <h2>Ways we can <em>work together</em>.</h2>
+
+  <div class="collab-grid" style="margin-top: 28px;">
+    <div class="collab-card">
+      <div class="collab-num">01</div>
+      <div>
+        <div class="collab-title">Trail Product Showcase</div>
+        <div class="collab-desc">Product featured on real hikes — gear, apparel, nutrition, or equipment shown in authentic trail conditions, not studio settings.</div>
+      </div>
+    </div>
+    <div class="collab-card">
+      <div class="collab-num">02</div>
+      <div>
+        <div class="collab-title">Event Sponsorship</div>
+        <div class="collab-desc">Brand presence at So Hikers events with 100–500 attendees. Logo placement, activation &amp; content coverage.</div>
+      </div>
+    </div>
+    <div class="collab-card">
+      <div class="collab-num">03</div>
+      <div>
+        <div class="collab-title">Cinematic Content Package</div>
+        <div class="collab-desc">Custom trail footage and photo sets delivered for the brand's own channels. Full usage rights included.</div>
+      </div>
+    </div>
+    <div class="collab-card">
+      <div class="collab-num">04</div>
+      <div>
+        <div class="collab-title">Social Media Campaign</div>
+        <div class="collab-desc">Integrated feed posts, stories, and short-form videos with authentic storytelling aligned to your brief.</div>
+      </div>
+    </div>
+    <div class="collab-card">
+      <div class="collab-num">05</div>
+      <div>
+        <div class="collab-title">Gear &amp; Product Review</div>
+        <div class="collab-desc">Trail-tested reviews of outdoor gear, vehicles, and lifestyle products — shown in real use, not studio settings.</div>
+      </div>
+    </div>
+    <div class="collab-card">
+      <div class="collab-num">06</div>
+      <div>
+        <div class="collab-title">Custom Partnership</div>
+        <div class="collab-desc">Open to bespoke collaborations tailored to your campaign goals and target audience.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MOUNTAINS ────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row">
+    <span class="eyebrow">60 Mountains Challenge <span style="opacity: 0.5; margin: 0 4px;">·</span> 15 / 60 Documented</span>
+  </div>
+  <h2><em>Featured</em> summits.</h2>
+
+  <div class="mountains-grid" style="margin-top: 28px;">
+    <div class="mountain-card">
+      <div class="mt-num">13 · Completed · 🔥 Top viral trail</div>
+      <div class="mt-name">Sungai Pisang</div>
+      <div class="mt-loc">Gombak, Selangor</div>
+      <div class="mt-stats">
+        <div class="mt-stat"><strong>8.2 km</strong><span>Distance</span></div>
+        <div class="mt-stat"><strong>530 m</strong><span>Peak</span></div>
+      </div>
+      <span class="difficulty-badge diff-moderate">Moderate</span>
+    </div>
+
+    <div class="mountain-card">
+      <div class="mt-num">10 · Completed · ⭐ 102K reach</div>
+      <div class="mt-name">Tanjung Tuan</div>
+      <div class="mt-loc">Port Dickson, N. Sembilan</div>
+      <div class="mt-stats">
+        <div class="mt-stat"><strong>3.8 km</strong><span>Distance</span></div>
+        <div class="mt-stat"><strong>120 m</strong><span>Peak</span></div>
+      </div>
+      <span class="difficulty-badge diff-easy">Easy</span>
+    </div>
+
+    <div class="mountain-card">
+      <div class="mt-num">05 · Completed</div>
+      <div class="mt-name">Gunung Nuang</div>
+      <div class="mt-loc">Hulu Langat, Selangor</div>
+      <div class="mt-stats">
+        <div class="mt-stat"><strong>19.8 km</strong><span>Distance</span></div>
+        <div class="mt-stat"><strong>1,493 m</strong><span>Peak</span></div>
+      </div>
+      <span class="difficulty-badge diff-veryhard">Very Hard</span>
+    </div>
+
+    <div class="mountain-card">
+      <div class="mt-num">Beyond Malaysia</div>
+      <div class="mt-name">Mt. Kinabalu</div>
+      <div class="mt-loc">Sabah, Malaysia</div>
+      <div class="mt-stats">
+        <div class="mt-stat"><strong>4,095 m</strong><span>Summit</span></div>
+      </div>
+      <span class="difficulty-badge diff-veryhard">Summit</span>
+    </div>
+  </div>
+
+  <div class="mountains-footer">+ 11 more documented · Free GPX files at kayducreator.com</div>
+</section>
+
+<!-- ─── RATE CARD ────────────────────────────────── -->
+<section class="section">
+  <div class="eyebrow-row"><span class="eyebrow">Rates</span></div>
+  <h2>Simple, <em>transparent pricing</em>.</h2>
+  <p class="body-text" style="margin-bottom:0;">All rates in Malaysian Ringgit. Usage rights included. Custom packages available.</p>
+  <div class="rate-grid">
+
+    <div class="rate-card">
+      <div class="rate-name">Starter</div>
+      <div class="rate-price"><sup>RM </sup>500</div>
+      <div class="rate-price-note">Per deliverable · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">1 Reel + 1 Carousel + Story Set</div>
+        <div class="rate-item">Posted across all platforms — IG, FB, TikTok, XHS, YouTube</div>
+        <div class="rate-item">Caption + hashtags</div>
+        <div class="rate-item">1 revision round</div>
+        <div class="rate-item">3-month usage rights</div>
+      </div>
+    </div>
+
+    <div class="rate-card rate-featured">
+      <div class="rate-tag">Most Popular</div>
+      <div class="rate-name">Trail Pack</div>
+      <div class="rate-price"><sup>RM </sup>800</div>
+      <div class="rate-price-note">Per campaign · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">2 Reels + 5 Stories + 2 Carousels</div>
+        <div class="rate-item">Posted across all platforms — IG, FB, TikTok, XHS, YouTube</div>
+        <div class="rate-item">Cinematic trail footage</div>
+        <div class="rate-item">2 revision rounds</div>
+        <div class="rate-item">6-month usage rights</div>
+      </div>
+    </div>
+
+    <div class="rate-card">
+      <div class="rate-name">Summit Campaign</div>
+      <div class="rate-price"><sup>RM </sup>1,800</div>
+      <div class="rate-price-note">Full campaign · starting from</div>
+      <div class="rate-divider"></div>
+      <div class="rate-items">
+        <div class="rate-item">5 Reels + 10 Stories + 3 Carousels</div>
+        <div class="rate-item">Posted across all platforms — IG, FB, TikTok, XHS, YouTube</div>
+        <div class="rate-item">Event / on-ground coverage</div>
+        <div class="rate-item">Edited files delivered</div>
+        <div class="rate-item">12-month usage rights</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="rate-footnote">Gifted &amp; barter collabs considered for aligned outdoor brands · WhatsApp to discuss custom scope</div>
+  <div class="rate-footnote" style="margin-top:6px;">🚁 Drone add-on coming soon — recently crashed, back in the air shortly</div>
+</section>
+
+<!-- ─── CONTACT ──────────────────────────────────── -->
+<section class="contact-section">
+  <div class="eyebrow-row"><span class="eyebrow">Let's work together</span></div>
+  <h2>Available for <em>brand collaborations</em> &amp; outdoor content.</h2>
+  <p class="contact-sub">Hiking workshops, event coverage, trail content, and social media campaigns across Malaysia.</p>
+
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-label">WhatsApp</div>
+      <div class="contact-val"><a href="https://wa.me/60199387586" style="color:#fff;">019-938 7586</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-val"><a href="mailto:kaydu@kayducreator.com">kaydu@kayducreator.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Instagram</div>
+      <div class="contact-val"><a href="https://www.instagram.com/kaydu_3310" target="_blank" style="color:#fff;">@kaydu_3310</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">TikTok</div>
+      <div class="contact-val"><a href="https://www.tiktok.com/@kaydu3310drone" target="_blank" style="color:#fff;">@kaydu3310drone</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">YouTube</div>
+      <div class="contact-val"><a href="https://www.youtube.com/@kaydu3310" target="_blank" style="color:#fff;">@kaydu3310</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Facebook</div>
+      <div class="contact-val"><a href="https://www.facebook.com/kay.du.9/" target="_blank" style="color:#fff;">kay.du.9</a></div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="https://wa.me/60199387586?text=Hi%20Kay%20Du%2C%20I%27d%20like%20to%20discuss%20a%20brand%20collaboration." class="cta-btn-wa" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.12 1.532 5.848L0 24l6.338-1.51A11.935 11.935 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.034-1.388l-.36-.214-3.762.897.944-3.659-.235-.374A9.786 9.786 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      WhatsApp Now
+    </a>
+    <a href="mailto:kaydu@kayducreator.com?subject=Brand%20Collaboration%20Proposal" class="cta-btn">
+      Send a Proposal
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ─── PDF BUTTON ──────────────────────────────── -->
+<button onclick="window.print()" style="
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,0.32)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  Save as PDF
+</button>
+
+<!-- ─── FOOTER ──────────────────────────────────── -->
+<div class="footer">
+  <div class="footer-text">
+    © 2026 Kay Du <span class="dot">·</span> So Hikers Malaysia <span class="dot">·</span> Media Kit
+    <br>
+    <a href="https://kayducreator.com" class="footer-link" target="_blank">kayducreator.com ↗</a>
+  </div>
+</div>
+
+</body>
+</html>
