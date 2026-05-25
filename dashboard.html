@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kay Du — Creator Dashboard</title>
+<title>Kay Du — Creator Command Center</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -245,6 +245,114 @@
   .gate-btn:hover { opacity: 0.85; }
   .gate-error { font-size: 12px; color: #fc8181; margin-top: 8px; display: none; }
 
+
+
+  /* Command Center Polish */
+  :root {
+    --cc-bg: #050f14;
+    --cc-panel: rgba(13,31,40,0.86);
+    --cc-panel-2: rgba(255,255,255,0.045);
+    --cc-border: rgba(61,196,232,0.18);
+    --cc-border-soft: rgba(255,255,255,0.08);
+    --cc-text: #e8eef0;
+    --cc-muted: #8892a4;
+    --cc-accent: #3dc4e8;
+    --cc-green: #68d391;
+    --cc-amber: #f6ad55;
+    --cc-red: #fc8181;
+  }
+  body {
+    background:
+      radial-gradient(circle at 10% -10%, rgba(61,196,232,0.14), transparent 34%),
+      radial-gradient(circle at 88% 0%, rgba(29,138,171,0.12), transparent 28%),
+      linear-gradient(180deg, #031016 0%, #050f14 42%, #071116 100%);
+    font-feature-settings: "cv01", "ss03";
+  }
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(18px);
+    background: rgba(5,15,20,0.82);
+    border-bottom: 1px solid var(--cc-border-soft);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+  }
+  .header h1 { letter-spacing: -0.7px; }
+  .badge, .card, .kpi, .challenge-bar, .next-panel, .intelligence-panel, .viral-alert, .up-next, .schedule-card, .update-panel, .calendar-card, .mc-card, .insight, .mountains-card {
+    backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 60px rgba(0,0,0,0.18);
+  }
+  .card:hover, .kpi:hover, .insight:hover, .mc-card:hover, .mission-card:hover, .pipeline-card:hover, .brand-card:hover, .system-link:hover {
+    border-color: rgba(61,196,232,0.38);
+    transform: translateY(-1px);
+    transition: all .2s ease;
+  }
+  .command-hero {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid rgba(61,196,232,0.26);
+    border-radius: 24px;
+    padding: 28px;
+    background:
+      linear-gradient(135deg, rgba(7,26,34,0.94), rgba(10,37,53,0.82)),
+      radial-gradient(circle at 85% 20%, rgba(61,196,232,0.18), transparent 34%);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .command-hero::after {
+    content: '';
+    position:absolute; inset:0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    transform: translateX(-100%);
+    animation: scanline 6s infinite;
+    pointer-events:none;
+  }
+  @keyframes scanline { 0%,70%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+  .hero-kicker { color: var(--cc-accent); font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 10px; }
+  .hero-title { color: #fff; font-size: clamp(28px, 5vw, 54px); line-height: .98; letter-spacing: -1.5px; font-weight: 800; max-width: 820px; }
+  .hero-sub { color: #aeb8c5; font-size: 14px; line-height: 1.7; max-width: 720px; margin-top: 14px; }
+  .hero-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  .command-nav { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .command-nav a { color:#aeb8c5; text-decoration:none; font-size:11px; font-weight:700; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.035); border-radius:999px; padding:7px 10px; }
+  .command-nav a:hover { color:#fff; border-color:rgba(61,196,232,.45); background:rgba(61,196,232,.10); }
+  .command-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.045); color:#e8eef0; border-radius:999px; padding:9px 14px; text-decoration:none; font-size:12px; font-weight:700; cursor:pointer; }
+  .command-btn.primary { background:linear-gradient(135deg,#145f76,#1d8aab); border-color:#3dc4e850; color:#fff; }
+  .command-btn:hover { background:rgba(61,196,232,0.12); border-color:#3dc4e8; }
+  .command-grid { display:grid; grid-template-columns: 1.25fr .75fr; gap:16px; margin-bottom:24px; }
+  .mission-card, .pipeline-card, .brand-card, .system-link {
+    background: var(--cc-panel);
+    border: 1px solid var(--cc-border);
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .panel-title { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+  .panel-title h3 { color:#fff; font-size:14px; letter-spacing:-.2px; }
+  .panel-eyebrow { color:var(--cc-muted); font-size:10px; text-transform:uppercase; letter-spacing:1.2px; font-weight:800; }
+  .mission-list { display:grid; gap:10px; }
+  .mission-item { display:grid; grid-template-columns: 26px 1fr auto; gap:10px; align-items:center; padding:10px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); }
+  .mission-check { width:26px; height:26px; display:grid; place-items:center; border-radius:8px; background:rgba(61,196,232,0.13); color:var(--cc-accent); font-weight:900; }
+  .mission-copy { color:#e8eef0; font-size:13px; line-height:1.4; }
+  .mission-meta { color:var(--cc-muted); font-size:11px; margin-top:3px; }
+  .mission-status { color:var(--cc-green); font-size:10px; border:1px solid rgba(104,211,145,.28); background:rgba(104,211,145,.08); border-radius:999px; padding:4px 8px; white-space:nowrap; }
+  .mission-status.warn { color:var(--cc-amber); border-color:rgba(246,173,85,.3); background:rgba(246,173,85,.08); }
+  .system-links { display:grid; grid-template-columns: repeat(2,1fr); gap:10px; }
+  .system-link { text-decoration:none; color:#e8eef0; min-height:74px; display:flex; flex-direction:column; justify-content:space-between; }
+  .system-link strong { font-size:13px; }
+  .system-link span { color:var(--cc-muted); font-size:11px; line-height:1.4; margin-top:5px; }
+  .pipeline-grid, .brand-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-bottom:24px; }
+  .pipeline-card { min-height:130px; position:relative; overflow:hidden; }
+  .pipeline-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#1d8aab,#3dc4e8); opacity:.8; }
+  .pipeline-step { color:var(--cc-muted); font-size:10px; text-transform:uppercase; letter-spacing:1px; font-weight:800; margin-bottom:12px; }
+  .pipeline-main { color:#fff; font-size:18px; font-weight:800; letter-spacing:-.5px; }
+  .pipeline-sub { color:var(--cc-muted); font-size:12px; line-height:1.5; margin-top:8px; }
+  .brand-grid { grid-template-columns: repeat(3,1fr); }
+  .brand-card { min-height:120px; }
+  .brand-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+  .brand-name { color:#fff; font-size:14px; font-weight:800; }
+  .brand-pill { color:#3dc4e8; background:rgba(61,196,232,.1); border:1px solid rgba(61,196,232,.25); border-radius:999px; padding:4px 8px; font-size:10px; font-weight:800; }
+  .brand-copy { color:#aeb8c5; font-size:12px; line-height:1.55; }
+  .local-note { color:#626d78; font-size:11px; line-height:1.6; margin-top:10px; }
+
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .header { padding: 16px 18px; }
@@ -261,6 +369,11 @@
     .insights-grid { grid-template-columns: 1fr; }
     .manychat-grid { grid-template-columns: 1fr; }
     .intel-grid { grid-template-columns: 1fr; }
+    .command-grid { grid-template-columns: 1fr; }
+    .pipeline-grid, .brand-grid, .system-links { grid-template-columns: 1fr; }
+    .command-hero { padding: 22px; border-radius: 18px; }
+    .mission-item { grid-template-columns: 26px 1fr; }
+    .mission-status { grid-column: 2; width:max-content; }
     .update-grid { grid-template-columns: repeat(2, 1fr); }
     .kpi-grid > .kpi:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .cal-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
@@ -299,26 +412,107 @@
 <div class="gate" id="passwordGate">
   <div class="gate-box">
     <div class="gate-logo">🏔</div>
-    <div class="gate-title">Kay Du Dashboard</div>
-    <div class="gate-sub">Enter password to access your analytics</div>
+    <div class="gate-title">Kay Du Command Center</div>
+    <div class="gate-sub">Creator OS · analytics · content · collaborations</div>
     <input class="gate-input" type="password" id="gateInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPassword()">
-    <button class="gate-btn" onclick="checkPassword()">Enter Dashboard</button>
+    <button class="gate-btn" onclick="checkPassword()">Enter Command Center</button>
     <div class="gate-error" id="gateError">Wrong password. Try again.</div>
   </div>
 </div>
 
 <div class="header">
-  <h1>🏔 Kay Du — Creator Dashboard <span class="live-badge">● LIVE</span></h1>
-  <p>60 Mountains Challenge · Antigravity System · <span id="lastUpdated">Fetching live data...</span><span class="refresh-info" id="refreshCountdown"></span></p>
+  <h1>🏔 Kay Du — Creator Command Center <span class="live-badge">● LIVE</span></h1>
+  <p>Outdoor creator OS · 60 Mountains Challenge · So Hikers Malaysia · <span id="lastUpdated">Fetching live data...</span><span class="refresh-info" id="refreshCountdown"></span></p>
   <div class="header-meta">
     <div class="badge">Instagram <span>@kaydu_3310</span></div>
     <div class="badge">TikTok <span>830K views / yr</span></div>
     <div class="badge">XHS <span>65K impressions / 30d</span></div>
     <div class="badge">YouTube <span id="ytBadge">83.7K views</span></div>
   </div>
+  <nav class="command-nav" aria-label="Command center sections">
+    <a href="#missionControl">Mission</a>
+    <a href="#nextPanel">Today</a>
+    <a href="#analyticsCharts">Analytics</a>
+    <a href="#contentCalendar">Calendar</a>
+    <a href="#brandRadar">Brand Radar</a>
+    <a href="#mountainLog">Mountain Log</a>
+  </nav>
 </div>
 
 <div class="container">
+
+  <!-- Creator Command Center Hero -->
+  <section class="command-hero">
+    <div class="hero-kicker">Kayducreator OS · Private control room</div>
+    <div class="hero-title">One place to decide what to film, post, pitch and build next.</div>
+    <div class="hero-sub">Built for your outdoor creator ecosystem: hidden-gem Malaysia stories, 60 Mountains progress, So Hikers community, GPX lead capture, brand collaborations and content performance.</div>
+    <div class="hero-actions">
+      <a class="command-btn primary" href="#nextPanel">Today’s priority</a>
+      <a class="command-btn" href="/media-kit">Media kit</a>
+      <a class="command-btn" href="/admin/upload">Upload GPX</a>
+      <a class="command-btn" href="/">Public site</a>
+    </div>
+  </section>
+
+  <!-- Mission Control -->
+  <section class="command-grid" id="missionControl">
+    <div class="mission-card">
+      <div class="panel-title">
+        <div>
+          <div class="panel-eyebrow">Mission control</div>
+          <h3>Creator priorities this week</h3>
+        </div>
+        <span class="mission-status warn">Focus mode</span>
+      </div>
+      <div class="mission-list">
+        <div class="mission-item">
+          <div class="mission-check">1</div>
+          <div><div class="mission-copy">Publish one strong hidden-gem carousel before filming new content.</div><div class="mission-meta">Use old shoot assets · low effort · high leverage</div></div>
+          <div class="mission-status">Content</div>
+        </div>
+        <div class="mission-item">
+          <div class="mission-check">2</div>
+          <div><div class="mission-copy">Prepare one brand collaboration angle around real trail usage + community activation.</div><div class="mission-meta">Outdoor gear, tourism, app, camera, sports watch</div></div>
+          <div class="mission-status">Pitch</div>
+        </div>
+        <div class="mission-item">
+          <div class="mission-check">3</div>
+          <div><div class="mission-copy">Move Mountain #16 from idea into route, GPX, filming notes and posting plan.</div><div class="mission-meta">Keep 60 Mountains momentum visible</div></div>
+          <div class="mission-status warn">Trail</div>
+        </div>
+      </div>
+    </div>
+    <div class="mission-card">
+      <div class="panel-title">
+        <div>
+          <div class="panel-eyebrow">Quick access</div>
+          <h3>System links</h3>
+        </div>
+      </div>
+      <div class="system-links">
+        <a class="system-link" href="/media-kit"><strong>Media Kit</strong><span>Send to brands and tourism partners.</span></a>
+        <a class="system-link" href="/admin/upload"><strong>GPX Upload</strong><span>Add hikes into the route library.</span></a>
+        <a class="system-link" href="/sepang"><strong>Press Proof</strong><span>Malaysia Airlines feature story.</span></a>
+        <a class="system-link" href="mailto:kaydu@kayducreator.com"><strong>Inbox</strong><span>Collab email shortcut.</span></a>
+      </div>
+      <div class="local-note">Keep this dashboard private. It is your creator control panel, not a public landing page.</div>
+    </div>
+  </section>
+
+  <!-- Creator Pipeline -->
+  <section class="pipeline-grid">
+    <div class="pipeline-card"><div class="pipeline-step">01 · Capture</div><div class="pipeline-main">Trail story</div><div class="pipeline-sub">Location, hook, drone angle, safety note and GPX value.</div></div>
+    <div class="pipeline-card"><div class="pipeline-step">02 · Package</div><div class="pipeline-main">Multi-platform</div><div class="pipeline-sub">IG carousel/reel, TikTok short, XHS saveable note, YouTube Short.</div></div>
+    <div class="pipeline-card"><div class="pipeline-step">03 · Convert</div><div class="pipeline-main">GPX / email</div><div class="pipeline-sub">Use comments, ManyChat keywords and website links to capture demand.</div></div>
+    <div class="pipeline-card"><div class="pipeline-step">04 · Partner</div><div class="pipeline-main">Brand / tourism</div><div class="pipeline-sub">Turn proof into long-term collaborations and community activations.</div></div>
+  </section>
+
+  <!-- Brand Radar -->
+  <section class="brand-grid" id="brandRadar">
+    <div class="brand-card"><div class="brand-top"><div class="brand-name">Outdoor Gear</div><div class="brand-pill">Usage proof</div></div><div class="brand-copy">Pitch shoes, watches, hydration, packs and cameras through real hike testing — not generic ads.</div></div>
+    <div class="brand-card"><div class="brand-top"><div class="brand-name">Tourism Boards</div><div class="brand-pill">Hidden gems</div></div><div class="brand-copy">Package destination storytelling with GPX value, drone visuals and community trip potential.</div></div>
+    <div class="brand-card"><div class="brand-top"><div class="brand-name">So Hikers</div><div class="brand-pill">Community</div></div><div class="brand-copy">Use workshops, meetups and trail education as your moat — creator + organizer positioning.</div></div>
+  </section>
 
   <!-- Intelligence Panel -->
   <div class="intelligence-panel" id="intelligencePanel">
@@ -487,7 +681,7 @@
   </div>
 
   <!-- Charts: IG Monthly + Format -->
-  <div class="charts-row">
+  <div class="charts-row" id="analyticsCharts">
     <div class="card">
       <h3>📈 Instagram Monthly Views — 2025 vs 2026</h3>
       <canvas id="igChart" height="100"></canvas>
@@ -584,7 +778,7 @@
   </div>
 
   <!-- Content Calendar -->
-  <div class="calendar-card">
+  <div class="calendar-card" id="contentCalendar">
     <h3>📅 Content Calendar — This Week</h3>
     <div class="cal-grid" id="calGrid"></div>
     <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
@@ -662,7 +856,7 @@
   </div>
 
   <!-- Mountains Done -->
-  <div class="mountains-card">
+  <div class="mountains-card" id="mountainLog">
     <h3>🏔 Mountains Completed (15/60) · Updated May 18, 2026</h3>
     <div class="table-scroll">
     <table>
@@ -674,7 +868,7 @@
 
 </div>
 
-<div class="footer">Kay Du · Antigravity System · Analytics ingested May 2026</div>
+<div class="footer">Kay Du · Creator Command Center · Analytics + content + collaboration system · May 2026</div>
 
 <script>
 const DATA = {
