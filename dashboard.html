@@ -1867,7 +1867,10 @@ async function fetchGAData() {
        <button class="ga-disconnect-btn" onclick="gaSignOut()" style="margin-left:8px">Disconnect</button>`;
 
   } catch (e) {
-    gaShowError(e.message);
+    gaToken = null;
+    sessionStorage.removeItem(GA_TOKEN_KEY);
+    gaShowError(e.message || 'API request failed — please reconnect.');
+    gaResetBtn();
   }
 }
 
