@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kay Du — Creator Command Center</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #050f14; color: #e8eef0; min-height: 100vh; min-height: 100svh; overflow-x: hidden; }
@@ -123,6 +124,35 @@
   .mc-table tr:last-child td { border-bottom: none; }
 
   .footer { text-align: center; padding: 20px; color: #4a5568; font-size: 12px; }
+
+  /* Google Analytics Section */
+  .ga-section { background: #0d1f28; border: 1px solid #1d8aab20; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+  .ga-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .ga-title { font-size: 13px; color: #8892a4; text-transform: uppercase; letter-spacing: 1px; flex: 1; }
+  .ga-connect-btn { background: linear-gradient(135deg, #1d8aab, #3dc4e8); border: none; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 600; padding: 7px 16px; cursor: pointer; transition: opacity .2s; display: flex; align-items: center; gap: 6px; }
+  .ga-connect-btn:hover { opacity: .85; }
+  .ga-connect-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .ga-disconnect-btn { background: none; border: 1px solid #ffffff15; border-radius: 8px; color: #8892a4; font-size: 11px; padding: 5px 12px; cursor: pointer; transition: background .15s; }
+  .ga-disconnect-btn:hover { background: #ffffff08; color: #fc8181; border-color: #fc818140; }
+  .ga-kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+  .ga-kpi { background: #071a22; border: 1px solid #1d8aab15; border-radius: 10px; padding: 14px 16px; }
+  .ga-kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 6px; }
+  .ga-kpi-value { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .ga-kpi-sub { font-size: 11px; color: #8892a4; margin-top: 3px; }
+  .ga-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ga-table-card { background: #071a22; border: 1px solid #1d8aab15; border-radius: 10px; padding: 14px 16px; }
+  .ga-table-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8892a4; margin-bottom: 12px; }
+  .ga-table { width: 100%; border-collapse: collapse; }
+  .ga-table td { font-size: 12px; padding: 7px 8px; border-bottom: 1px solid #ffffff08; color: #c8d0dc; }
+  .ga-table tr:last-child td { border-bottom: none; }
+  .ga-table tr:hover td { background: #ffffff04; }
+  .ga-table td:last-child { text-align: right; color: #3dc4e8; font-weight: 600; }
+  .ga-bar { display: inline-block; height: 4px; background: linear-gradient(90deg, #1d8aab, #3dc4e8); border-radius: 2px; vertical-align: middle; margin-left: 6px; }
+  .ga-placeholder { text-align: center; padding: 28px; color: #4a5568; font-size: 13px; }
+  .ga-placeholder p { margin-top: 8px; font-size: 12px; }
+  .ga-error { background: #fc818115; border: 1px solid #fc818130; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #fc8181; margin-top: 10px; }
+  .ga-range-label { font-size: 11px; color: #4a5568; }
+  @media (max-width: 768px) { .ga-kpi-row { grid-template-columns: repeat(2, 1fr); } .ga-tables { grid-template-columns: 1fr; } }
   .live-badge { display: inline-block; background: #48bb7820; color: #68d391; border: 1px solid #48bb7840; border-radius: 20px; padding: 3px 10px; font-size: 11px; margin-left: 8px; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
   .loading { color: #8892a4; font-size: 12px; }
@@ -851,6 +881,24 @@
         <thead><tr><th>Title</th><th>Views</th><th>Saves</th></tr></thead>
         <tbody id="xhsTable"></tbody>
       </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Analytics Website Traffic -->
+  <div class="ga-section" id="gaSection">
+    <div class="ga-header">
+      <div class="ga-title">🌐 Website Analytics <span class="ga-range-label">· kayducreator.com · Last 28 days</span></div>
+      <div id="gaStatus"></div>
+      <button class="ga-connect-btn" id="gaConnectBtn" onclick="gaSignIn()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.08 8h-2.276c-.27-1.18-.652-2.203-1.109-2.963A8.027 8.027 0 0 1 17.08 8zM12 3.98c.636.96 1.138 2.248 1.43 4.02H10.57c.292-1.772.794-3.06 1.43-4.02zm-1.695.057c-.457.76-.839 1.783-1.11 2.963H7.12a8.027 8.027 0 0 1 3.185-2.963zM6.46 10h2.81c-.063.638-.1 1.31-.1 2s.037 1.362.1 2H6.46a8.015 8.015 0 0 1 0-4zm.66 6h2.276c.27 1.18.652 2.203 1.109 2.963A8.027 8.027 0 0 1 7.12 16zm3.45 4.02c-.636-.96-1.138-2.248-1.43-4.02h2.86c-.292 1.772-.794 3.06-1.43 4.02zm1.43-6.02H10c-.07-.63-.11-1.303-.11-2s.04-1.37.11-2h4c.07.63.11 1.303.11 2s-.04 1.37-.11 2zm.295 6.02c-.457-.76-.839-1.783-1.11-2.963h2.276a8.027 8.027 0 0 1-3.185 2.963H12.295zm2.245-.057c.457-.76.839-1.783 1.11-2.963h2.23a8.027 8.027 0 0 1-3.34 2.963zm1.42-4.963c.063-.638.1-1.31.1-2s-.037-1.362-.1-2h2.81a8.015 8.015 0 0 1 0 4h-2.81z"/></svg>
+        Connect Google Analytics
+      </button>
+    </div>
+    <div id="gaContent">
+      <div class="ga-placeholder">
+        <div style="font-size:32px">📊</div>
+        <p>Connect your Google account to see live website traffic data</p>
       </div>
     </div>
   </div>
@@ -1643,6 +1691,180 @@ buildNextPanel(null);
 
 // Intelligence now runs inside fetchLiveStats with live data
 
+// ── Google Analytics Integration ──────────────────────────────────────────
+const GA_CLIENT_ID = '10294274480-cl8spss0af881dpd5n3snjtjmfv64k1n.apps.googleusercontent.com';
+const GA_PROPERTY  = '531295845';
+const GA_SCOPE     = 'https://www.googleapis.com/auth/analytics.readonly';
+const GA_TOKEN_KEY = 'kd_ga_token';
+
+let gaToken = null;
+let gaTokenClient = null;
+
+function gaSignIn() {
+  const btn = document.getElementById('gaConnectBtn');
+  btn.disabled = true;
+  btn.textContent = 'Connecting…';
+
+  if (!gaTokenClient) {
+    gaTokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GA_CLIENT_ID,
+      scope: GA_SCOPE,
+      callback: (resp) => {
+        if (resp.error) {
+          gaShowError('Auth failed: ' + resp.error);
+          btn.disabled = false;
+          btn.innerHTML = '🔗 Connect Google Analytics';
+          return;
+        }
+        gaToken = resp.access_token;
+        sessionStorage.setItem(GA_TOKEN_KEY, gaToken);
+        fetchGAData();
+      }
+    });
+  }
+  gaTokenClient.requestAccessToken({ prompt: 'consent' });
+}
+
+function gaSignOut() {
+  gaToken = null;
+  sessionStorage.removeItem(GA_TOKEN_KEY);
+  document.getElementById('gaContent').innerHTML = `
+    <div class="ga-placeholder">
+      <div style="font-size:32px">📊</div>
+      <p>Connect your Google account to see live website traffic data</p>
+    </div>`;
+  document.getElementById('gaStatus').innerHTML = '';
+  const btn = document.getElementById('gaConnectBtn');
+  btn.style.display = '';
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.08 8h-2.276c-.27-1.18-.652-2.203-1.109-2.963A8.027 8.027 0 0 1 17.08 8zM12 3.98c.636.96 1.138 2.248 1.43 4.02H10.57c.292-1.772.794-3.06 1.43-4.02zm-1.695.057c-.457.76-.839 1.783-1.11 2.963H7.12a8.027 8.027 0 0 1 3.185-2.963zM6.46 10h2.81c-.063.638-.1 1.31-.1 2s.037 1.362.1 2H6.46a8.015 8.015 0 0 1 0-4zm.66 6h2.276c.27 1.18.652 2.203 1.109 2.963A8.027 8.027 0 0 1 7.12 16zm3.45 4.02c-.636-.96-1.138-2.248-1.43-4.02h2.86c-.292 1.772-.794 3.06-1.43 4.02zm1.43-6.02H10c-.07-.63-.11-1.303-.11-2s.04-1.37.11-2h4c.07.63.11 1.303.11 2s-.04 1.37-.11 2zm.295 6.02c-.457-.76-.839-1.783-1.11-2.963h2.276a8.027 8.027 0 0 1-3.185 2.963H12.295zm2.245-.057c.457-.76.839-1.783 1.11-2.963h2.23a8.027 8.027 0 0 1-3.34 2.963zm1.42-4.963c.063-.638.1-1.31.1-2s-.037-1.362-.1-2h2.81a8.015 8.015 0 0 1 0 4h-2.81z"/></svg> Connect Google Analytics`;
+}
+
+async function gaRunReport(body) {
+  const res = await fetch(
+    `https://analyticsdata.googleapis.com/v1beta/properties/${GA_PROPERTY}:runReport`,
+    {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${gaToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+  );
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || res.statusText);
+  }
+  return res.json();
+}
+
+function fmtNum(n) {
+  const v = parseInt(n) || 0;
+  return v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v.toString();
+}
+function fmtDuration(secs) {
+  const s = Math.round(parseFloat(secs) || 0);
+  const m = Math.floor(s / 60), r = s % 60;
+  return m > 0 ? `${m}m ${r}s` : `${r}s`;
+}
+function fmtPct(v) { return (parseFloat(v) * 100).toFixed(1) + '%'; }
+
+async function fetchGAData() {
+  const content = document.getElementById('gaContent');
+  content.innerHTML = '<div class="ga-placeholder"><div style="font-size:24px">⏳</div><p>Loading analytics…</p></div>';
+
+  try {
+    const [overview, pages, sources] = await Promise.all([
+      gaRunReport({
+        dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+        metrics: [
+          { name: 'sessions' },
+          { name: 'screenPageViews' },
+          { name: 'activeUsers' },
+          { name: 'averageSessionDuration' },
+          { name: 'bounceRate' }
+        ]
+      }),
+      gaRunReport({
+        dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+        dimensions: [{ name: 'pagePath' }],
+        metrics: [{ name: 'screenPageViews' }],
+        orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+        limit: 8
+      }),
+      gaRunReport({
+        dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+        dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+        metrics: [{ name: 'sessions' }],
+        orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+        limit: 6
+      })
+    ]);
+
+    const m = overview.rows?.[0]?.metricValues || [];
+    const sessions  = fmtNum(m[0]?.value);
+    const pageviews = fmtNum(m[1]?.value);
+    const users     = fmtNum(m[2]?.value);
+    const duration  = fmtDuration(m[3]?.value);
+    const bounce    = fmtPct(m[4]?.value);
+
+    const maxViews = parseInt(pages.rows?.[0]?.metricValues?.[0]?.value || 1);
+    const pagesHtml = (pages.rows || []).map(r => {
+      const path = r.dimensionValues[0].value;
+      const views = parseInt(r.metricValues[0].value);
+      const barW  = Math.round((views / maxViews) * 60);
+      const label = path === '/' ? '/ (Home)' : path.length > 32 ? path.slice(0, 32) + '…' : path;
+      return `<tr><td>${label}<span class="ga-bar" style="width:${barW}px"></span></td><td>${fmtNum(views)}</td></tr>`;
+    }).join('');
+
+    const totalSessions = parseInt(overview.rows?.[0]?.metricValues?.[0]?.value || 1);
+    const sourcesHtml = (sources.rows || []).map(r => {
+      const src  = r.dimensionValues[0].value;
+      const sess = parseInt(r.metricValues[0].value);
+      const pct  = ((sess / totalSessions) * 100).toFixed(0);
+      return `<tr><td>${src}</td><td>${fmtNum(sess)} <span style="color:#4a5568;font-size:10px">(${pct}%)</span></td></tr>`;
+    }).join('');
+
+    content.innerHTML = `
+      <div class="ga-kpi-row">
+        <div class="ga-kpi"><div class="ga-kpi-label">Sessions</div><div class="ga-kpi-value">${sessions}</div><div class="ga-kpi-sub">28 days</div></div>
+        <div class="ga-kpi"><div class="ga-kpi-label">Page Views</div><div class="ga-kpi-value">${pageviews}</div><div class="ga-kpi-sub">28 days</div></div>
+        <div class="ga-kpi"><div class="ga-kpi-label">Users</div><div class="ga-kpi-value">${users}</div><div class="ga-kpi-sub">active</div></div>
+        <div class="ga-kpi"><div class="ga-kpi-label">Avg Duration</div><div class="ga-kpi-value">${duration}</div><div class="ga-kpi-sub">per session</div></div>
+        <div class="ga-kpi"><div class="ga-kpi-label">Bounce Rate</div><div class="ga-kpi-value">${bounce}</div><div class="ga-kpi-sub">28 days</div></div>
+      </div>
+      <div class="ga-tables">
+        <div class="ga-table-card">
+          <div class="ga-table-title">Top Pages</div>
+          <table class="ga-table"><tbody>${pagesHtml || '<tr><td colspan="2" style="color:#4a5568">No data</td></tr>'}</tbody></table>
+        </div>
+        <div class="ga-table-card">
+          <div class="ga-table-title">Traffic Sources</div>
+          <table class="ga-table"><tbody>${sourcesHtml || '<tr><td colspan="2" style="color:#4a5568">No data</td></tr>'}</tbody></table>
+        </div>
+      </div>`;
+
+    document.getElementById('gaConnectBtn').style.display = 'none';
+    document.getElementById('gaStatus').innerHTML =
+      `<span style="color:#68d391;font-size:12px">● Connected</span>
+       <button class="ga-disconnect-btn" onclick="gaSignOut()" style="margin-left:8px">Disconnect</button>`;
+
+  } catch (e) {
+    gaShowError(e.message);
+  }
+}
+
+function gaShowError(msg) {
+  document.getElementById('gaContent').innerHTML =
+    `<div class="ga-error">❌ ${msg}</div>
+     <div class="ga-placeholder" style="padding-top:12px"><p>Try disconnecting and reconnecting your Google account.</p></div>`;
+}
+
+// Restore session token on page load
+window.addEventListener('load', () => {
+  const saved = sessionStorage.getItem(GA_TOKEN_KEY);
+  if (saved) { gaToken = saved; fetchGAData(); }
+});
+
+// ── Password Gate ──────────────────────────────────────────────────────────
 // Password Gate
 const GATE_PASSWORD = 'REDACTED_ADMIN_SECRET';
 const GATE_KEY = 'kd_auth';
