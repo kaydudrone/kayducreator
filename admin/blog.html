@@ -385,7 +385,7 @@ Start writing or paste from Claude. Use ## for headings, **bold**, *italic*, - f
     const secret = document.getElementById('adminSecret').value.trim();
     if (!secret) return;
     try {
-      const res  = await fetch('/api/get-blogs', { headers: { 'Authorization': `Bearer ${secret}` } });
+      const res  = await fetch('/api/content?type=blogs', { headers: { 'Authorization': `Bearer ${secret}` } });
       if (!res.ok) return;
       const data = await res.json();
       const list = document.getElementById('blogList');

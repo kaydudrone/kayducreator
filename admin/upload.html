@@ -853,7 +853,7 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
     btn.disabled = true;
 
     try {
-      const res = await fetch('/api/get-trails', {
+      const res = await fetch('/api/content?type=trails', {
         headers: { 'Authorization': `Bearer ${secret}` }
       });
       const data = await res.json();
