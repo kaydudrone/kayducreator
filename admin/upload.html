@@ -92,6 +92,7 @@ nav{
 .step-sub{font-size:.78rem;color:var(--muted);margin-top:.1rem}
 
 /* ── FORM ELEMENTS ── */
+@keyframes spin{to{transform:rotate(360deg)}}
 .field{margin-bottom:18px}
 .field:last-child{margin-bottom:0}
 .field-label{
@@ -508,48 +509,86 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
 <!-- ══════════════════════════════════════════════════════
      EDIT TRAIL SECTION
      ══════════════════════════════════════════════════════ -->
-<div class="container" style="margin-top:48px;padding-bottom:80px">
+<div class="container" style="margin-top:56px;padding-bottom:80px">
+
   <div class="page-header">
     <div class="eyebrow">Edit Trail</div>
-    <h2 class="page-title" style="font-size:1.8rem">Update an Existing Trail Card</h2>
-    <p class="page-sub">Select a trail and update its video link or meeting point.</p>
+    <h2 class="page-title" style="font-size:1.9rem">Update an Existing Trail Card</h2>
+    <p class="page-sub">Add or update the video link and meeting point for any trail.</p>
   </div>
 
-  <div style="max-width:600px">
-    <!-- Auth (reuses same admin password) -->
-    <div class="auth-row" style="margin-bottom:24px">
-      <div class="auth-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-      <input type="password" id="editSecret" class="auth-input" placeholder="Admin password" />
-      <button type="button" id="loadTrailsBtn" class="btn-submit" style="width:auto;padding:10px 20px;font-size:13px" onclick="loadTrails()">Load Trails</button>
-    </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:32px;align-items:start">
 
-    <!-- Trail selector -->
-    <div id="editForm" style="display:none">
-      <div class="field" style="margin-bottom:20px">
-        <label class="field-label">SELECT TRAIL</label>
-        <select id="trailSelect" class="field-input" onchange="onTrailSelect()">
-          <option value="">— choose a trail —</option>
-        </select>
+    <!-- LEFT: EDIT FORM -->
+    <div class="card">
+
+      <!-- Auth -->
+      <div class="card-section">
+        <div class="step-header">
+          <div class="step-num">🔒</div>
+          <div>
+            <div class="step-title">Admin Password</div>
+            <div class="step-sub">Enter password then load trails</div>
+          </div>
+        </div>
+        <div class="auth-row" style="margin-top:16px">
+          <div class="auth-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="auth-input-wrap">
+            <input type="password" id="editSecret" class="auth-input" placeholder="Enter admin password" />
+          </div>
+          <button type="button" id="loadTrailsBtn" class="btn-submit" style="white-space:nowrap;padding:10px 18px;font-size:13px;border-radius:999px" onclick="loadTrails()">
+            Load Trails
+          </button>
+        </div>
       </div>
 
-      <div id="editFields" style="display:none">
-        <div class="field" style="margin-bottom:16px">
-          <label class="field-label">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            Instagram / YouTube Video URL
-          </label>
-          <input type="text" id="editVideoUrl" class="field-input" placeholder="https://www.instagram.com/p/..." />
+      <!-- Trail selector -->
+      <div class="card-section" id="editForm" style="display:none">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Select Trail</div>
+            <div class="step-sub">Choose which card to update</div>
+          </div>
+        </div>
+        <div class="field" style="margin-top:16px">
+          <select id="trailSelect" class="field-input" onchange="onTrailSelect()">
+            <option value="">— choose a trail —</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Edit fields -->
+      <div class="card-section" id="editFields" style="display:none">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Update Links</div>
+            <div class="step-sub">Leave blank to keep existing</div>
+          </div>
         </div>
 
-        <div class="field" style="margin-bottom:24px">
-          <label class="field-label">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            Google Maps Meeting Point
-          </label>
-          <input type="text" id="editMeetingUrl" class="field-input" placeholder="https://maps.app.goo.gl/..." />
+        <div style="margin-top:16px">
+          <div class="field">
+            <label class="field-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              Instagram / YouTube Video URL
+            </label>
+            <input type="text" id="editVideoUrl" class="field-input" placeholder="https://www.instagram.com/p/..." />
+          </div>
+
+          <div class="field">
+            <label class="field-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Google Maps Meeting Point
+            </label>
+            <input type="text" id="editMeetingUrl" class="field-input" placeholder="https://maps.app.goo.gl/..." />
+          </div>
         </div>
 
-        <div class="submit-row">
+        <div class="submit-row" style="margin-top:8px">
           <div id="editStatusMsg" class="status-msg"></div>
           <button type="button" id="saveEditBtn" class="btn-submit" onclick="saveTrailEdit()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -557,8 +596,29 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
           </button>
         </div>
       </div>
+
+    </div><!-- /card -->
+
+    <!-- RIGHT: TRAIL LIST PREVIEW -->
+    <div class="card" style="overflow:hidden">
+      <div class="card-section" style="padding-bottom:16px">
+        <div class="step-header">
+          <div class="step-num">📋</div>
+          <div>
+            <div class="step-title">All Trails</div>
+            <div class="step-sub" id="trailCountLabel">Load trails to see the list</div>
+          </div>
+        </div>
+      </div>
+      <div id="trailListPreview" style="max-height:420px;overflow-y:auto">
+        <div style="padding:32px;text-align:center;color:var(--muted);font-size:.88rem">
+          Enter password and click Load Trails
+        </div>
+      </div>
     </div>
-  </div>
+
+  </div><!-- /grid -->
+
 </div>
 
 <script type="module">
@@ -777,12 +837,17 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
 <script>
   let editTrails = [];
 
+  const DIFF_COLOR = {
+    'Easy':'#16a34a','Moderate':'#d97706','Slightly Hard':'#c2410c',
+    'Hard':'#dc2626','Very Hard':'#7c3aed','Extreme':'#7c3aed'
+  };
+
   async function loadTrails() {
     const secret = document.getElementById('editSecret').value.trim();
     if (!secret) { alert('Enter admin password first'); return; }
 
     const btn = document.getElementById('loadTrailsBtn');
-    btn.textContent = 'Loading…';
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.51"></path></svg> Loading…';
     btn.disabled = true;
 
     try {
@@ -793,21 +858,55 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
       if (!res.ok) throw new Error(data.error || 'Failed to load');
 
       editTrails = data.trails;
+
+      // Populate dropdown
       const sel = document.getElementById('trailSelect');
       sel.innerHTML = '<option value="">— choose a trail —</option>';
       data.trails.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.name;
-        opt.textContent = `${String(t.num).padStart(2,'0')} · ${t.name} (${t.location})`;
+        opt.textContent = `${String(t.num).padStart(2,'0')} · ${t.name}`;
         sel.appendChild(opt);
       });
 
+      // Populate right-side trail list
+      const list = document.getElementById('trailListPreview');
+      document.getElementById('trailCountLabel').textContent = `${data.trails.length} trails found`;
+      list.innerHTML = data.trails.map(t => `
+        <div onclick="pickTrail('${t.name.replace(/'/g,"\\'")}');" style="
+          display:flex;align-items:center;gap:12px;padding:12px 20px;
+          border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s"
+          onmouseover="this.style.background='var(--primary-light)'"
+          onmouseout="this.style.background='transparent'">
+          <div style="
+            min-width:28px;height:28px;border-radius:8px;
+            background:var(--primary-light);color:var(--primary);
+            font-size:.72rem;font-weight:700;font-family:'DM Mono',monospace;
+            display:flex;align-items:center;justify-content:center">
+            ${String(t.num).padStart(2,'0')}
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.name}</div>
+            <div style="font-size:.75rem;color:var(--muted)">${t.location || '—'}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            ${t.videoUrl   ? '<span style="font-size:.65rem;padding:2px 7px;border-radius:999px;background:#fce7f3;color:#be185d;font-weight:600">▶ Video</span>' : ''}
+            ${t.meetingUrl ? '<span style="font-size:.65rem;padding:2px 7px;border-radius:999px;background:var(--primary-light);color:var(--primary);font-weight:600">📍 Meet</span>' : ''}
+          </div>
+        </div>`).join('');
+
       document.getElementById('editForm').style.display = 'block';
-      btn.textContent = `✅ ${data.trails.length} trails loaded`;
+      btn.innerHTML = `✅ ${data.trails.length} trails loaded`;
     } catch (err) {
-      btn.textContent = '❌ ' + err.message;
+      btn.innerHTML = '❌ ' + err.message;
       btn.disabled = false;
     }
+  }
+
+  function pickTrail(name) {
+    document.getElementById('trailSelect').value = name;
+    onTrailSelect();
+    document.getElementById('editForm').scrollIntoView({ behavior:'smooth', block:'center' });
   }
 
   function onTrailSelect() {
