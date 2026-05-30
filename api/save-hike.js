@@ -99,21 +99,32 @@ export default async function handler(req, res) {
       gpxSha = existing.data.sha;
     } catch (_) { /* new file */ }
 
-    await octokit.repos.createOrUpdateFileContents({
-      owner, repo,
-      path: `gpx/${safeFilename}`,
-      message: `Add GPX: ${name}`,
-      content: gpxBase64,
-      ...(gpxSha ? { sha: gpxSha } : {}),
-    });
+    try {
+      await octokit.repos.createOrUpdateFileContents({
+        owner, repo,
+        path: `gpx/${safeFilename}`,
+        message: `Add GPX: ${name}`,
+        content: gpxBase64,
+        ...(gpxSha ? { sha: gpxSha } : {}),
+      });
+    } catch (e) {
+      e.step = 'step1-gpx-upload';
+      throw e;
+    }
 
     // ── 2. Read index.html from GitHub ───────────────────────────────
-    const { data: indexData } = await octokit.repos.getContent({ owner, repo, path: 'index.html' });
-    const indexContent = Buffer.from(indexData.content, 'base64').toString('utf8');
+    let indexData;
+    try {
+      const res2 = await octokit.repos.getContent({ owner, repo, path: 'index.html' });
+      indexData = res2.data;
+    } catch (e) {
+      e.step = 'step2-read-index';
+      throw e;
+    }
 
-    // Count existing trail cards to determine next number
-    const existing = (indexContent.match(/class="trail-num">/g) || []).length;
-    const nextNum  = existing + 1;
+    const indexContent = Buffer.from(indexData.content, 'base64').toString('utf8');
+    const existingCount = (indexContent.match(/class="trail-num">/g) || []).length;
+    const nextNum  = existingCount + 1;
 
     // ── 3. Build trail card HTML ──────────────────────────────────────
     const card = buildTrailCard({
@@ -135,13 +146,18 @@ export default async function handler(req, res) {
       card + '\n\n' + INSERTION_MARKER
     );
 
-    await octokit.repos.createOrUpdateFileContents({
-      owner, repo,
-      path: 'index.html',
-      message: `feat: add trail #${nextNum} — ${name}`,
-      content: Buffer.from(updatedIndex).toString('base64'),
-      sha: indexData.sha,
-    });
+    try {
+      await octokit.repos.createOrUpdateFileContents({
+        owner, repo,
+        path: 'index.html',
+        message: `feat: add trail #${nextNum} — ${name}`,
+        content: Buffer.from(updatedIndex).toString('base64'),
+        sha: indexData.sha,
+      });
+    } catch (e) {
+      e.step = 'step4-update-index';
+      throw e;
+    }
 
     // ── 5. Update hikes.json ──────────────────────────────────────────
     let hikesSha;
