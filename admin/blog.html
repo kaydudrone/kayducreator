@@ -15,14 +15,18 @@
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
 
-/* NAV */
-nav{background:#1a2332;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.9rem;color:#fff;font-family:'DM Mono',monospace}
-.nav-brand img{width:24px;height:24px;object-fit:contain}
-.nav-right{display:flex;align-items:center;gap:10px}
-.nav-badge{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);padding:.3rem .75rem;border-radius:999px;font-size:.72rem;font-family:'DM Mono',monospace}
-.nav-back{color:rgba(255,255,255,.6);font-size:.78rem;text-decoration:none;display:flex;align-items:center;gap:5px;transition:.2s}
-.nav-back:hover{color:#fff}
+/* ── SHARED ADMIN NAV ── */
+.admin-nav{position:sticky;top:0;z-index:100;background:#1d8aab;border-bottom:1px solid rgba(255,255,255,.12)}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 1.5rem;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-brand{display:flex;align-items:center;gap:.65rem}
+.nav-brand img{height:28px;width:auto;filter:brightness(0) invert(1);object-fit:contain}
+.nav-brand span{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.nav-back-link{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;display:flex;align-items:center;gap:5px;transition:.15s}
+.nav-back-link:hover{color:#fff}
+.admin-tabs{display:flex;align-items:center;gap:2px;padding:0 1.5rem;border-top:1px solid rgba(255,255,255,.12);background:#1d8aab}
+.admin-tab{display:flex;align-items:center;gap:6px;padding:9px 16px;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
+.admin-tab:hover{color:rgba(255,255,255,.9);border-bottom-color:rgba(255,255,255,.4)}
+.admin-tab.active{color:#fff;border-bottom-color:#fff;font-weight:700}
 
 /* LAYOUT */
 .container{width:min(1200px,calc(100% - 3rem));margin:0 auto;padding:40px 0 80px}
@@ -108,22 +112,21 @@ textarea.content-editor:focus{outline:none;border-color:var(--primary);backgroun
 </head>
 <body>
 
-<nav>
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px">
+<nav class="admin-nav">
+  <div class="nav-inner">
     <div class="nav-brand">
       <img src="/so_hikers_logo_transparent.png" alt="So Hikers" onerror="this.style.display='none'" />
       <span>Kay Du · Admin</span>
     </div>
-    <a href="/" class="nav-back">
+    <a href="/" class="nav-back-link">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       Back to Site
     </a>
   </div>
-  <!-- ADMIN TABS -->
-  <div style="display:flex;align-items:center;gap:4px;padding:0 24px;border-top:1px solid rgba(255,255,255,.12)">
-    <a href="/dashboard.html" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;border-bottom:2px solid transparent;transition:.2s">📊 Dashboard</a>
-    <a href="/admin/upload" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;border-bottom:2px solid transparent;transition:.2s">🗺️ GPX Builder</a>
-    <a href="/admin/blog" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;text-decoration:none;border-bottom:2px solid #fff;font-weight:600">✍️ Blog Editor</a>
+  <div class="admin-tabs">
+    <a href="/dashboard.html" class="admin-tab">📊 Dashboard</a>
+    <a href="/admin/upload" class="admin-tab">🗺️ GPX Builder</a>
+    <a href="/admin/blog" class="admin-tab active">✍️ Blog Editor</a>
   </div>
 </nav>
 
