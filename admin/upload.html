@@ -644,7 +644,6 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${secret}` },
         body: JSON.stringify({
-          gpxBase64: gpxBase64Data,
           gpxFilename,
           name:             DOM.hikeName.value,
           location:         DOM.location.value,

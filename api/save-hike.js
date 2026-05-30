@@ -79,7 +79,7 @@ export default async function handler(req, res) {
 
   try {
     const {
-      gpxBase64, gpxFilename,
+      gpxFilename,
       name, location, difficulty,
       distance, elevGain, peak,
       meetingPointUrl, videoUrl,
@@ -92,25 +92,8 @@ export default async function handler(req, res) {
     const owner   = process.env.GITHUB_OWNER || 'kaydudrone';
     const repo    = process.env.GITHUB_REPO  || 'kayduhikingcreator';
 
-    // ── 1. Commit GPX file to /gpx/ ──────────────────────────────────
-    let gpxSha;
-    try {
-      const existing = await octokit.repos.getContent({ owner, repo, path: `gpx/${safeFilename}` });
-      gpxSha = existing.data.sha;
-    } catch (_) { /* new file */ }
-
-    try {
-      await octokit.repos.createOrUpdateFileContents({
-        owner, repo,
-        path: `gpx/${safeFilename}`,
-        message: `Add GPX: ${name}`,
-        content: gpxBase64,
-        ...(gpxSha ? { sha: gpxSha } : {}),
-      });
-    } catch (e) {
-      e.step = 'step1-gpx-upload';
-      throw e;
-    }
+    // ── 1. GPX file is pre-committed to /gpx/ folder ─────────────────
+    // (not uploaded via API due to file size — commit GPX to repo separately)
 
     // ── 2. Read index.html from GitHub ───────────────────────────────
     let indexData;
