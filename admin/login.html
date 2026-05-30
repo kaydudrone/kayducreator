@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login · Kay Du</title>
+  <link rel="icon" type="image/png" href="/so_hikers_logo_transparent.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f4ef;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.08);
+  border: 1px solid rgba(0,0,0,.05);
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+}
+
+.card-top {
+  background: linear-gradient(135deg, #1d8aab, #145f76);
+  padding: 32px;
+  text-align: center;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  background: rgba(255,255,255,.15);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.card-top h1 {
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-top p {
+  color: rgba(255,255,255,.7);
+  font-size: .8rem;
+}
+
+.card-body {
+  padding: 28px;
+}
+
+.field { margin-bottom: 16px; }
+
+.field label {
+  display: block;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #6b6960;
+  margin-bottom: 8px;
+}
+
+.field input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid rgba(0,0,0,.1);
+  border-radius: 12px;
+  font-size: .93rem;
+  font-family: 'DM Mono', monospace;
+  background: #fafaf8;
+  color: #1a1a1a;
+  transition: border-color .2s, box-shadow .2s;
+  letter-spacing: .05em;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #1d8aab;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(29,138,171,.1);
+}
+
+.field input::placeholder { color: #b0aca5; }
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #1d8aab, #145f76);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: .93rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover  { opacity: .92; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+.error {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  border-radius: 10px;
+  color: #dc2626;
+  font-size: .82rem;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+}
+
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #6b6960;
+  font-size: .8rem;
+  text-decoration: none;
+  transition: color .2s;
+}
+.back:hover { color: #1d8aab; }
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60%  { transform: translateX(-6px); }
+  40%,80%  { transform: translateX(6px); }
+}
+.shake { animation: shake .35s ease; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-top">
+    <div class="logo">🔒</div>
+    <h1>Admin Access</h1>
+    <p>Kay Du Creator · Restricted area</p>
+  </div>
+
+  <div class="card-body">
+    <form id="loginForm">
+      <div class="field">
+        <label>Admin Password</label>
+        <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="current-password" autofocus />
+      </div>
+
+      <button type="submit" id="loginBtn" class="btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Unlock Admin
+      </button>
+
+      <div class="error" id="errorMsg">Wrong password. Try again.</div>
+    </form>
+
+    <a href="/" class="back">← Back to kayducreator.com</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const password = document.getElementById('passwordInput').value.trim();
+    const btn      = document.getElementById('loginBtn');
+    const errMsg   = document.getElementById('errorMsg');
+    const input    = document.getElementById('passwordInput');
+
+    if (!password) return;
+
+    btn.disabled    = true;
+    btn.textContent = 'Checking…';
+    errMsg.style.display = 'none';
+
+    try {
+      const res  = await fetch('/api/admin-login', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        btn.textContent = '✅ Redirecting…';
+        // Redirect to original destination or upload page
+        const params = new URLSearchParams(window.location.search);
+        const dest   = params.get('from') || '/admin/upload';
+        window.location.href = dest;
+      } else {
+        errMsg.style.display = 'block';
+        input.classList.add('shake');
+        input.value = '';
+        input.focus();
+        setTimeout(() => input.classList.remove('shake'), 400);
+        btn.disabled    = false;
+        btn.innerHTML   = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Unlock Admin';
+      }
+    } catch (err) {
+      errMsg.textContent   = 'Network error. Try again.';
+      errMsg.style.display = 'block';
+      btn.disabled         = false;
+      btn.innerHTML        = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Unlock Admin';
+    }
+  });
+</script>
+</body>
+</html>
