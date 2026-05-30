@@ -109,20 +109,21 @@ textarea.content-editor:focus{outline:none;border-color:var(--primary);backgroun
 <body>
 
 <nav>
-  <div class="nav-brand">
-    <img src="/so_hikers_logo_transparent.png" alt="So Hikers" onerror="this.style.display='none'" />
-    <span>Kay Du · Admin</span>
-  </div>
-  <div class="nav-right">
-    <span class="nav-badge">📝 Blog Editor</span>
-    <a href="/admin/upload" class="nav-back">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      GPX Builder
-    </a>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px">
+    <div class="nav-brand">
+      <img src="/so_hikers_logo_transparent.png" alt="So Hikers" onerror="this.style.display='none'" />
+      <span>Kay Du · Admin</span>
+    </div>
     <a href="/" class="nav-back">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       Back to Site
     </a>
+  </div>
+  <!-- ADMIN TABS -->
+  <div style="display:flex;align-items:center;gap:4px;padding:0 24px;border-top:1px solid rgba(255,255,255,.12)">
+    <a href="/dashboard.html" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;border-bottom:2px solid transparent;transition:.2s">📊 Dashboard</a>
+    <a href="/admin/upload" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;border-bottom:2px solid transparent;transition:.2s">🗺️ GPX Builder</a>
+    <a href="/admin/blog" style="display:flex;align-items:center;gap:6px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;text-decoration:none;border-bottom:2px solid #fff;font-weight:600">✍️ Blog Editor</a>
   </div>
 </nav>
 
