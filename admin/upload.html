@@ -506,10 +506,16 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
 </div>
 
 <script type="module">
-  // Vercel Blob client upload
-  import { upload } from 'https://esm.sh/@vercel/blob@0.22.1/client';
-  window.__blobUpload = upload; // expose to non-module scope
+  // Load Vercel Blob client silently — exposes upload() to window
+  try {
+    const { upload } = await import('https://esm.sh/@vercel/blob@0.22.1/client');
+    window.__blobUpload = upload;
+  } catch(e) {
+    console.warn('Vercel Blob client not loaded:', e);
+  }
+</script>
 
+<script>
   const DOM = {
     hikeName:        document.getElementById('hikeName'),
     location:        document.getElementById('location'),
