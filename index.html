@@ -2430,7 +2430,7 @@ footer{
 </button>
 
 <script>
-// ── SECRET LOGO TAP (5x → admin menu) ────────────────────────────────
+// ── SECRET LOGO TAP (5x → admin login) ───────────────────────────────
 (function(){
   const logo    = document.getElementById('footerLogo');
   const hint    = document.getElementById('footerTapHint');
@@ -2453,48 +2453,8 @@ footer{
       hint.textContent = '· · ·';
       logo.classList.remove('tapping');
 
-      // Show admin menu popup
-      const menu = document.createElement('div');
-      menu.style.cssText = `
-        position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
-        background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;
-        box-shadow:0 12px 40px rgba(0,0,0,.15);padding:8px;
-        display:flex;flex-direction:column;gap:4px;z-index:9999;
-        font-family:"DM Mono",monospace;font-size:.72rem;min-width:220px;
-        animation:fadeUp .2s ease;
-      `;
-      menu.innerHTML = `
-        <div style="padding:10px 14px 8px;color:#6b6960;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid rgba(0,0,0,.07);margin-bottom:4px">
-          🔒 Admin Access
-        </div>
-        <a href="/dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:#1a1a1a;text-decoration:none;transition:.15s" onmouseover="this.style.background='#f5f4ef'" onmouseout="this.style.background='transparent'">
-          <span style="font-size:1rem">📊</span>
-          <span>Creator Dashboard</span>
-        </a>
-        <a href="/admin/upload" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:#1a1a1a;text-decoration:none;transition:.15s" onmouseover="this.style.background='#f5f4ef'" onmouseout="this.style.background='transparent'">
-          <span style="font-size:1rem">🗺️</span>
-          <span>GPX Trail Builder</span>
-        </a>
-        <a href="/admin/blog" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:#1a1a1a;text-decoration:none;transition:.15s" onmouseover="this.style.background='#f5f4ef'" onmouseout="this.style.background='transparent'">
-          <span style="font-size:1rem">✍️</span>
-          <span>Blog Editor</span>
-        </a>
-        <div style="padding:4px 14px 8px;margin-top:2px">
-          <div style="width:100%;text-align:center;color:#b0aca5;font-size:.55rem;letter-spacing:.1em">tap outside to close</div>
-        </div>
-      `;
-
-      document.body.appendChild(menu);
-
-      // Close on outside click
-      setTimeout(() => {
-        document.addEventListener('click', function close(e) {
-          if (!menu.contains(e.target) && e.target !== logo) {
-            menu.remove();
-            document.removeEventListener('click', close);
-          }
-        });
-      }, 100);
+      // Redirect to admin login → lands on dashboard after auth
+      window.location.href = '/admin/login?from=/dashboard.html';
 
       return;
     }
