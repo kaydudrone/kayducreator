@@ -89,8 +89,8 @@ export default async function handler(req, res) {
     const safeFilename = gpxFilename.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.{2,}/g, '_');
 
     const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-    const owner   = process.env.GITHUB_OWNER;
-    const repo    = process.env.GITHUB_REPO;
+    const owner   = process.env.GITHUB_OWNER || 'kaydudrone';
+    const repo    = process.env.GITHUB_REPO  || 'kayduhikingcreator';
 
     // ── 1. Commit GPX file to /gpx/ ──────────────────────────────────
     let gpxSha;
@@ -177,6 +177,10 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error saving hike:', error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+      error: error.message,
+      step: error.step || 'unknown',
+      details: error.response?.data || null
+    });
   }
 }
