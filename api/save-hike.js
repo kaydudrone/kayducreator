@@ -24,7 +24,7 @@ const INSERTION_MARKER = `    </div>
 
 <!-- BEYOND MALAYSIA -->`;
 
-function buildTrailCard({ num, name, location, difficulty, distance, elevGain, peak, gpxFilename, meetingPointUrl, videoUrl, permitRequired, guideNeeded }) {
+function buildTrailCard({ num, name, location, difficulty, distance, elevGain, peak, gpxDownloadUrl, meetingPointUrl, videoUrl, permitRequired, guideNeeded }) {
   const numPadded  = String(num).padStart(2, '0');
   const diffClass  = DIFF_CLASS[difficulty] || 'easy';
   const distKm     = parseFloat(distance).toFixed(1);
@@ -62,7 +62,7 @@ function buildTrailCard({ num, name, location, difficulty, distance, elevGain, p
           <div class="trail-stat">${PEAK_SVG}<span class="s-val">${peakM} m</span><span class="s-lbl">Peak</span></div>
         </div>
         <div class="trail-actions">
-          <a class="btn btn-primary btn-sm" href="/gpx/${gpxFilename}" download>${DL_SVG} GPX</a>${meetingBtn}${videoBtn}
+          <a class="btn btn-primary btn-sm" href="${gpxDownloadUrl}" download>${DL_SVG} GPX</a>${meetingBtn}${videoBtn}
         </div>
       </article>`;
 }
@@ -80,6 +80,7 @@ export default async function handler(req, res) {
   try {
     const {
       gpxFilename,
+      gpxBlobUrl,
       name, location, difficulty,
       distance, elevGain, peak,
       meetingPointUrl, videoUrl,
@@ -110,10 +111,13 @@ export default async function handler(req, res) {
     const nextNum  = existingCount + 1;
 
     // ── 3. Build trail card HTML ──────────────────────────────────────
+    // Use blob URL if provided, otherwise fall back to /gpx/ path
+    const gpxDownloadUrl = gpxBlobUrl || `/gpx/${safeFilename}`;
+
     const card = buildTrailCard({
       num: nextNum, name, location, difficulty,
       distance, elevGain, peak,
-      gpxFilename: safeFilename,
+      gpxDownloadUrl,
       meetingPointUrl, videoUrl,
       permitRequired: Boolean(permitRequired),
       guideNeeded: Boolean(guideNeeded),
