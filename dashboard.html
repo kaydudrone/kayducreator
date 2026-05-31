@@ -376,12 +376,23 @@
   .local-note { color:#626d78; font-size:11px; line-height:1.6; margin-top:10px; }
 
   /* Mobile Responsive */
+  /* Admin tabs scroll on small screens */
+  @media (max-width: 600px) {
+    .admin-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-wrap: nowrap; }
+    .admin-tabs::-webkit-scrollbar { display: none; }
+    .admin-tab { font-size: .6rem; padding: 8px 12px; white-space: nowrap; flex-shrink: 0; }
+    .nav-brand span { display: none; }
+  }
+
   @media (max-width: 768px) {
     .header { padding: 16px 18px; }
     .header h1 { font-size: 17px; }
     .header-meta { gap: 8px; }
     .badge { font-size: 10px; padding: 3px 8px; }
     .container { padding: 14px 14px; }
+    /* Table overflow scroll */
+    .mountains-card, .card { overflow-x: auto; }
+    .ga-section table, .mountains-card table { min-width: 400px; }
     .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .kpi-main { font-size: 22px; }
     .charts-row { grid-template-columns: 1fr; }
