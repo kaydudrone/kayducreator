@@ -1044,7 +1044,7 @@ new Chart(formatCtx, {
     datasets: [{
       label: 'Avg Views',
       data: [20035, 7702, 1874],
-      backgroundColor: ['#1d8aab', '#145f76', 'var(--cc-accent)'],
+      backgroundColor: ['#1d8aab', '#145f76', '#3dc4e8'],
       borderRadius: 6
     }]
   },
@@ -1067,7 +1067,7 @@ new Chart(ttCtx, {
     datasets: [{
       label: 'Daily Views',
       data: DATA.tt_last30.map(d=>d.views),
-      borderColor: 'var(--cc-accent)', backgroundColor: 'var(--cc-accent)15',
+      borderColor: '#3dc4e8', backgroundColor: '#3dc4e820',
       fill: true, tension: 0.4, pointRadius: 0
     }]
   },
@@ -1089,7 +1089,7 @@ new Chart(xhsCtx, {
     labels: ['Cover CTR (12.6%)', 'Completion (24%)', 'CTR Gap to 15%', 'Dropped before end'],
     datasets: [{
       data: [12.6, 24, 2.4, 76],
-      backgroundColor: ['#1d8aab', 'var(--cc-accent)', '#145f7655', '#ffffff10'],
+      backgroundColor: ['#1d8aab', '#3dc4e8', '#145f7655', '#ffffff15'],
       borderWidth: 0
     }]
   },
@@ -1105,8 +1105,8 @@ new Chart(compareCtx, {
     datasets: [{
       label: 'Avg Views / Post',
       data: [8175, 7513, 16850, 4065, 3761],
-      backgroundColor: ['#1d8aab70','#1d8aab70','#48bb7880','var(--cc-red)80','var(--cc-accent)30'],
-      borderColor: ['#1d8aab','#1d8aab','#48bb78','var(--cc-red)','var(--cc-accent)'],
+      backgroundColor: ['#1d8aab70','#1d8aab70','#48bb7880','#fc818180','#3dc4e830'],
+      borderColor: ['#1d8aab','#1d8aab','#48bb78','#fc8181','#3dc4e8'],
       borderWidth: 1, borderRadius: 6
     }]
   },
