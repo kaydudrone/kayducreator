@@ -266,16 +266,6 @@
   .job-empty { color: var(--cc-muted); font-size: 13px; padding: 20px; text-align: center; }
 
   /* Password Gate */
-  .gate { position: fixed; inset: 0; background: var(--cc-bg); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-  .gate-box { background: var(--cc-panel); border: 1px solid #1d8aab30; border-radius: 20px; padding: 40px; width: 90%; max-width: 380px; text-align: center; }
-  .gate-logo { font-size: clamp(24px, 6vw, 40px); margin-bottom: 16px; }
-  .gate-title { font-size: 20px; font-weight: 700; color: var(--cc-text); margin-bottom: 6px; }
-  .gate-sub { font-size: 13px; color: var(--cc-muted); margin-bottom: 24px; }
-  .gate-input { width: 100%; background: #f5f4ef; border: 1.5px solid rgba(0,0,0,.1); border-radius: 10px; padding: 12px 16px; color: var(--cc-text); font-size: 15px; outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 2px; }
-  .gate-input:focus { border-color: #1d8aab; }
-  .gate-btn { width: 100%; background: linear-gradient(90deg, #145f76, #1d8aab); color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
-  .gate-btn:hover { opacity: 0.85; }
-  .gate-error { font-size: 12px; color: var(--cc-red); margin-top: 8px; display: none; }
 
 
 
@@ -307,18 +297,15 @@
     --cc-red: #dc2626;
   }
   body {
-    background:
-      radial-gradient(circle at 10% -10%, rgba(61,196,232,0.14), transparent 34%),
-      radial-gradient(circle at 88% 0%, rgba(29,138,171,0.12), transparent 28%),
-      linear-gradient(180deg, #031016 0%, #050f14 42%, #071116 100%);
+    background: var(--cc-bg);
     font-feature-settings: "cv01", "ss03";
   }
   .header {
     position: sticky;
-    top: 0;
+    top: 52px;
     z-index: 50;
     backdrop-filter: blur(18px);
-    background: rgba(5,15,20,0.82);
+    background: rgba(255,255,255,0.9);
     border-bottom: 1px solid var(--cc-border-soft);
     box-shadow: 0 24px 80px rgba(0,0,0,0.28);
   }
@@ -444,17 +431,6 @@
 </head>
 <body>
 
-<!-- Password Gate -->
-<div class="gate" id="passwordGate">
-  <div class="gate-box">
-    <div class="gate-logo">🏔</div>
-    <div class="gate-title">Kay Du Command Center</div>
-    <div class="gate-sub">Creator OS · analytics · content · collaborations</div>
-    <input class="gate-input" type="password" id="gateInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPassword()">
-    <button class="gate-btn" onclick="checkPassword()">Enter Command Center</button>
-    <div class="gate-error" id="gateError">Wrong password. Try again.</div>
-  </div>
-</div>
 
 <nav class="admin-nav">
   <div class="nav-inner">
@@ -1913,39 +1889,7 @@ function gaShowError(msg) {
 }
 
 
-// ── Password Gate ──────────────────────────────────────────────────────────
-// Password Gate
-const GATE_PASSWORD = 'REDACTED_ADMIN_SECRET';
-const GATE_KEY = 'kd_auth';
-const GATE_EXPIRY = 30 * 24 * 60 * 60 * 1000; // 30 days
-
-function checkPassword() {
-  const input = document.getElementById('gateInput');
-  const error = document.getElementById('gateError');
-  if (input.value === GATE_PASSWORD) {
-    localStorage.setItem(GATE_KEY, Date.now());
-    document.getElementById('passwordGate').style.display = 'none';
-    input.value = '';
-  } else {
-    error.style.display = 'block';
-    input.value = '';
-    input.focus();
-    setTimeout(() => error.style.display = 'none', 3000);
-  }
-}
-
-// Check auth on load
-(function() {
-  const stored = localStorage.getItem(GATE_KEY);
-  const gate = document.getElementById('passwordGate');
-  if (stored && (Date.now() - parseInt(stored)) < GATE_EXPIRY) {
-    gate.style.display = 'none'; // Already authenticated
-  } else {
-    localStorage.removeItem(GATE_KEY);
-    gate.style.display = 'flex'; // Show gate
-    setTimeout(() => document.getElementById('gateInput')?.focus(), 100);
-  }
-})();
+// Auth handled by edge middleware — no gate needed
 </script>
 </body>
 </html>
