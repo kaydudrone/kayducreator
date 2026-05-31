@@ -56,7 +56,7 @@
   .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
   table { width: 100%; border-collapse: collapse; }
   thead th { font-size: 11px; color: var(--cc-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 10px; text-align: left; border-bottom: 1px solid #ffffff10; }
-  tbody td { font-size: 13px; padding: 10px 10px; border-bottom: 1px solid #ffffff08; color: var(--cc-muted); }
+  tbody td { font-size: 13px; padding: 10px 10px; border-bottom: 1px solid var(--cc-border); color: var(--cc-text); }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover { background: #ffffff05; }
   .views-badge { background: #1d8aab22; color: var(--cc-accent); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; }
@@ -301,17 +301,13 @@
   }
   .header {
     position: sticky;
-    top: 52px;
+    top: 104px;
     z-index: 50;
-    backdrop-filter: blur(18px);
-    background: rgba(255,255,255,0.9);
-    border-bottom: 1px solid var(--cc-border-soft);
-    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    border-bottom: 1px solid rgba(0,0,0,.15);
   }
   .header h1 { letter-spacing: -0.7px; }
   .badge, .card, .kpi, .challenge-bar, .next-panel, .intelligence-panel, .viral-alert, .up-next, .schedule-card, .update-panel, .calendar-card, .mc-card, .insight, .mountains-card {
-    backdrop-filter: blur(14px);
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.025), 0 18px 60px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
   }
   .card:hover, .kpi:hover, .insight:hover, .mc-card:hover, .mission-card:hover, .pipeline-card:hover, .brand-card:hover, .system-link:hover {
     border-color: rgba(61,196,232,0.38);
@@ -1026,8 +1022,8 @@ new Chart(igCtx, {
     responsive: true,
     plugins: { legend: { labels: { color: 'var(--cc-muted)', font: { size: 11 } } } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)' }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: 'var(--cc-muted)' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: 'rgba(0,0,0,0.06)' } }
     }
   }
 });
@@ -1049,8 +1045,8 @@ new Chart(formatCtx, {
     indexAxis: 'y', responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: '#e8e8f0', font: { size: 12 } }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      y: { ticks: { color: '#e8e8f0', font: { size: 12 } }, grid: { color: 'rgba(0,0,0,0.06)' } }
     }
   }
 });
@@ -1072,8 +1068,8 @@ new Chart(ttCtx, {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', maxTicksLimit: 6 }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)' }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: 'var(--cc-muted)', maxTicksLimit: 6 }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      y: { ticks: { color: 'var(--cc-muted)' }, grid: { color: 'rgba(0,0,0,0.06)' } }
     }
   }
 });
@@ -1102,8 +1098,8 @@ new Chart(compareCtx, {
     datasets: [{
       label: 'Avg Views / Post',
       data: [8175, 7513, 16850, 4065, 3761],
-      backgroundColor: ['#1d8aab70','#1d8aab70','#48bb7880','var(--cc-red)80','var(--cc-accent)30'],
-      borderColor: ['#1d8aab','#1d8aab','#48bb78','var(--cc-red)','var(--cc-accent)'],
+      backgroundColor: ['#1d8aab70','#1d8aab70','#16a34a80','#dc262660','#1d8aab30'],
+      borderColor: ['#1d8aab','#1d8aab','#16a34a','#dc2626','#1d8aab'],
       borderWidth: 1, borderRadius: 6
     }]
   },
@@ -1111,8 +1107,8 @@ new Chart(compareCtx, {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', font: { size: 10 } }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: 'var(--cc-muted)', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: 'rgba(0,0,0,0.06)' } }
     }
   }
 });
