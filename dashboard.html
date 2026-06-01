@@ -1027,10 +1027,10 @@ new Chart(igCtx, {
   },
   options: {
     responsive: true,
-    plugins: { legend: { labels: { color: 'var(--cc-muted)', font: { size: 11 } } } },
+    plugins: { legend: { labels: { color: '#8892a4', font: { size: 11 } } } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)' }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: '#8892a4' }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
     }
   }
 });
@@ -1052,7 +1052,7 @@ new Chart(formatCtx, {
     indexAxis: 'y', responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } },
+      x: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } },
       y: { ticks: { color: '#e8e8f0', font: { size: 12 } }, grid: { color: '#ffffff08' } }
     }
   }
@@ -1075,8 +1075,8 @@ new Chart(ttCtx, {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', maxTicksLimit: 6 }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)' }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: '#8892a4', maxTicksLimit: 6 }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4' }, grid: { color: '#ffffff08' } }
     }
   }
 });
@@ -1093,7 +1093,7 @@ new Chart(xhsCtx, {
       borderWidth: 0
     }]
   },
-  options: { responsive: true, plugins: { legend: { labels: { color: 'var(--cc-muted)', font: { size: 11 }, boxWidth: 12 } } } }
+  options: { responsive: true, plugins: { legend: { labels: { color: '#8892a4', font: { size: 11 }, boxWidth: 12 } } } }
 });
 
 // April vs May Recovery Chart
@@ -1114,8 +1114,8 @@ new Chart(compareCtx, {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: 'var(--cc-muted)', font: { size: 10 } }, grid: { color: '#ffffff08' } },
-      y: { ticks: { color: 'var(--cc-muted)', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
+      x: { ticks: { color: '#8892a4', font: { size: 10 } }, grid: { color: '#ffffff08' } },
+      y: { ticks: { color: '#8892a4', callback: v => v >= 1000 ? Math.round(v/1000)+'K' : v }, grid: { color: '#ffffff08' } }
     }
   }
 });
