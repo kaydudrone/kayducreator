@@ -491,6 +491,7 @@
     <div class="hero-sub">Built for your outdoor creator ecosystem: hidden-gem Malaysia stories, 60 Mountains progress, So Hikers community, GPX lead capture, brand collaborations and content performance.</div>
     <div class="hero-actions">
       <a class="command-btn primary" href="#nextPanel">Today’s priority</a>
+      <a class="command-btn" href="/admin/blog">✍️ Write Post</a>
       <a class="command-btn" href="/media-kit">Media kit</a>
       <a class="command-btn" href="/admin/upload">Upload GPX</a>
       <a class="command-btn" href="/">Public site</a>
@@ -520,7 +521,7 @@
         </div>
         <div class="mission-item">
           <div class="mission-check">3</div>
-          <div><div class="mission-copy">Move Mountain #16 from idea into route, GPX, filming notes and posting plan.</div><div class="mission-meta">Keep 60 Mountains momentum visible</div></div>
+          <div><div class="mission-copy">Plan Mountain #18 — route, GPX, filming notes and posting plan.</div><div class="mission-meta">Keep 60 Mountains momentum visible · 17/60 done</div></div>
           <div class="mission-status warn">Trail</div>
         </div>
       </div>
@@ -535,6 +536,7 @@
       <div class="system-links">
         <a class="system-link" href="/media-kit"><strong>Media Kit</strong><span>Send to brands and tourism partners.</span></a>
         <a class="system-link" href="/admin/upload"><strong>GPX Upload</strong><span>Add hikes into the route library.</span></a>
+        <a class="system-link" href="/admin/blog"><strong>Blog Editor</strong><span>Write and publish hike stories.</span></a>
         <a class="system-link" href="/sepang"><strong>Press Proof</strong><span>Malaysia Airlines feature story.</span></a>
         <a class="system-link" href="mailto:kaydu@kayducreator.com"><strong>Inbox</strong><span>Collab email shortcut.</span></a>
       </div>
@@ -682,7 +684,7 @@
       <div class="up-next-tags">
         <span class="tag orange">📸 Bukit Saga — Ahpek hook</span>
         <span class="tag orange">📸 Sepang — Magazine hook</span>
-        <span class="tag blue">🔵 Mountain #16 after</span>
+        <span class="tag blue">🔵 Mountain #18 after</span>
       </div>
     </div>
 
@@ -1000,7 +1002,7 @@ function secureFetch(url) {
 const dotsEl = document.getElementById('mountainDots');
 for (let i = 1; i <= 60; i++) {
   const d = document.createElement('div');
-  d.className = 'dot ' + (i <= 15 ? 'done' : 'todo');
+  d.className = 'dot ' + (i <= 17 ? 'done' : 'todo');
   d.textContent = i;
   dotsEl.appendChild(d);
 }
@@ -1506,13 +1508,13 @@ function updateIntelligence(data) {
   const xhsCtrRaw = $get('xhsCtrDisplay','textContent') || '12.6%';
   const xhsCtr = parseFloat(xhsCtrRaw.match(/[\d.]+/)) || 12.6;
 
-  if (contentEl) contentEl.innerHTML = `<strong>2 Carousels queued</strong> with zero filming needed — Bukit Saga (Ahpek/Uncle Hill hook) + Sepang (Malaysia Airlines magazine hook). Do these before planning Mountain #16 for fastest reach gains.`;
+  if (contentEl) contentEl.innerHTML = `<strong>2 Carousels queued</strong> with zero filming needed — Bukit Saga (Ahpek/Uncle Hill hook) + Sepang (Malaysia Airlines magazine hook). Do these before planning Mountain #18 for fastest reach gains.`;
   if (platformEl) platformEl.innerHTML = `New all-time #1: <strong>Zombie Tunnel (104K)</strong>. Lesson: specific names beat generic hooks. Next carousel — use a specific name or angle, not just "Hidden".`;
   if (actionEl) {
     if (xhsCtr < 15) {
       actionEl.innerHTML = `Priority: <strong>Lift XHS CTR to 15%</strong>. Add bolder bilingual text overlays to your next cover image — current ${xhsCtr}% is leaving reach on the table.`;
     } else {
-      actionEl.innerHTML = `Next: Post <strong>Bukit Saga Carousel</strong> (Ahpek hook) this week — then Sepang carousel — then plan Mountain #16.`;
+      actionEl.innerHTML = `Next: Post <strong>Bukit Saga Carousel</strong> (Ahpek hook) this week — then Sepang carousel — then plan Mountain #18.`;
     }
   }
 }
@@ -1641,7 +1643,7 @@ function buildNextPanel(igData) {
     action = `🎬 Follow up with a Reel from the same mountain`;
     reason = `Your last carousel performed well. Now push a Reel from the same shoot — "the hike" or drone b-roll — to extend reach to a new audience who missed the carousel.`;
   } else {
-    action = `🏔 Plan your next mountain shoot (Mountain #16)`;
+    action = `🏔 Plan your next mountain shoot (Mountain #18)`;
     reason = `You're at 15/60. Choose a visually dramatic mountain near KL — check if it has a "hidden" angle (waterfall, mossy forest, unique view). Best shoots: golden hour or misty morning.`;
   }
 
