@@ -2,6 +2,11 @@ import { Octokit } from '@octokit/rest';
 
 const IG_SVG   = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`;
 
+// Increase body parser limit — GPX files can be 1–3MB as text
+export const config = {
+  api: { bodyParser: { sizeLimit: '10mb' } }
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
@@ -20,7 +25,11 @@ export default async function handler(req, res) {
 
     // ── Commit replacement GPX file to /gpx/ if provided ─────────────
     let resolvedGpxUrl = gpxBlobUrl || null;
-    if (gpxBase64 && gpxFilename) {
+    if (gpxFilename) {
+      if (!gpxBase64 || typeof gpxBase64 !== 'string') {
+        return res.status(400).json({ error: `GPX body missing or too large — received type: ${typeof gpxBase64}, body keys: ${Object.keys(req.body || {}).join(',')}` });
+      }
+
       const gpxPath = `gpx/${gpxFilename}`;
       let existingSha;
       try {
@@ -28,16 +37,26 @@ export default async function handler(req, res) {
         existingSha = data.sha;
       } catch { /* file doesn't exist yet */ }
 
-      // gpxBase64 is raw text from the client; encode with Buffer for GitHub API
-      const encodedContent = Buffer.from(gpxBase64, 'utf8').toString('base64');
+      // gpxBase64 is raw UTF-8 text from the client; encode with Buffer for GitHub API
+      let encodedContent;
+      try {
+        encodedContent = Buffer.from(gpxBase64, 'utf8').toString('base64');
+      } catch (encErr) {
+        return res.status(500).json({ error: `Buffer encode failed: ${encErr.message}` });
+      }
 
-      await octokit.repos.createOrUpdateFileContents({
-        owner, repo,
-        path: gpxPath,
-        message: `upload: GPX file ${gpxFilename}`,
-        content: encodedContent,
-        ...(existingSha ? { sha: existingSha } : {}),
-      });
+      try {
+        await octokit.repos.createOrUpdateFileContents({
+          owner, repo,
+          path: gpxPath,
+          message: `upload: GPX file ${gpxFilename}`,
+          content: encodedContent,
+          ...(existingSha ? { sha: existingSha } : {}),
+        });
+      } catch (ghErr) {
+        return res.status(500).json({ error: `GitHub GPX commit failed: ${ghErr.message}` });
+      }
+
       resolvedGpxUrl = `/gpx/${gpxFilename}`;
     }
 
