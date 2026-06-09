@@ -49,13 +49,11 @@ export default async function handler(req, res) {
               `$1${videoUrl}$2`
             );
           } else {
-            // Add new video button before </div> of trail-actions
+            // Insert video button before the last closing </div> in cardBody (trail-actions)
             body = body.replace(
-              /(<\/div>\s*<\/article>)/,
-              `\n          <a class="btn btn-ig btn-sm" href="${videoUrl}" target="_blank" rel="noopener noreferrer">${IG_SVG} Video</a>\n        </div>\n      </article>`
+              /(\s*<\/div>\s*)$/,
+              `\n          <a class="btn btn-ig btn-sm" href="${videoUrl}" target="_blank" rel="noopener noreferrer">${IG_SVG} Video</a>$1`
             );
-            // Remove the original close tags since we replaced them
-            return open + body.replace(/(<\/div>\s*<\/article>)$/, '') + close;
           }
         }
       }
