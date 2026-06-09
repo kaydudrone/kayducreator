@@ -1145,6 +1145,29 @@
       gap: 14px;
       max-width: 100%;
     }
+    /* Press photos: 1-col on tiny screens — photos were too small at 3-col */
+    .press-photos { grid-template-columns: 1fr; }
+    .press-photo:first-child { border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .press-photo:last-child  { border-radius: 0 0 var(--radius-md) var(--radius-md); }
+    .press-photo { aspect-ratio: 16/9; }
+    /* Platform stats: 2-col for 3-stat cards on narrow screens */
+    .plat-stats { grid-template-columns: repeat(2, 1fr) !important; }
+    .plat-stats .pstat:last-child:nth-child(3) { grid-column: 1 / -1; text-align: center; }
+    /* Engagement banner: reduce gap, hide divider already hidden */
+    .engagement-banner { gap: 14px; padding: 20px 18px; }
+    /* Section padding tighter on small phones */
+    .section, .contact-section { padding-top: 40px; padding-bottom: 40px; }
+    /* Content gallery cards — slightly taller so view counts read cleanly */
+    .content-card { min-height: 170px; }
+  }
+
+  /* ── MEDIUM SCREEN RESTORE (≥ 520px) ────────────────── */
+  @media (min-width: 520px) {
+    /* Restore press photos to 3-col once there's enough room */
+    .press-photos { grid-template-columns: repeat(3, 1fr); }
+    .press-photo { aspect-ratio: 4/3; }
+    .press-photo:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+    .press-photo:last-child  { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
   }
 
   /* ── DESKTOP GRID ENHANCEMENTS (≥ 520px) ─────────────*/
@@ -1543,7 +1566,8 @@
     text-align: center;
     margin-top: 16px;
   }
-  @media (min-width: 520px) {
+  /* Rate grid: 3-col only at larger tablet+ (cards need room to breathe) */
+  @media (min-width: 640px) {
     .rate-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (min-width: 900px) {
