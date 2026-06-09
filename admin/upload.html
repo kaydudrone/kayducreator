@@ -1013,12 +1013,12 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
       let gpxFilename = null;
       if (editGpxFile) {
         statusMsg.textContent = '⏳ Reading GPX file…';
-        gpxBase64 = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result.split(',')[1]); // strip data URL prefix
-          reader.onerror = reject;
-          reader.readAsDataURL(editGpxFile);
-        });
+        // Read as raw bytes → binary string → btoa (handles all file types correctly)
+        const arrayBuffer = await editGpxFile.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        let binary = '';
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        gpxBase64 = btoa(binary);
         gpxFilename = editGpxFilename;
       }
 
