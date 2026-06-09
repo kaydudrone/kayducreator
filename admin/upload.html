@@ -1013,12 +1013,8 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
       let gpxFilename = null;
       if (editGpxFile) {
         statusMsg.textContent = '⏳ Reading GPX file…';
-        // Read as raw bytes → binary string → btoa (handles all file types correctly)
-        const arrayBuffer = await editGpxFile.arrayBuffer();
-        const bytes = new Uint8Array(arrayBuffer);
-        let binary = '';
-        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-        gpxBase64 = btoa(binary);
+        // Send raw text — Node.js Buffer.from(text).toString('base64') on server side
+        gpxBase64 = await editGpxFile.text();   // raw UTF-8 string (GPX is always XML/UTF-8)
         gpxFilename = editGpxFilename;
       }
 

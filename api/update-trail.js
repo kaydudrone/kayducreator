@@ -28,11 +28,14 @@ export default async function handler(req, res) {
         existingSha = data.sha;
       } catch { /* file doesn't exist yet */ }
 
+      // gpxBase64 is raw text from the client; encode with Buffer for GitHub API
+      const encodedContent = Buffer.from(gpxBase64, 'utf8').toString('base64');
+
       await octokit.repos.createOrUpdateFileContents({
         owner, repo,
         path: gpxPath,
         message: `upload: GPX file ${gpxFilename}`,
-        content: gpxBase64,
+        content: encodedContent,
         ...(existingSha ? { sha: existingSha } : {}),
       });
       resolvedGpxUrl = `/gpx/${gpxFilename}`;
