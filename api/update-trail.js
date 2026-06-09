@@ -11,12 +11,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { trailName, videoUrl, meetingUrl, gpxBlobUrl, gpxFilename } = req.body;
+    const { trailName, videoUrl, meetingUrl, gpxBlobUrl, gpxFilename, gpxBase64 } = req.body;
     if (!trailName) return res.status(400).json({ error: 'trailName required' });
 
     const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
     const owner   = process.env.GITHUB_OWNER || 'kaydudrone';
     const repo    = process.env.GITHUB_REPO  || 'kayduhikingcreator';
+
+    // ── Commit replacement GPX file to /gpx/ if provided ─────────────
+    let resolvedGpxUrl = gpxBlobUrl || null;
+    if (gpxBase64 && gpxFilename) {
+      const gpxPath = `gpx/${gpxFilename}`;
+      let existingSha;
+      try {
+        const { data } = await octokit.repos.getContent({ owner, repo, path: gpxPath });
+        existingSha = data.sha;
+      } catch { /* file doesn't exist yet */ }
+
+      await octokit.repos.createOrUpdateFileContents({
+        owner, repo,
+        path: gpxPath,
+        message: `upload: GPX file ${gpxFilename}`,
+        content: gpxBase64,
+        ...(existingSha ? { sha: existingSha } : {}),
+      });
+      resolvedGpxUrl = `/gpx/${gpxFilename}`;
+    }
 
     // Read index.html
     const { data: indexData } = await octokit.repos.getContent({ owner, repo, path: 'index.html' });
@@ -59,8 +79,8 @@ export default async function handler(req, res) {
       }
 
       // ── Update GPX download URL ───────────────────────────────────
-      if (gpxBlobUrl || gpxFilename) {
-        const gpxHref = gpxBlobUrl || `/gpx/${gpxFilename}`;
+      if (resolvedGpxUrl) {
+        const gpxHref = resolvedGpxUrl;
         body = body.replace(
           /(<a class="btn btn-primary btn-sm"\s+href=")[^"]+(" download>)/,
           `$1${gpxHref}$2`
@@ -99,7 +119,7 @@ export default async function handler(req, res) {
     await octokit.repos.createOrUpdateFileContents({
       owner, repo,
       path: 'index.html',
-      message: `update: trail card — ${trailName}${gpxFilename ? ' (GPX replaced)' : ''}`,
+      message: `update: trail card — ${trailName}${resolvedGpxUrl ? ' (GPX replaced)' : ''}`,
       content: Buffer.from(html).toString('base64'),
       sha: indexData.sha,
     });

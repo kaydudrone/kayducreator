@@ -1008,41 +1008,29 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
     statusMsg.className   = 'status-msg';
 
     try {
-      // ── Step 1: Upload replacement GPX to GitHub repo (if provided) ──
-      let gpxBlobUrl  = null;
+      // ── Step 1: Read GPX as base64 (if provided) — sent with update-trail call ──
+      let gpxBase64   = null;
       let gpxFilename = null;
       if (editGpxFile) {
-        statusMsg.textContent = '⏳ Uploading GPX…';
-        // Read file as base64
-        const base64Content = await new Promise((resolve, reject) => {
+        statusMsg.textContent = '⏳ Reading GPX file…';
+        gpxBase64 = await new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result.split(',')[1]); // strip data URL prefix
           reader.onerror = reject;
           reader.readAsDataURL(editGpxFile);
         });
-        const uploadRes = await fetch('/api/upload-gpx', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${secret}`,
-          },
-          body: JSON.stringify({ filename: editGpxFilename, content: base64Content }),
-        });
-        const uploadData = await uploadRes.json();
-        if (!uploadRes.ok) throw new Error(uploadData.error || 'GPX upload failed');
-        gpxBlobUrl  = uploadData.url;  // e.g. /gpx/Jeram_Perlus_By_KayDu.gpx
         gpxFilename = editGpxFilename;
       }
 
-      // ── Step 2: Update trail card in index.html ──────────────────────
-      statusMsg.textContent = '⏳ Saving changes…';
+      // ── Step 2: Update trail card + commit GPX (if any) in one call ──
+      statusMsg.textContent = editGpxFile ? '⏳ Uploading GPX & saving…' : '⏳ Saving changes…';
       const res = await fetch('/api/update-trail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${secret}`,
         },
-        body: JSON.stringify({ trailName, videoUrl, meetingUrl, gpxBlobUrl, gpxFilename }),
+        body: JSON.stringify({ trailName, videoUrl, meetingUrl, gpxBase64, gpxFilename }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to save');
