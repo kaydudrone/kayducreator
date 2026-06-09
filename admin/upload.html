@@ -598,6 +598,27 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
           </div>
         </div>
 
+        <!-- Step 3: Replace GPX -->
+        <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:20px">
+          <div class="step-header" style="margin-bottom:12px">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-title">Replace GPX File <span style="font-size:.72rem;font-weight:500;color:var(--muted);margin-left:6px">optional</span></div>
+              <div class="step-sub">Upload a new .gpx to fix a broken or wrong download link</div>
+            </div>
+          </div>
+
+          <div id="editGpxDrop" onclick="document.getElementById('editGpxInput').click()" style="
+            border:2px dashed var(--line);border-radius:12px;padding:20px;text-align:center;
+            cursor:pointer;transition:border-color .2s,background .2s;background:transparent"
+            onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+            onmouseout="this.style.borderColor='var(--line)';this.style.background='transparent'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div id="editGpxLabel" style="font-size:.82rem;color:var(--muted)">Click to select .gpx file</div>
+            <input type="file" id="editGpxInput" accept=".gpx" style="display:none" onchange="onEditGpxSelected(this)" />
+          </div>
+        </div>
+
         <div class="submit-row" style="margin-top:8px">
           <div id="editStatusMsg" class="status-msg"></div>
           <button type="button" id="saveEditBtn" class="btn-submit" onclick="saveTrailEdit()">
@@ -845,7 +866,20 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
 
 <!-- ── EDIT TRAIL LOGIC ────────────────────────────────── -->
 <script>
-  let editTrails = [];
+  let editTrails    = [];
+  let editGpxFile     = null;
+  let editGpxFilename = '';
+
+  function onEditGpxSelected(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (!file.name.endsWith('.gpx')) { alert('Please select a valid .gpx file'); input.value=''; return; }
+    editGpxFile     = file;
+    editGpxFilename = file.name;
+    document.getElementById('editGpxLabel').textContent = '✅ ' + file.name;
+    document.getElementById('editGpxDrop').style.borderColor = 'var(--primary)';
+    document.getElementById('editGpxDrop').style.background  = 'var(--primary-light)';
+  }
 
   const DIFF_COLOR = {
     'Easy':'#16a34a','Moderate':'#d97706','Slightly Hard':'#c2410c',
@@ -943,24 +977,52 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
 
     if (!trailName) { alert('Select a trail first'); return; }
 
-    saveBtn.disabled  = true;
-    statusMsg.textContent = '⏳ Saving…';
+    saveBtn.disabled      = true;
+    saveBtn.textContent   = '⏳ Saving…';
+    statusMsg.textContent = '';
     statusMsg.className   = 'status-msg';
 
     try {
+      // ── Step 1: Upload replacement GPX to Vercel Blob (if provided) ──
+      let gpxBlobUrl  = null;
+      let gpxFilename = null;
+      if (editGpxFile && window.__blobUpload) {
+        statusMsg.textContent = '⏳ Uploading GPX…';
+        const blob = await window.__blobUpload(
+          `gpx/${editGpxFilename}`,
+          editGpxFile,
+          {
+            access: 'public',
+            handleUploadUrl: '/api/gpx-upload-token',
+            headers: { 'Authorization': `Bearer ${secret}` },
+          }
+        );
+        gpxBlobUrl  = blob.url;
+        gpxFilename = editGpxFilename;
+      }
+
+      // ── Step 2: Update trail card in index.html ──────────────────────
+      statusMsg.textContent = '⏳ Saving changes…';
       const res = await fetch('/api/update-trail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${secret}`,
         },
-        body: JSON.stringify({ trailName, videoUrl, meetingUrl }),
+        body: JSON.stringify({ trailName, videoUrl, meetingUrl, gpxBlobUrl, gpxFilename }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to save');
 
       statusMsg.textContent = `✅ "${trailName}" updated! Site will refresh in ~30 sec.`;
       statusMsg.className   = 'status-msg status-ok';
+
+      // Reset GPX state
+      editGpxFile = null; editGpxFilename = '';
+      document.getElementById('editGpxInput').value = '';
+      document.getElementById('editGpxLabel').textContent = 'Click to select .gpx file';
+      document.getElementById('editGpxDrop').style.borderColor = 'var(--line)';
+      document.getElementById('editGpxDrop').style.background  = 'transparent';
 
       // Refresh trail list
       const trail = editTrails.find(t => t.name === trailName);
@@ -970,7 +1032,8 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
       statusMsg.textContent = '❌ ' + err.message;
       statusMsg.className   = 'status-msg status-err';
     } finally {
-      saveBtn.disabled = false;
+      saveBtn.disabled  = false;
+      saveBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Changes';
     }
   }
 </script>

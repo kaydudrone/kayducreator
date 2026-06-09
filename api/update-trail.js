@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { trailName, videoUrl, meetingUrl } = req.body;
+    const { trailName, videoUrl, meetingUrl, gpxBlobUrl, gpxFilename } = req.body;
     if (!trailName) return res.status(400).json({ error: 'trailName required' });
 
     const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
@@ -60,6 +60,15 @@ export default async function handler(req, res) {
         }
       }
 
+      // ── Update GPX download URL ───────────────────────────────────
+      if (gpxBlobUrl || gpxFilename) {
+        const gpxHref = gpxBlobUrl || `/gpx/${gpxFilename}`;
+        body = body.replace(
+          /(<a class="btn btn-primary btn-sm"\s+href=")[^"]+(" download>)/,
+          `$1${gpxHref}$2`
+        );
+      }
+
       // ── Update meeting point URL ──────────────────────────────────
       if (meetingUrl !== undefined) {
         if (meetingUrl === '') {
@@ -92,7 +101,7 @@ export default async function handler(req, res) {
     await octokit.repos.createOrUpdateFileContents({
       owner, repo,
       path: 'index.html',
-      message: `update: trail card — ${trailName}`,
+      message: `update: trail card — ${trailName}${gpxFilename ? ' (GPX replaced)' : ''}`,
       content: Buffer.from(html).toString('base64'),
       sha: indexData.sha,
     });
