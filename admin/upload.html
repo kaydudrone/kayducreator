@@ -1008,22 +1008,29 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
     statusMsg.className   = 'status-msg';
 
     try {
-      // ── Step 1: Upload replacement GPX to Vercel Blob (if provided) ──
+      // ── Step 1: Upload replacement GPX to GitHub repo (if provided) ──
       let gpxBlobUrl  = null;
       let gpxFilename = null;
       if (editGpxFile) {
-        if (!window.__blobUpload) throw new Error('Blob upload client not loaded — refresh the page and try again.');
         statusMsg.textContent = '⏳ Uploading GPX…';
-        const blob = await window.__blobUpload(
-          `gpx/${editGpxFilename}`,
-          editGpxFile,
-          {
-            access: 'public',
-            handleUploadUrl: '/api/gpx-upload-token',
-            headers: { 'Authorization': `Bearer ${secret}` },
-          }
-        );
-        gpxBlobUrl  = blob.url;
+        // Read file as base64
+        const base64Content = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(',')[1]); // strip data URL prefix
+          reader.onerror = reject;
+          reader.readAsDataURL(editGpxFile);
+        });
+        const uploadRes = await fetch('/api/upload-gpx', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${secret}`,
+          },
+          body: JSON.stringify({ filename: editGpxFilename, content: base64Content }),
+        });
+        const uploadData = await uploadRes.json();
+        if (!uploadRes.ok) throw new Error(uploadData.error || 'GPX upload failed');
+        gpxBlobUrl  = uploadData.url;  // e.g. /gpx/Jeram_Perlus_By_KayDu.gpx
         gpxFilename = editGpxFilename;
       }
 
