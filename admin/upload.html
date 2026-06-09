@@ -873,13 +873,30 @@ select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csv
   function onEditGpxSelected(input) {
     const file = input.files[0];
     if (!file) return;
-    if (!file.name.endsWith('.gpx')) { alert('Please select a valid .gpx file'); input.value=''; return; }
+    applyEditGpx(file);
+  }
+
+  function applyEditGpx(file) {
+    if (!file.name.endsWith('.gpx')) { alert('Please select a valid .gpx file'); return; }
     editGpxFile     = file;
     editGpxFilename = file.name;
     document.getElementById('editGpxLabel').textContent = '✅ ' + file.name;
     document.getElementById('editGpxDrop').style.borderColor = 'var(--primary)';
     document.getElementById('editGpxDrop').style.background  = 'var(--primary-light)';
   }
+
+  // Wire drag-and-drop on the edit GPX drop zone
+  document.addEventListener('DOMContentLoaded', () => {
+    const editDrop = document.getElementById('editGpxDrop');
+    if (!editDrop) return;
+    editDrop.addEventListener('dragover',  e => { e.preventDefault(); editDrop.style.borderColor='var(--primary)'; editDrop.style.background='var(--primary-light)'; });
+    editDrop.addEventListener('dragleave', () => { if (!editGpxFile) { editDrop.style.borderColor='var(--line)'; editDrop.style.background='transparent'; } });
+    editDrop.addEventListener('drop', e => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) applyEditGpx(file);
+    });
+  });
 
   const DIFF_COLOR = {
     'Easy':'#16a34a','Moderate':'#d97706','Slightly Hard':'#c2410c',
