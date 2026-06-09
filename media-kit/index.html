@@ -1233,7 +1233,7 @@
     .section, .contact-section { padding: 80px 72px; }
     .footer { padding: 28px 72px; }
 
-    /* About: 2-column (text left, skills right) */
+    /* About: 2-column (text left, skills+logos right) */
     .about-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1241,8 +1241,10 @@
       align-items: start;
     }
     .about-section .about-text { /* text column */ }
-    .about-section .skills-list {
+    .about-section .skills-column {
       margin-top: 56px; /* align with h2 baseline */
+    }
+    .about-section .skills-list {
       display: flex !important;
       flex-direction: column;
       gap: 0;
@@ -1623,7 +1625,8 @@
     .stat-item { border-bottom: none !important; border-right: 1px solid var(--line) !important; }
     .stat-item.full-width { grid-column: auto !important; border-top: none !important; border-right: none !important; border-bottom: none !important; }
     .about-section { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 32px !important; align-items: start !important; }
-    .about-section .skills-list { margin-top: 16px !important; display: flex !important; flex-direction: column !important; gap: 0 !important; }
+    .about-section .skills-column { margin-top: 16px !important; }
+    .about-section .skills-list { display: flex !important; flex-direction: column !important; gap: 0 !important; }
     .skills-list { display: flex !important; flex-direction: column !important; gap: 0 !important; }
     /* pg-3: tighten padding so About fits within one A4 page */
     #pg-3 .section { padding: 36px 32px !important; }
@@ -1847,6 +1850,7 @@
   <a href="https://kayducreator.com" class="about-link" target="_blank" style="margin-top:20px;display:inline-flex;">kayducreator.com <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
   </div><!-- /about-text -->
 
+  <div class="skills-column">
   <div class="skills-list">
     <div class="skill-row">
       <div class="skill-icon">
@@ -1899,7 +1903,9 @@
       </div>
     </div>
 
-    <div class="brand-logos-wrap" style="margin-top:24px;">
+  </div><!-- /skills-list -->
+
+  <div class="brand-logos-wrap" style="margin-top:24px;">
       <div class="brand-logos-label">Brands &amp; partnerships <span style="background:#f5c400;color:#1a1200;font-family:var(--font-mono);font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:6px;">Paid collab: Insta360</span></div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;">
         <!-- Row 1 -->
@@ -1930,7 +1936,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- /brand-logos-wrap -->
+  </div><!-- /skills-column -->
 </section>
 
 </div><!-- /pg-3 -->
