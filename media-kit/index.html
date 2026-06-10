@@ -1055,8 +1055,18 @@
   .platform-card.plat-youtube   { border-color: rgba(255,0,0,0.28); }
   .platform-card.plat-sohikers .plat-icon  { background: var(--primary-light); color: var(--primary); }
   .platform-card.plat-sohikers  { border-color: rgba(29,138,171,0.35); }
-  .platform-card.plat-website .plat-icon   { background: var(--primary-light); color: var(--primary-dark); }
-  .platform-card.plat-website   { border-color: rgba(20,95,118,0.35); grid-column: 1 / -1; }
+  .platform-card.plat-website {
+    background: var(--primary);
+    border-color: var(--primary-dark);
+    grid-column: 1 / -1;
+  }
+  .platform-card.plat-website .plat-icon { background: rgba(255,255,255,0.16); color: #fff; }
+  .platform-card.plat-website .plat-platform { color: rgba(255,255,255,0.85); }
+  .platform-card.plat-website .plat-handle,
+  .platform-card.plat-website .plat-handle a { color: #fff; }
+  .platform-card.plat-website .pstat strong { color: #fff; }
+  .platform-card.plat-website .pstat span { color: rgba(255,255,255,0.8); }
+  .platform-card.plat-website .plat-stats { border-top-color: rgba(255,255,255,0.3); }
 
   /* ── HOVER GUARDS (desktop pointer only) ─────────────*/
   /* Reset unguarded hover — prevents ghost states on touch */
