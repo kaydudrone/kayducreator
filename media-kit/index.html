@@ -275,7 +275,7 @@
 
   /* ── SECTION ──────────────────────────────────────── */
   .section {
-    padding: 56px 32px;
+    padding: 36px 32px;
   }
 
   .section + .section {
@@ -1611,6 +1611,9 @@
       background: var(--bg) !important;
       scroll-behavior: auto !important;
     }
+
+    /* Keep original section spacing in PDF — screen uses tighter padding */
+    .section { padding: 56px 32px !important; }
 
     /* ── A4 PAGE WRAPPERS ─────────────────────────────
        Each .mk-page = exactly one A4 page (210×297mm).
