@@ -46,13 +46,13 @@ window.addEventListener('load', () => {
   setTimeout(() => {
     // Bar spring animation
     const bar = document.getElementById('progress-bar');
-    if(bar) bar.style.width = '28.33%';
+    if(bar) bar.style.width = '30%';
 
-    // Count-up with spring overshoot: 0 → 18 → 17
+    // Count-up with spring overshoot: 0 → 19 → 18
     const countEl = document.getElementById('progress-count');
     if(!countEl) return;
-    const target = 17;
-    const overshoot = 18;
+    const target = 18;
+    const overshoot = 19;
     const duration = 1000; // ms to reach overshoot
     const start = performance.now();
 
