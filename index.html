@@ -2400,21 +2400,6 @@ footer{
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
-<!-- GA4 event tracking: GPX downloads + contact clicks -->
-<script>
-document.addEventListener('click',function(e){
-  var a=e.target.closest('a'); if(!a) return;
-  var href=a.getAttribute('href')||'';
-  if(/\.gpx($|\?)/i.test(href)){
-    var trail=href.split('/').pop().replace(/_/g,' ').replace(/\.gpx.*/i,'');
-    if(typeof gtag==='function') gtag('event','gpx_download',{trail_name:trail,link_url:href});
-  } else if(/wa\.me|api\.whatsapp/i.test(href)){
-    if(typeof gtag==='function') gtag('event','whatsapp_click',{link_url:href});
-  } else if(/^mailto:/i.test(href)){
-    if(typeof gtag==='function') gtag('event','email_click',{link_url:href});
-  }
-},true);
-</script>
 <script defer src="/js/main.js"></script>
 </body>
 </html>
