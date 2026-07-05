@@ -723,15 +723,20 @@ footer{
 /* ── GALLERY LIGHTBOX ── */
 .beyond-card{cursor:pointer}
 .beyond-card .beyond-photos::after{
-  content:'Read Article';
-  position:absolute;inset:0;
+  content:'View Photos';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translateY(6px);
   display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.38);
-  color:#fff;font-size:.78rem;font-weight:600;letter-spacing:.06em;
-  opacity:0;transition:opacity .2s;
-  pointer-events:none;border-radius:0;
+  background:var(--primary);
+  color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:.7rem 1.6rem;border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s,transform .2s;
+  pointer-events:none;
 }
-.beyond-card:hover .beyond-photos::after{opacity:1}
+.beyond-card .beyond-photos{background:rgba(0,0,0,0)}
+.beyond-card:hover .beyond-photos::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.3);opacity:0;transition:opacity .2s}
+.beyond-card:hover .beyond-photos::before{opacity:1}
+.beyond-card:hover .beyond-photos::after{opacity:1;transform:translate(-50%,-50%) translateY(0)}
 .beyond-photos{position:relative}
 
 /* Lightbox overlay */
@@ -1090,13 +1095,12 @@ footer{
 /* On touch devices show a permanent subtle tap hint instead of hover overlay */
 @media(hover:none){
   .beyond-card .beyond-photos::after{
-    content:'Tap to view photos';
+    content:'View Photos';
     opacity:1;
-    background:rgba(0,0,0,.28);
     font-size:.68rem;
-    letter-spacing:.04em;
   }
-  .beyond-card:active .beyond-photos::after{background:rgba(0,0,0,.5)}
+  .beyond-card .beyond-photos::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+  .beyond-card:active .beyond-photos::after{background:var(--primary-dark)}
 }
 
 /* Ensure all interactive elements meet 44px min touch target */
