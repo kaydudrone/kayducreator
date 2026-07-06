@@ -454,6 +454,17 @@ nav{
 
 /* Trail filter buttons */
 .trail-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0 1.6rem}
+.trail-search{position:relative;max-width:320px;margin:1.2rem 0 0}
+.trail-search svg{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.trail-search input{
+  width:100%;padding:.6rem .9rem .6rem 2.35rem;border-radius:999px;
+  border:1.5px solid var(--line);background:var(--surface);
+  font-family:inherit;font-size:.85rem;color:var(--ink);
+  transition:border-color 150ms ease-out,box-shadow 150ms ease-out;
+}
+.trail-search input::placeholder{color:var(--muted)}
+.trail-search input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(29,138,171,.15)}
+.trail-empty{display:none;padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem}
 .filter-btn{padding:.38rem .9rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:.75rem;font-weight:600;color:var(--muted);cursor:pointer;transition:background 150ms ease-out,color 150ms ease-out,border-color 150ms ease-out;font-family:inherit}
 .filter-btn:hover{border-color:var(--primary);color:var(--primary)}
 .filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
@@ -1487,8 +1498,13 @@ footer{
       <h2 class="title">GPX Trail Downloads</h2>
       <p class="text-muted" style="margin-top:.6rem;max-width:540px">Free GPX files recorded by Kay Du. Load into any hiking app like Wikiloc, AllTrails, or Garmin.</p>
     </div>
+    <div class="trail-search fade-up">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="trailSearch" placeholder="Search trails, e.g. Bukit Gasing" autocomplete="off">
+    </div>
+
     <div class="trail-filter fade-up" role="group" aria-label="Filter by difficulty">
-      <button class="filter-btn active" data-filter="all">All (15)</button>
+      <button class="filter-btn active" data-filter="all">All (19)</button>
       <button class="filter-btn" data-filter="easy">Easy</button>
       <button class="filter-btn" data-filter="moderate">Moderate</button>
       <button class="filter-btn" data-filter="slightly-hard">Slightly Hard</button>
@@ -2118,6 +2134,7 @@ footer{
       </article>
 
     </div>
+    <p class="trail-empty" id="trailEmpty">No trails match your search — try a different name.</p>
   </div>
 </section>
 

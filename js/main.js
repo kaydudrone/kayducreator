@@ -302,24 +302,40 @@ document.addEventListener('keydown', e => {
   }, {passive:true});
 })();
 
-// Trail difficulty filter
+// Trail difficulty filter + search
 (function() {
   const btns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('#trailGrid .trail-card');
+  const searchInput = document.getElementById('trailSearch');
+  const emptyMsg = document.getElementById('trailEmpty');
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(card => {
+      const badge = card.querySelector('.difficulty');
+      const matchesDifficulty = activeFilter === 'all' || (badge && badge.classList.contains('diff-' + activeFilter));
+      const name = card.querySelector('.trail-name')?.textContent.toLowerCase() || '';
+      const loc = card.querySelector('.trail-loc')?.textContent.toLowerCase() || '';
+      const matchesSearch = !query || name.includes(query) || loc.includes(query);
+      const matches = matchesDifficulty && matchesSearch;
+      card.style.display = matches ? '' : 'none';
+      if (matches) shown++;
+    });
+    if (emptyMsg) emptyMsg.style.display = shown === 0 ? 'block' : 'none';
+  }
+
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      let shown = 0;
-      cards.forEach(card => {
-        const badge = card.querySelector('.difficulty');
-        const matches = filter === 'all' || (badge && badge.classList.contains('diff-' + filter));
-        card.style.display = matches ? '' : 'none';
-        if (matches) shown++;
-      });
+      activeFilter = btn.dataset.filter;
+      applyFilters();
     });
   });
+
+  searchInput?.addEventListener('input', applyFilters);
 })();
 
 // Back to top
