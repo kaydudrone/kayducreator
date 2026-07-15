@@ -66,7 +66,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{max-width:100%;display:block}
+img{max-width:100%;display:block;height:auto}
 a{color:inherit;text-decoration:none}
 #progress-bar{position:fixed;top:0;left:0;z-index:200;height:3px;width:0%;background:linear-gradient(90deg,var(--primary),#7de8ff);transition:width .1s linear}
 /* Nav */
@@ -80,7 +80,7 @@ nav{position:sticky;top:0;z-index:100;background:#1d8aab;border-bottom:1px solid
 @media(max-width:480px){.nav-brand span{display:none}}
 /* Hero */
 .hero{position:relative;min-height:88svh;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff}
-.hero-bg{position:absolute;inset:0;background:url("images/langkawi_hero.jpg") center 45%/cover no-repeat;background-color:#0e4d5f;transform:scale(1.05);animation:heroZoom 14s ease-out forwards}
+.hero-bg{position:absolute;inset:0;background:url("images/langkawi_hero.webp") center 45%/cover no-repeat;background-color:#0e4d5f;transform:scale(1.05);animation:heroZoom 14s ease-out forwards}
 @keyframes heroZoom{to{transform:scale(1)}}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,15,20,.2) 0%,rgba(5,15,20,.5) 45%,rgba(5,15,20,.9) 100%)}
 .hero-inner{position:relative;z-index:1;width:min(820px,calc(100% - 3rem));margin:0 auto;text-align:center;padding:80px 0 64px;display:flex;flex-direction:column;align-items:center}
@@ -125,8 +125,27 @@ figcaption{font-family:"DM Mono",monospace;font-size:.72rem;letter-spacing:.04em
 .gallery img{width:100%;margin-bottom:.9rem;border-radius:var(--radius-sm);box-shadow:0 4px 18px rgba(0,0,0,.10);break-inside:avoid;transition:transform .25s ease}
 @media(hover:hover){.gallery img:hover{transform:translateY(-3px)}}
 @media(max-width:1000px){.gallery{columns:3}}
-@media(max-width:700px){.gallery{columns:2}}
-@media(max-width:420px){.gallery{columns:1}}
+@media(max-width:700px){.gallery{columns:2;column-gap:.6rem}.gallery img{margin-bottom:.6rem}}
+.gallery img{cursor:zoom-in}
+/* Lightbox */
+#glb{position:fixed;inset:0;z-index:300;background:rgba(8,12,14,.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+#glb.open{opacity:1;pointer-events:auto}
+#glb .glb-img{max-width:92vw;max-height:80vh;border-radius:10px;box-shadow:0 10px 50px rgba(0,0,0,.5)}
+.glb-btn{position:absolute;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:50%;font-size:1.5rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.glb-btn:hover{background:rgba(255,255,255,.28)}
+.glb-close{top:18px;right:18px}
+.glb-prev{left:16px;top:50%;transform:translateY(-50%)}
+.glb-next{right:16px;top:50%;transform:translateY(-50%)}
+.glb-count{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.75);font-family:"DM Mono",monospace;font-size:.75rem;letter-spacing:.1em}
+@media(max-width:600px){.glb-btn{width:38px;height:38px;font-size:1.2rem}.glb-prev{left:5px}.glb-next{right:5px}#glb .glb-img{max-width:96vw}}
+/* Visit Malaysia 2026 brand block */
+.vm-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem 1.4rem;width:min(760px,calc(100% - 2.5rem));margin:1.2rem auto 0;box-shadow:0 4px 24px rgba(0,0,0,.06);text-align:center}
+.vm-logo{max-width:250px;height:auto;margin:0 auto 1rem}
+.vm-note{font-size:.9rem;color:var(--muted);margin-bottom:1.3rem}
+.vm-row{display:flex;align-items:flex-end;justify-content:center;gap:1.4rem;flex-wrap:wrap}
+.vm-row img{height:132px;width:auto}
+.vm-row .vm-sticker{height:152px}
+@media(max-width:520px){.vm-row{gap:.8rem}.vm-row img{height:92px}.vm-row .vm-sticker{height:108px}}
 /* Facts card */
 .facts{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.06);overflow:hidden;margin:0 auto;width:min(760px,calc(100% - 2.5rem))}
 .facts-head{background:var(--primary);color:#fff;padding:1rem 1.5rem;font-family:"DM Mono",monospace;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase}
@@ -203,10 +222,10 @@ footer a{color:#7de8ff}
     <p>We took a bus from KL up to <strong>Kuala Perlis</strong>, then hopped on the <strong>Ro-Ro ferry</strong> across to Langkawi. From Kuala Perlis the crossing is roughly 1.5–2.5 hours, the seating is free-flow, and yes — it's air-conditioned, so it's a comfy ride. The best part about the Ro-Ro service: you can actually <strong>bring your own car, motorcycle or bicycle</strong> onto the island.</p>
     <p>We landed at <strong>Langkawi Port (Dermaga Tanjung Lembung)</strong> and were warmly greeted by <strong>Tourism Malaysia Langkawi</strong> and <strong>QQ Holidays Sdn Bhd</strong>, who handled all the arrangements from there. Big thank you to them for the smooth welcome.</p>
   </div>
-  <div class="pano"><img src="images/langkawi_pano_perlis.jpg" alt="Aerial sunrise panorama over Kuala Perlis town and paddy fields, the mainland gateway to Langkawi" loading="lazy" /></div>
+  <div class="pano"><img src="images/langkawi_pano_perlis.webp" alt="Aerial sunrise panorama over Kuala Perlis town and paddy fields, the mainland gateway to Langkawi" loading="lazy"  width="2048" height="788" /></div>
   <p class="pano-cap">Sunrise over Kuala Perlis — the mainland gateway to the Langkawi Ro-Ro ferry 🌅</p>
   <figure class="prose">
-    <img src="images/langkawi_cenang.jpg" alt="Aerial view of a curved white-sand beach in Langkawi, Kedah" loading="lazy" />
+    <img src="images/langkawi_cenang.webp" alt="Aerial view of a curved white-sand beach in Langkawi, Kedah" loading="lazy"  width="1920" height="1440" />
     <figcaption>Langkawi from above — 99 islands, turquoise water and beaches for days 🚁</figcaption>
   </figure>
   <div class="callout prose">
@@ -240,8 +259,8 @@ footer a{color:#7de8ff}
     <p>We checked in at <strong>Langkawi Country Lodge</strong>, our home for the whole trip, and even received a goodie bag of merchandise from Tourism Malaysia Langkawi to bring home. Later we dropped by <strong>Art Case Langkawi</strong>, where the owner and family treated us to homemade nasi lemak that tasted like childhood, and gave us customised art plates. Dinner was fresh seafood by the sea at <strong>Fish Farm Restaurant</strong> — cooked Chinese-style and really, really good.</p>
   </div>
   <div class="img-grid" style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_batik.jpg" alt="Colourful hand-painted batik and craft plates at Langkawi Craft Complex" loading="lazy" />
-    <img src="images/langkawi_culture.jpg" alt="Group in traditional Malay attire during the Refreshing Langkawi programme" loading="lazy" />
+    <img src="images/langkawi_batik.webp" alt="Colourful hand-painted batik and craft plates at Langkawi Craft Complex" loading="lazy"  width="1440" height="1920" />
+    <img src="images/langkawi_culture.webp" alt="Group in traditional Malay attire during the Refreshing Langkawi programme" loading="lazy"  width="1440" height="1920" />
   </div>
   <div class="vid-embed"><iframe src="https://www.instagram.com/p/DaDYo1IyuYg/embed" loading="lazy" scrolling="no" allowtransparency="true" allow="encrypted-media"></iframe></div>
   <p class="vid-label">▶ Watch: <a href="https://www.instagram.com/p/DaDYo1IyuYg/" target="_blank" rel="noopener noreferrer">Day 1 in Langkawi</a></p>
@@ -258,15 +277,15 @@ footer a{color:#7de8ff}
     <p>Lunch was Malay food at <strong>Rumah Makan Jebat</strong> (they even showed us their homestay), then back to Langkawi Country Lodge. In the evening the owner kindly showed us <strong>"merewang"</strong> — the communal cooking that prepares food for a traditional village feast. For dinner we dressed in traditional wear: <strong>Baju Kurung Kedah with batik</strong> for the ladies, <strong>Baju Pagoda with kain pelikat</strong> for the men. My first time wearing it — a genuinely unique experience, with beautiful live Malay music and a feast the owner prepared for us.</p>
   </div>
   <figure style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_dayangbunting.jpg" alt="Aerial view of turquoise lagoon and limestone islands near Pulau Dayang Bunting, Langkawi" loading="lazy" />
+    <img src="images/langkawi_dayangbunting.webp" alt="Aerial view of turquoise lagoon and limestone islands near Pulau Dayang Bunting, Langkawi" loading="lazy"  width="1440" height="1920" />
     <figcaption>The unreal turquoise water around Dayang Bunting 💚</figcaption>
   </figure>
   <div class="img-grid" style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_eagle_feed.jpg" alt="A Brahminy kite eagle swooping to the water during Langkawi island hopping" loading="lazy" />
-    <img src="images/langkawi_berasbasah.jpg" alt="Aerial of white sand beach and clear sea at Pulau Beras Basah, Langkawi" loading="lazy" />
+    <img src="images/langkawi_eagle_feed.webp" alt="A Brahminy kite eagle swooping to the water during Langkawi island hopping" loading="lazy"  width="1440" height="1920" />
+    <img src="images/langkawi_berasbasah.webp" alt="Aerial of white sand beach and clear sea at Pulau Beras Basah, Langkawi" loading="lazy"  width="1920" height="1440" />
   </div>
   <figure style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_islandhop.jpg" alt="Limestone cliffs and green islands during Langkawi island hopping boat trip" loading="lazy" />
+    <img src="images/langkawi_islandhop.webp" alt="Limestone cliffs and green islands during Langkawi island hopping boat trip" loading="lazy"  width="1440" height="1920" />
     <figcaption>Island hopping through Langkawi's limestone coastline</figcaption>
   </figure>
 </article>
@@ -281,18 +300,18 @@ footer a{color:#7de8ff}
     <p>Then we explored the <strong>Kubang Badak BioGeoTrail</strong> by boat — visiting the historic charcoal kiln site, <strong>Gua Pinang cave</strong>, and Pulau Jemuruk. The guide's storytelling about the area's history and geology was excellent. Finally, the most fun part: <strong>ATV adventure</strong> through Ayer Hangat. It had been ages since I last rode an ATV, and doing it in Langkawi was a blast. Dinner was at a famous local Western burger spot that the locals clearly love.</p>
   </div>
   <div class="img-grid" style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_skycab.jpg" alt="Langkawi SkyCab cable car climbing up Gunung Machinchang" loading="lazy" />
-    <img src="images/langkawi_skywalk.jpg" alt="View of Langkawi islands from the glass skywalk at the top station" loading="lazy" />
+    <img src="images/langkawi_skycab.webp" alt="Langkawi SkyCab cable car climbing up Gunung Machinchang" loading="lazy"  width="1440" height="1920" />
+    <img src="images/langkawi_skywalk.webp" alt="View of Langkawi islands from the glass skywalk at the top station" loading="lazy"  width="1440" height="1920" />
   </div>
   <figure style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_skybridge.jpg" alt="Aerial view of the curved Langkawi SkyBridge on Gunung Machinchang" loading="lazy" />
+    <img src="images/langkawi_skybridge.webp" alt="Aerial view of the curved Langkawi SkyBridge on Gunung Machinchang" loading="lazy"  width="1440" height="1920" />
     <figcaption>The curved SkyBridge, hanging between the peaks of Gunung Machinchang</figcaption>
   </figure>
-  <div class="pano"><img src="images/langkawi_pano_top.jpg" alt="Panoramic view of Langkawi's islands, sea and coastline from the top of the SkyCab" loading="lazy" /></div>
+  <div class="pano"><img src="images/langkawi_pano_top.webp" alt="Panoramic view of Langkawi's islands, sea and coastline from the top of the SkyCab" loading="lazy"  width="2048" height="789" /></div>
   <p class="pano-cap">The full panorama from the top — islands, sea and jungle as far as you can see 🏝️</p>
   <div class="img-grid" style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_guapinang.jpg" alt="Inside Gua Pinang cave on the Kubang Badak BioGeoTrail, Langkawi" loading="lazy" />
-    <img src="images/langkawi_kubangbadak.jpg" alt="Aerial of mangrove islands and a boat on the Kubang Badak BioGeoTrail" loading="lazy" />
+    <img src="images/langkawi_guapinang.webp" alt="Inside Gua Pinang cave on the Kubang Badak BioGeoTrail, Langkawi" loading="lazy"  width="1440" height="1920" />
+    <img src="images/langkawi_kubangbadak.webp" alt="Aerial of mangrove islands and a boat on the Kubang Badak BioGeoTrail" loading="lazy"  width="1920" height="1440" />
   </div>
   <div class="vid-embed"><iframe src="https://www.instagram.com/p/DasKJRwyP6Z/embed" loading="lazy" scrolling="no" allowtransparency="true" allow="encrypted-media"></iframe></div>
   <p class="vid-label">▶ Watch: <a href="https://www.instagram.com/p/DasKJRwyP6Z/" target="_blank" rel="noopener noreferrer">Inside Gua Pinang cave</a></p>
@@ -308,11 +327,11 @@ footer a{color:#7de8ff}
     <p>On our last day we visited <strong>Dataran Lang (Eagle Square)</strong> to see the freshly repainted, larger-than-life eagle statue — the icon of Langkawi. We squeezed in some last-minute souvenir shopping, then boarded the ferry back to Kuala Perlis and rode the bus home to KL.</p>
   </div>
   <div class="img-grid" style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_eaglesquare.jpg" alt="The giant eagle statue at Dataran Lang (Eagle Square), Langkawi" loading="lazy" />
-    <img src="images/langkawi_eaglesquare_aerial.jpg" alt="Aerial view of Eagle Square and the jetty in Langkawi" loading="lazy" />
+    <img src="images/langkawi_eaglesquare.webp" alt="The giant eagle statue at Dataran Lang (Eagle Square), Langkawi" loading="lazy"  width="1440" height="1920" />
+    <img src="images/langkawi_eaglesquare_aerial.webp" alt="Aerial view of Eagle Square and the jetty in Langkawi" loading="lazy"  width="1920" height="1440" />
   </div>
   <figure style="max-width:var(--prose-w);margin:1.6rem auto">
-    <img src="images/langkawi_islands.jpg" alt="Turquoise sea and green islands of Langkawi framed by trees" loading="lazy" />
+    <img src="images/langkawi_islands.webp" alt="Turquoise sea and green islands of Langkawi framed by trees" loading="lazy"  width="1440" height="1920" />
     <figcaption>Until next time, Langkawi 🤍</figcaption>
   </figure>
 </article>
@@ -325,32 +344,32 @@ footer a{color:#7de8ff}
     <p>A few more from the trip — paddy fields, eagles, limestone islands, cable cars and a whole lot of turquoise.</p>
   </div>
   <div class="gallery fade-up">
-    <img src="images/langkawi_g01.webp" alt="Traditional huts and paddy fields at Dangau Langkawi" loading="lazy" />
-    <img src="images/langkawi_g07.webp" alt="Turquoise lagoon and limestone cliffs in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g16.webp" alt="The eagle-shaped SkyGlide structure at Panorama Langkawi" loading="lazy" />
-    <img src="images/langkawi_g24.webp" alt="Aerial of Dataran Lang Eagle Square and the jetty, Langkawi" loading="lazy" />
-    <img src="images/langkawi_g02.webp" alt="Aerial of paddy fields and kampung houses in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g09.webp" alt="Eagle flying over the sea during Langkawi island hopping" loading="lazy" />
-    <img src="images/langkawi_g20.webp" alt="Aerial of the curved Langkawi SkyBridge" loading="lazy" />
-    <img src="images/langkawi_g12.webp" alt="Kay Du on the island hopping boat in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g05.webp" alt="Aerial of the chalets at Langkawi Country Lodge" loading="lazy" />
-    <img src="images/langkawi_g11.webp" alt="Limestone islands rising from turquoise water in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g17.webp" alt="Langkawi SkyCab gondolas above the rainforest" loading="lazy" />
-    <img src="images/langkawi_g25.webp" alt="Sunset over the islands of Langkawi" loading="lazy" />
-    <img src="images/langkawi_g13.webp" alt="Kayak on clear water at a Langkawi beach seen from above" loading="lazy" />
-    <img src="images/langkawi_g19.webp" alt="View of Langkawi's islands from the SkyCab top station" loading="lazy" />
-    <img src="images/langkawi_g22.webp" alt="Inside Gua Pinang cave on the Kubang Badak BioGeoTrail" loading="lazy" />
-    <img src="images/langkawi_g08.webp" alt="Aerial panorama of Langkawi's islands and sea" loading="lazy" />
-    <img src="images/langkawi_g14.webp" alt="Group on the white sand beach of Pulau Beras Basah" loading="lazy" />
-    <img src="images/langkawi_g18.webp" alt="Heart-shaped love locks at the Langkawi SkyCab top station" loading="lazy" />
-    <img src="images/langkawi_g23.webp" alt="Aerial of mangrove islands on the Kubang Badak BioGeoTrail" loading="lazy" />
-    <img src="images/langkawi_g10.webp" alt="Green island and calm sea in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g15.webp" alt="Aerial of Pulau Beras Basah white sand and turquoise sea" loading="lazy" />
-    <img src="images/langkawi_g06.webp" alt="The creator group relaxing at Langkawi Country Lodge" loading="lazy" />
-    <img src="images/langkawi_g21.webp" alt="Islands and sea seen from the top of Gunung Machinchang" loading="lazy" />
-    <img src="images/langkawi_g26.webp" alt="Sunrise aerial over Langkawi" loading="lazy" />
-    <img src="images/langkawi_g03.webp" alt="Local landmark building in Langkawi" loading="lazy" />
-    <img src="images/langkawi_g04.webp" alt="Sunset silhouette of trees in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g01.webp" alt="Traditional huts and paddy fields at Dangau Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g07.webp" alt="Turquoise lagoon and limestone cliffs in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g16.webp" alt="The eagle-shaped SkyGlide structure at Panorama Langkawi" loading="lazy"  width="1400" height="1050" />
+    <img src="images/langkawi_g24.webp" alt="Aerial of Dataran Lang Eagle Square and the jetty, Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g02.webp" alt="Aerial of paddy fields and kampung houses in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g09.webp" alt="Eagle flying over the sea during Langkawi island hopping" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g20.webp" alt="Aerial of the curved Langkawi SkyBridge" loading="lazy"  width="1400" height="1050" />
+    <img src="images/langkawi_g12.webp" alt="Kay Du on the island hopping boat in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g05.webp" alt="Aerial of the chalets at Langkawi Country Lodge" loading="lazy"  width="1400" height="1050" />
+    <img src="images/langkawi_g11.webp" alt="Limestone islands rising from turquoise water in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g17.webp" alt="Langkawi SkyCab gondolas above the rainforest" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g25.webp" alt="Sunset over the islands of Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g13.webp" alt="Kayak on clear water at a Langkawi beach seen from above" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g19.webp" alt="View of Langkawi's islands from the SkyCab top station" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g22.webp" alt="Inside Gua Pinang cave on the Kubang Badak BioGeoTrail" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g08.webp" alt="Aerial panorama of Langkawi's islands and sea" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g14.webp" alt="Group on the white sand beach of Pulau Beras Basah" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g18.webp" alt="Heart-shaped love locks at the Langkawi SkyCab top station" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g23.webp" alt="Aerial of mangrove islands on the Kubang Badak BioGeoTrail" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g10.webp" alt="Green island and calm sea in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g15.webp" alt="Aerial of Pulau Beras Basah white sand and turquoise sea" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g06.webp" alt="The creator group relaxing at Langkawi Country Lodge" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g21.webp" alt="Islands and sea seen from the top of Gunung Machinchang" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g26.webp" alt="Sunrise aerial over Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g03.webp" alt="Local landmark building in Langkawi" loading="lazy"  width="1050" height="1400" />
+    <img src="images/langkawi_g04.webp" alt="Sunset silhouette of trees in Langkawi" loading="lazy"  width="1050" height="1400" />
   </div>
 </section>
 
@@ -380,6 +399,16 @@ footer a{color:#7de8ff}
     </div>
     <p class="disclosure">Disclosure: I joined this trip as a guest of Tourism Malaysia under the Refreshing Langkawi programme. All views and photos are my own.</p>
   </div>
+
+  <div class="vm-block fade-up">
+    <img class="vm-logo" src="images/vm2026_logo.webp" alt="Visit Malaysia 2026 Truly Asia logo" width="680" height="360" loading="lazy" />
+    <p class="vm-note">Proud to be part of <strong>Visit Malaysia 2026</strong> · Refreshing Langkawi 99 Magical Island V3</p>
+    <div class="vm-row">
+      <img src="images/vm_sunbear_male.webp" alt="Visit Malaysia 2026 Malayan sun bear mascot wearing a songket vest" width="264" height="420" loading="lazy" />
+      <img class="vm-sticker" src="images/vm_langkawi_sticker.webp" alt="Langkawi UNESCO Global Geopark illustration with the SkyCab, eagle, hornbill, corals and fossils" width="298" height="520" loading="lazy" />
+      <img src="images/vm_sunbear_female.webp" alt="Visit Malaysia 2026 Malayan sun bear mascot wearing a songket shawl and ribbon" width="248" height="420" loading="lazy" />
+    </div>
+  </div>
 </section>
 
 <!-- CTA -->
@@ -393,7 +422,40 @@ footer a{color:#7de8ff}
   </div>
 </footer>
 
+<!-- Lightbox -->
+<div id="glb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="glb-btn glb-close" aria-label="Close">&#10005;</button>
+  <button class="glb-btn glb-prev" aria-label="Previous photo">&#8249;</button>
+  <img class="glb-img" alt="" />
+  <button class="glb-btn glb-next" aria-label="Next photo">&#8250;</button>
+  <div class="glb-count"></div>
+</div>
+
 <script>
+// Lightbox
+(function(){
+  const box=document.getElementById('glb'), pic=box.querySelector('.glb-img'), count=box.querySelector('.glb-count');
+  const shots=[...document.querySelectorAll('.gallery img')];
+  let i=0;
+  function render(){ const s=shots[i]; pic.src=s.currentSrc||s.src; pic.alt=s.alt; count.textContent=(i+1)+' / '+shots.length; }
+  function open(n){ i=n; render(); box.classList.add('open'); document.body.style.overflow='hidden'; }
+  function close(){ box.classList.remove('open'); document.body.style.overflow=''; }
+  function go(d){ i=(i+d+shots.length)%shots.length; render(); }
+  shots.forEach((s,n)=>s.addEventListener('click',()=>open(n)));
+  box.querySelector('.glb-close').addEventListener('click',close);
+  box.querySelector('.glb-prev').addEventListener('click',e=>{e.stopPropagation();go(-1)});
+  box.querySelector('.glb-next').addEventListener('click',e=>{e.stopPropagation();go(1)});
+  box.addEventListener('click',e=>{ if(e.target===box) close(); });
+  document.addEventListener('keydown',e=>{
+    if(!box.classList.contains('open')) return;
+    if(e.key==='Escape') close();
+    if(e.key==='ArrowRight') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  let sx=0;
+  box.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  box.addEventListener('touchend',e=>{const d=sx-e.changedTouches[0].clientX; if(Math.abs(d)>40) go(d>0?1:-1)},{passive:true});
+})();
 // Progress bar
 const bar=document.getElementById('progress-bar');
 window.addEventListener('scroll',()=>{const h=document.documentElement;const s=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(s*100)+'%';},{passive:true});
