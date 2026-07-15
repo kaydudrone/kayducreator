@@ -120,6 +120,13 @@ figcaption{font-family:"DM Mono",monospace;font-size:.72rem;letter-spacing:.04em
 .pano{width:100vw;margin-left:calc(50% - 50vw);margin-top:2.2rem;margin-bottom:.5rem}
 .pano img{width:100%;height:auto;display:block;max-height:460px;object-fit:cover}
 .pano-cap{font-family:"DM Mono",monospace;font-size:.72rem;letter-spacing:.04em;color:var(--muted);text-align:center;margin-bottom:2.2rem;padding:0 1rem}
+/* Photo gallery (masonry) */
+.gallery{columns:4;column-gap:.9rem;width:min(1160px,calc(100% - 2.5rem));margin:0 auto}
+.gallery img{width:100%;margin-bottom:.9rem;border-radius:var(--radius-sm);box-shadow:0 4px 18px rgba(0,0,0,.10);break-inside:avoid;transition:transform .25s ease}
+@media(hover:hover){.gallery img:hover{transform:translateY(-3px)}}
+@media(max-width:1000px){.gallery{columns:3}}
+@media(max-width:700px){.gallery{columns:2}}
+@media(max-width:420px){.gallery{columns:1}}
 /* Facts card */
 .facts{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.06);overflow:hidden;margin:0 auto;width:min(760px,calc(100% - 2.5rem))}
 .facts-head{background:var(--primary);color:#fff;padding:1rem 1.5rem;font-family:"DM Mono",monospace;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase}
@@ -309,6 +316,43 @@ footer a{color:#7de8ff}
     <figcaption>Until next time, Langkawi 🤍</figcaption>
   </figure>
 </article>
+
+<!-- GALLERY -->
+<section class="section" style="padding-top:24px">
+  <div class="prose fade-up" style="text-align:center;margin-bottom:2rem">
+    <div class="eyebrow">Photo Gallery</div>
+    <h2 class="title">Langkawi, frame by frame</h2>
+    <p>A few more from the trip — paddy fields, eagles, limestone islands, cable cars and a whole lot of turquoise.</p>
+  </div>
+  <div class="gallery fade-up">
+    <img src="images/langkawi_g01.webp" alt="Traditional huts and paddy fields at Dangau Langkawi" loading="lazy" />
+    <img src="images/langkawi_g07.webp" alt="Turquoise lagoon and limestone cliffs in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g16.webp" alt="The eagle-shaped SkyGlide structure at Panorama Langkawi" loading="lazy" />
+    <img src="images/langkawi_g24.webp" alt="Aerial of Dataran Lang Eagle Square and the jetty, Langkawi" loading="lazy" />
+    <img src="images/langkawi_g02.webp" alt="Aerial of paddy fields and kampung houses in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g09.webp" alt="Eagle flying over the sea during Langkawi island hopping" loading="lazy" />
+    <img src="images/langkawi_g20.webp" alt="Aerial of the curved Langkawi SkyBridge" loading="lazy" />
+    <img src="images/langkawi_g12.webp" alt="Kay Du on the island hopping boat in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g05.webp" alt="Aerial of the chalets at Langkawi Country Lodge" loading="lazy" />
+    <img src="images/langkawi_g11.webp" alt="Limestone islands rising from turquoise water in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g17.webp" alt="Langkawi SkyCab gondolas above the rainforest" loading="lazy" />
+    <img src="images/langkawi_g25.webp" alt="Sunset over the islands of Langkawi" loading="lazy" />
+    <img src="images/langkawi_g13.webp" alt="Kayak on clear water at a Langkawi beach seen from above" loading="lazy" />
+    <img src="images/langkawi_g19.webp" alt="View of Langkawi's islands from the SkyCab top station" loading="lazy" />
+    <img src="images/langkawi_g22.webp" alt="Inside Gua Pinang cave on the Kubang Badak BioGeoTrail" loading="lazy" />
+    <img src="images/langkawi_g08.webp" alt="Aerial panorama of Langkawi's islands and sea" loading="lazy" />
+    <img src="images/langkawi_g14.webp" alt="Group on the white sand beach of Pulau Beras Basah" loading="lazy" />
+    <img src="images/langkawi_g18.webp" alt="Heart-shaped love locks at the Langkawi SkyCab top station" loading="lazy" />
+    <img src="images/langkawi_g23.webp" alt="Aerial of mangrove islands on the Kubang Badak BioGeoTrail" loading="lazy" />
+    <img src="images/langkawi_g10.webp" alt="Green island and calm sea in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g15.webp" alt="Aerial of Pulau Beras Basah white sand and turquoise sea" loading="lazy" />
+    <img src="images/langkawi_g06.webp" alt="The creator group relaxing at Langkawi Country Lodge" loading="lazy" />
+    <img src="images/langkawi_g21.webp" alt="Islands and sea seen from the top of Gunung Machinchang" loading="lazy" />
+    <img src="images/langkawi_g26.webp" alt="Sunrise aerial over Langkawi" loading="lazy" />
+    <img src="images/langkawi_g03.webp" alt="Local landmark building in Langkawi" loading="lazy" />
+    <img src="images/langkawi_g04.webp" alt="Sunset silhouette of trees in Langkawi" loading="lazy" />
+  </div>
+</section>
 
 <!-- CLOSING -->
 <section class="section">
