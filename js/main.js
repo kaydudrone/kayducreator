@@ -48,7 +48,7 @@ window.addEventListener('load', () => {
     const bar = document.getElementById('progress-bar');
     if(bar) bar.style.width = '35%';
 
-    // Count-up with spring overshoot: 0 → 21 → 20
+    // Count-up with spring overshoot: 0 → 22 → 21
     const countEl = document.getElementById('progress-count');
     if(!countEl) return;
     const target = 21;
