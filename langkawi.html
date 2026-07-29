@@ -168,6 +168,14 @@ figcaption{font-family:"DM Mono",monospace;font-size:.72rem;letter-spacing:.04em
 .tag{background:var(--primary-light);color:var(--primary-dark);font-family:"DM Mono",monospace;font-size:.68rem;padding:.3rem .7rem;border-radius:999px}
 .disclosure{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:1.2rem}
 /* CTA */
+.more{width:min(760px,calc(100% - 2.5rem));margin:0 auto;padding:52px 0 0;text-align:center}
+.more-eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--primary)}
+.more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1.1rem}
+.more-grid a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:1rem .9rem;text-align:left;transition:.2s}
+.more-grid a:hover{border-color:var(--primary);transform:translateY(-2px)}
+.more-grid strong{display:block;font-size:.92rem;color:var(--ink);margin-bottom:.25rem}
+.more-grid span{font-size:.78rem;color:var(--muted);line-height:1.45}
+@media(max-width:640px){.more-grid{grid-template-columns:1fr}}
 .cta{text-align:center;padding:56px 0 72px}
 .btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--primary);color:#fff;padding:.8rem 1.7rem;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 4px 16px rgba(29,138,171,.3);transition:.2s}
 .btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
@@ -408,6 +416,25 @@ footer a{color:#7de8ff}
       <img class="vm-sticker" src="images/vm_langkawi_sticker.webp" alt="Langkawi UNESCO Global Geopark illustration with the SkyCab, eagle, hornbill, corals and fossils" width="298" height="520" loading="lazy" />
       <img src="images/vm_sunbear_female.webp" alt="Visit Malaysia 2026 Malayan sun bear mascot wearing a songket shawl and ribbon" width="248" height="420" loading="lazy" />
     </div>
+  </div>
+</section>
+
+<!-- Keep exploring -->
+<section class="more fade-up">
+  <span class="more-eyebrow">Keep Exploring</span>
+  <div class="more-grid">
+    <a href="/#mountains">
+      <strong>🧭 Free GPX Trails</strong>
+      <span>21 Malaysian hikes with free downloadable route files, stats and meeting points.</span>
+    </a>
+    <a href="/kinabalu">
+      <strong>🏔 Mount Kinabalu</strong>
+      <span>Climbing Malaysia's highest peak — sunrise above the clouds at 4,095m.</span>
+    </a>
+    <a href="/nuang">
+      <strong>🌿 Gunung Nuang</strong>
+      <span>Surviving one of the toughest day hikes in Selangor — 12 to 15 hours of jungle.</span>
+    </a>
   </div>
 </section>
 
