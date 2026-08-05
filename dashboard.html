@@ -500,6 +500,18 @@
 
   <!-- Mission Control -->
   <section class="command-grid" id="missionControl">
+    <div class="mission-card" style="grid-column:1/-1">
+      <div class="panel-title">
+        <div>
+          <div class="panel-eyebrow">Live · recalculated every time you open this page</div>
+          <h3>🎯 Today's Plan</h3>
+        </div>
+        <span class="mission-status" id="planClock">—</span>
+      </div>
+      <div class="mission-list" id="todaysPlan">
+        <div class="mission-item"><div class="mission-check">⏳</div><div><div class="mission-copy">Working out today's plan…</div><div class="mission-meta">Time rules load instantly · post data arrives with live stats</div></div></div>
+      </div>
+    </div>
     <div class="mission-card">
       <div class="panel-title">
         <div>
@@ -1036,6 +1048,60 @@ fetch('/').then(r => r.text()).then(t => {
   if (n > 0 && n !== CHALLENGE.done) { CHALLENGE.done = n; applyChallenge(); }
 }).catch(() => {});
 
+// ── TODAY'S PLAN — live rule-based suggestions ────────────────────
+// Runs instantly with time rules; re-runs with post data when /api/stats lands.
+const IG_TOKEN_EXPIRY = new Date('2026-10-04'); // rotated Aug 5 2026, ~60-day token
+function mytNow() {
+  const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kuala_Lumpur', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date());
+  const get = t => parts.find(x => x.type === t)?.value;
+  return { day: get('weekday'), hour: +get('hour') };
+}
+function renderTodaysPlan(data) {
+  const el = document.getElementById('todaysPlan'); if (!el) return;
+  const { day, hour } = mytNow();
+  const tips = [];
+
+  // Token health
+  const dLeft = Math.ceil((IG_TOKEN_EXPIRY - Date.now()) / 864e5);
+  if (dLeft <= 14) tips.push({ p: 1, icon: '🔑', copy: `IG token expires in ${dLeft} day${dLeft === 1 ? '' : 's'} — refresh in Meta dashboard, paste into Vercel`, meta: 'Live stats on this page break otherwise', tag: 'Fix' });
+
+  // Posting recency + follow-up idea (needs live data)
+  if (data && data.posts && data.posts.length) {
+    const days = Math.floor((Date.now() - new Date(data.posts[0].date)) / 864e5);
+    if (days >= 3) tips.push({ p: 1, icon: '📤', copy: `No post in ${days} days — post something today`, meta: 'Backlog first: finished content beats new filming', tag: 'Post' });
+    else tips.push({ p: 5, icon: '✅', copy: `Last post ${days === 0 ? 'today' : days + 'd ago'} — cadence healthy`, meta: 'Keep the rhythm', tag: 'OK' });
+    const top = [...data.posts.slice(0, 10)].sort((a, b) => (b.likes || 0) - (a.likes || 0))[0];
+    if (top && top.likes > 0) tips.push({ p: 3, icon: '🔥', copy: `Best recent post: “${(top.caption || '(no caption)').slice(0, 45)}…” · ${top.likes.toLocaleString()} likes`, meta: 'Make a follow-up on the same topic — proven demand', tag: 'Idea' });
+  }
+
+  // Posting window (MYT)
+  const peakDay = ['Tue', 'Wed', 'Thu'].includes(day);
+  if (peakDay && hour >= 19 && hour < 22) tips.push({ p: 0, icon: '🟢', copy: `You're IN the peak window right now — post within the hour`, meta: 'Tue–Thu 7–10 PM MYT is your strongest slot', tag: 'NOW' });
+  else if (peakDay && hour < 19) tips.push({ p: 2, icon: '⏰', copy: `Peak window opens in ${19 - hour}h (7–10 PM tonight)`, meta: 'Have the post + caption ready before 7 PM', tag: 'Today' });
+  else if (day === 'Sat' && hour >= 10 && hour < 13) tips.push({ p: 2, icon: '🟢', copy: 'Saturday leisure-scroll window — good for carousels & guides', meta: '11 AM – 1 PM', tag: 'NOW' });
+  else if (day === 'Sun' && hour >= 18 && hour < 21) tips.push({ p: 2, icon: '🟢', copy: 'Sunday-reset window — aspirational “plan your next hike” content', meta: '7–9 PM', tag: 'NOW' });
+  else tips.push({ p: 4, icon: '📅', copy: `Next peak window: ${['Fri', 'Sat', 'Sun', 'Mon'].includes(day) ? 'Tuesday' : 'tomorrow'} 7–10 PM MYT`, meta: 'Prep content now, post then', tag: 'Plan' });
+
+  // Daily craft reminder (rotates through the content checklist)
+  const habits = [
+    'Best shot goes FIRST — open on your strongest frame',
+    'Film ONE reaction shot — your face feeling the view',
+    'Read every on-screen word out loud before export',
+    'Pair the hook line with a matching opening shot',
+    'Reveal text, then remove it — don’t let it overstay'
+  ];
+  const doy = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 864e5);
+  tips.push({ p: 6, icon: '📋', copy: habits[doy % habits.length], meta: 'Daily craft reminder · from your content checklist', tag: 'Craft' });
+
+  tips.sort((a, b) => a.p - b.p);
+  el.innerHTML = tips.slice(0, 4).map(t =>
+    `<div class="mission-item"><div class="mission-check">${t.icon}</div><div><div class="mission-copy">${t.copy}</div><div class="mission-meta">${t.meta}</div></div><div class="mission-status${['NOW', 'Fix', 'Post'].includes(t.tag) ? ' warn' : ''}">${t.tag}</div></div>`
+  ).join('');
+  const clock = document.getElementById('planClock');
+  if (clock) clock.textContent = `${day} · ${String(hour).padStart(2, '0')}:00 MYT`;
+}
+renderTodaysPlan(null);
+
 // IG Monthly Chart
 const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const igCtx = document.getElementById('igChart').getContext('2d');
@@ -1188,6 +1254,7 @@ async function fetchLiveStats() {
     $style('igPostCount','color', 'var(--cc-green)');
     saveSnapshot({ igFollowers: followers });
     renderTrend('igTrend', 'igFollowers', followers);
+    renderTodaysPlan(data);
 
     // Update last updated time
     const fetchTime = new Date(data.fetched_at);
