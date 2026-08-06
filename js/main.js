@@ -347,3 +347,47 @@ document.addEventListener('keydown', e => {
   }, {passive:true});
   btn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 })();
+
+// ── 2026 COUNTDOWN (live, client-side) ─────────────────────────
+(function(){
+  const box = document.getElementById('cdDigits');
+  if(!box) return;
+
+  // Trail count self-syncs from the cards on this page
+  const trailsEl = document.getElementById('cdTrails');
+  if(trailsEl){
+    const n = document.querySelectorAll('#trailGrid .trail-card').length;
+    if(n > 0) trailsEl.textContent = n;
+  }
+
+  const target = new Date('2026-12-31T23:59:59');
+  const pad = n => String(n).padStart(2, '0');
+
+  function render(){
+    const now = new Date();
+    // Calendar months first, remainder as d/h/m/s
+    let months = 0, cursor = new Date(now);
+    if(target > now){
+      for(;;){
+        const next = new Date(cursor);
+        next.setMonth(next.getMonth() + 1);
+        if(next > target) break;
+        cursor = next; months++;
+      }
+    }
+    let rem = Math.max(0, target - cursor);
+    const d = Math.floor(rem / 864e5); rem -= d * 864e5;
+    const h = Math.floor(rem / 36e5);  rem -= h * 36e5;
+    const m = Math.floor(rem / 6e4);   rem -= m * 6e4;
+    const s = Math.floor(rem / 1e3);
+
+    const units = [[months,'Months'],[d,'Days'],[h,'Hours'],[m,'Minutes'],[s,'Seconds']];
+    box.innerHTML = units.map(([v,l],i) =>
+      `<div class="cd-unit"><div class="cd-val">${pad(v)}</div><div class="cd-lbl">${l}</div></div>` +
+      (i < 4 ? '<div class="cd-sep">:</div>' : '')
+    ).join('');
+  }
+
+  render();
+  setInterval(render, 1000);
+})();
