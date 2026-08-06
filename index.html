@@ -1590,6 +1590,8 @@ footer{
 .cd-val{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.7rem,6vw,3.6rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#1a1a1a}
 .cd-lbl{font-family:'DM Mono',monospace;font-size:clamp(.5rem,1.1vw,.7rem);font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6b6960}
 .cd-sep{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.7rem,6vw,3.6rem);line-height:1;color:var(--primary);padding:0 clamp(4px,1.2vw,14px)}
+.cd-lock{animation:cdLock .45s cubic-bezier(.22,1,.36,1)}
+@keyframes cdLock{0%{color:var(--primary)}100%{color:#1a1a1a}}
 .cd-footer{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:1.5rem;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b6960}
 </style>
 <section id="countdown" style="padding:8px 0 32px">

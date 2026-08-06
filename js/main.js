@@ -362,8 +362,15 @@ document.addEventListener('keydown', e => {
 
   const target = new Date('2026-12-31T23:59:59');
   const pad = n => String(n).padStart(2, '0');
+  const LABELS = ['Months','Days','Hours','Minutes','Seconds'];
 
-  function render(){
+  box.innerHTML = LABELS.map((l,i) =>
+    `<div class="cd-unit"><div class="cd-val">00</div><div class="cd-lbl">${l}</div></div>` +
+    (i < 4 ? '<div class="cd-sep">:</div>' : '')
+  ).join('');
+  const cells = [...box.querySelectorAll('.cd-val')];
+
+  function remaining(){
     const now = new Date();
     // Calendar months first, remainder as d/h/m/s
     let months = 0, cursor = new Date(now);
@@ -379,15 +386,38 @@ document.addEventListener('keydown', e => {
     const d = Math.floor(rem / 864e5); rem -= d * 864e5;
     const h = Math.floor(rem / 36e5);  rem -= h * 36e5;
     const m = Math.floor(rem / 6e4);   rem -= m * 6e4;
-    const s = Math.floor(rem / 1e3);
-
-    const units = [[months,'Months'],[d,'Days'],[h,'Hours'],[m,'Minutes'],[s,'Seconds']];
-    box.innerHTML = units.map(([v,l],i) =>
-      `<div class="cd-unit"><div class="cd-val">${pad(v)}</div><div class="cd-lbl">${l}</div></div>` +
-      (i < 4 ? '<div class="cd-sep">:</div>' : '')
-    ).join('');
+    return [months, d, h, m, Math.floor(rem / 1e3)];
   }
 
-  render();
-  setInterval(render, 1000);
+  // The clock runs from first paint. `locked` is how many cells the clock
+  // owns; the spin below borrows the rest for about a second.
+  let locked = cells.length;
+  function tick(){
+    const real = remaining();
+    cells.forEach((el,i) => { if(i < locked) el.textContent = pad(real[i]); });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Decoration only: scramble the digits, then lock them left to right so the
+  // numbers read as counted rather than printed.
+  function spin(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    locked = 0;
+    const iv = setInterval(() => {
+      cells.forEach((el,i) => {
+        if(i >= locked) el.textContent = pad(Math.floor(Math.random()*60));
+      });
+    }, 55);
+    cells.forEach((el,i) => setTimeout(() => {
+      locked = i + 1;
+      el.classList.add('cd-lock');
+      tick();
+      if(locked === cells.length) clearInterval(iv);
+    }, 420 + i * 170));
+  }
+
+  new IntersectionObserver((entries, obs) => {
+    if(entries[0].isIntersecting){ obs.disconnect(); spin(); }
+  }, {threshold:.4}).observe(box);
 })();
