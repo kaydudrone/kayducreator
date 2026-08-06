@@ -512,6 +512,21 @@
         <div class="mission-item"><div class="mission-check">⏳</div><div><div class="mission-copy">Working out today's plan…</div><div class="mission-meta">Time rules load instantly · post data arrives with live stats</div></div></div>
       </div>
     </div>
+    <div class="mission-card" style="grid-column:1/-1">
+      <div class="panel-title">
+        <div>
+          <div class="panel-eyebrow">Researched Aug 2026 · ~1M posts ranked by views, + platform statements</div>
+          <h3>⏰ Best time to post</h3>
+        </div>
+        <span class="mission-status" id="postWindowsNow">—</span>
+      </div>
+      <div class="mission-list" id="postWindows"></div>
+      <div class="mission-meta" style="padding:10px 2px 0;line-height:1.5">
+        Timing is a <strong>~2x</strong> lever at best — Instagram's own head says it "doesn't matter much".
+        Hook and subject matter far more. Replace this with your real numbers:
+        Instagram → Professional dashboard → Total followers → <strong>Most active times</strong>.
+      </div>
+    </div>
     <div class="mission-card">
       <div class="panel-title">
         <div>
@@ -1056,6 +1071,62 @@ function mytNow() {
   const get = t => parts.find(x => x.type === t)?.value;
   return { day: get('weekday'), hour: +get('hour') };
 }
+/* ── Posting windows (MYT) ─────────────────────────────────────────
+   Evidence, not folk wisdom. Researched Aug 2026:
+   · buzzabout study, ~1M IG+TikTok posts ranked by VIEWS (Jul 2026):
+     IG afternoon ≈ 2x the 8–9 AM trough, which is IG's WORST slot;
+     Sunday runs +30–38% over the weekday plateau.
+     TikTok 4–9 PM is worth up to +77% median views vs the 5–7 AM trough.
+   · Adam Mosseri (Head of Instagram): timing "doesn't matter much" —
+     the small win is posting just BEFORE followers peak.
+   · TikTok's published For You docs never list publish time as a
+     ranking input. Treat all of this as a nudge, not a law.
+   Replace with Kay's own IG "Most active times" when he screenshots it. */
+const POST_WINDOWS = [
+  { days:['Sun'],                            from:14, to:18, label:'Sunday afternoon · best slot of the week', why:'Sunday runs +30–38% on Instagram; weekend trip-planning mindset' },
+  { days:['Mon','Tue','Wed','Thu','Fri','Sat'], from:14, to:17, label:'afternoon band', why:'Instagram afternoon is worth ~2x the morning trough' },
+  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:20, to:22, label:'evening prime', why:'Highest watch-time as the audience unwinds' },
+  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:16, to:21, label:'TikTok prime', why:'TikTok 4–9 PM is worth up to +77% median views' },
+];
+const DEAD_ZONE = { from:4, to:10, why:'8–9 AM is Instagram\'s single worst slot; 4–8 AM is TikTok\'s' };
+const DAY_ORDER = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+function currentWindow(day, hour) {
+  const today = POST_WINDOWS.filter(w => w.days.includes(day));
+  const now = today.find(w => hour >= w.from && hour < w.to);
+  if (now) return { now };
+  // next window today, else first window tomorrow
+  const later = today.filter(w => w.from > hour).sort((a,b) => a.from - b.from)[0];
+  const avoid = (hour >= DEAD_ZONE.from && hour < DEAD_ZONE.to) ? DEAD_ZONE.why : null;
+  if (later) return { avoid, next:{ ...later, when:'today' }, nextIn: later.from - hour };
+  const tmr = DAY_ORDER[(DAY_ORDER.indexOf(day) + 1) % 7];
+  const first = POST_WINDOWS.filter(w => w.days.includes(tmr)).sort((a,b) => a.from - b.from)[0];
+  return { avoid, next:{ ...first, when:`${tmr} ${first.from > 12 ? first.from-12+' PM' : first.from+' AM'}` },
+           nextIn: (24 - hour) + first.from };
+}
+
+function renderPostingTable() {
+  const el = document.getElementById('postWindows'); if (!el) return;
+  const { day, hour } = mytNow();
+  const fmt = h => h === 12 ? '12 PM' : h > 12 ? (h-12)+' PM' : h+' AM';
+  const rows = [
+    ['Instagram', '2–5 PM · 8–10 PM', 'Sunday 2–6 PM', '8–9 AM (worst slot)'],
+    ['TikTok',    '4–9 PM',           'Day barely matters', '4–8 AM'],
+    ['YT Shorts', '4–7 PM',           'Thu–Sat', 'Early morning'],
+    ['XHS 小红书', '8–10 PM',          'Sun evening', 'Office hours'],
+  ];
+  el.innerHTML = rows.map(([p, best, peak, avoid]) =>
+    `<div class="mission-item"><div class="mission-check" style="font-size:11px;font-weight:700">${p.slice(0,2)}</div>
+     <div><div class="mission-copy">${p} · <strong>${best}</strong></div>
+     <div class="mission-meta">Peak: ${peak} · Avoid: ${avoid}</div></div></div>`).join('');
+  const s = document.getElementById('postWindowsNow');
+  if (s) {
+    const w = currentWindow(day, hour);
+    s.textContent = w.now ? `Open now · ${fmt(hour)}` : `Next in ${w.nextIn}h`;
+    s.className = 'mission-status' + (w.now ? ' warn' : '');
+  }
+}
+
 function renderTodaysPlan(data) {
   const el = document.getElementById('todaysPlan'); if (!el) return;
   const { day, hour } = mytNow();
@@ -1074,13 +1145,12 @@ function renderTodaysPlan(data) {
     if (top && top.likes > 0) tips.push({ p: 3, icon: '🔥', copy: `Best recent post: “${(top.caption || '(no caption)').slice(0, 45)}…” · ${top.likes.toLocaleString()} likes`, meta: 'Make a follow-up on the same topic — proven demand', tag: 'Idea' });
   }
 
-  // Posting window (MYT)
-  const peakDay = ['Tue', 'Wed', 'Thu'].includes(day);
-  if (peakDay && hour >= 19 && hour < 22) tips.push({ p: 0, icon: '🟢', copy: `You're IN the peak window right now — post within the hour`, meta: 'Tue–Thu 7–10 PM MYT is your strongest slot', tag: 'NOW' });
-  else if (peakDay && hour < 19) tips.push({ p: 2, icon: '⏰', copy: `Peak window opens in ${19 - hour}h (7–10 PM tonight)`, meta: 'Have the post + caption ready before 7 PM', tag: 'Today' });
-  else if (day === 'Sat' && hour >= 10 && hour < 13) tips.push({ p: 2, icon: '🟢', copy: 'Saturday leisure-scroll window — good for carousels & guides', meta: '11 AM – 1 PM', tag: 'NOW' });
-  else if (day === 'Sun' && hour >= 18 && hour < 21) tips.push({ p: 2, icon: '🟢', copy: 'Sunday-reset window — aspirational “plan your next hike” content', meta: '7–9 PM', tag: 'NOW' });
-  else tips.push({ p: 4, icon: '📅', copy: `Next peak window: ${['Fri', 'Sat', 'Sun', 'Mon'].includes(day) ? 'Tuesday' : 'tomorrow'} 7–10 PM MYT`, meta: 'Prep content now, post then', tag: 'Plan' });
+  // Posting window (MYT) — see POST_WINDOWS below for the evidence behind these
+  const w = currentWindow(day, hour);
+  if (w.now) tips.push({ p: 0, icon: '🟢', copy: `In a ${w.now.label} window now — post within the hour`, meta: w.now.why, tag: 'NOW' });
+  else if (w.avoid) tips.push({ p: 2, icon: '🔴', copy: `Dead zone — don't post now, wait ${w.nextIn}h`, meta: w.avoid, tag: 'Hold' });
+  else if (w.nextIn <= 4) tips.push({ p: 2, icon: '⏰', copy: `Next window opens in ${w.nextIn}h — ${w.next.label}`, meta: 'Have the post + caption ready before it opens', tag: 'Today' });
+  else tips.push({ p: 4, icon: '📅', copy: `Next window: ${w.next.when} — ${w.next.label}`, meta: 'Prep now, post then', tag: 'Plan' });
 
   // Daily craft reminder (rotates through the content checklist)
   const habits = [
@@ -1101,6 +1171,7 @@ function renderTodaysPlan(data) {
   if (clock) clock.textContent = `${day} · ${String(hour).padStart(2, '0')}:00 MYT`;
 }
 renderTodaysPlan(null);
+renderPostingTable();
 
 // IG Monthly Chart
 const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
