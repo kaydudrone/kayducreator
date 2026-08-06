@@ -520,10 +520,14 @@
         </div>
         <span class="mission-status" id="postWindowsNow">—</span>
       </div>
+      <div id="weekStrip" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:4px 0 14px"></div>
       <div class="mission-list" id="postWindows"></div>
       <div class="mission-meta" style="padding:10px 2px 0;line-height:1.5">
-        Timing is a <strong>~2x</strong> lever at best — Instagram's own head says it "doesn't matter much".
-        Hook and subject matter far more. Replace this with your real numbers:
+        <strong>Never post 8–11 AM</strong> — that's the only real mistake. Everything else is a nudge:
+        timing is a ~2x lever at best, and day-of-week is smaller still. Never hold a finished post
+        for a "better" day — posting twice beats posting once by far more than 30%.
+        Instagram's own head says timing "doesn't matter much"; hook and subject decide the outcome.
+        Replace all of this with your real numbers:
         Instagram → Professional dashboard → Total followers → <strong>Most active times</strong>.
       </div>
     </div>
@@ -1105,20 +1109,66 @@ function currentWindow(day, hour) {
            nextIn: (24 - hour) + first.from };
 }
 
+/* Per-platform detail. `sure` marks how good the underlying evidence is —
+   IG/TikTok come from a ~1M-post study, Shorts and XHS are weaker inference. */
+const PLATFORMS = [
+  { tag:'IG', name:'Instagram', best:'2–5 PM · 8–10 PM', day:'Sunday 2–6 PM  (+30–38%)',
+    avoid:'8–9 AM — the worst slot on the platform', sure:'solid',
+    note:'Reels earn ~70% of views in 3 days but keep pulling for 14+ days and stay searchable for months — a Reel outlives a carousel. Mosseri\'s advice: post just <em>before</em> your followers peak, so it is fresh when they arrive.' },
+  { tag:'TT', name:'TikTok', best:'4–9 PM  (up to +77% vs morning)', day:'Any day — the day barely matters',
+    avoid:'4–8 AM', sure:'solid',
+    note:'72% of views land on day 1, 95% within ~35 days. Publish time is <em>not</em> a ranking input — the window simply puts you in front of more awake people while the algorithm runs its first test.' },
+  { tag:'YT', name:'YouTube Shorts', best:'4–7 PM', day:'Thu–Sat',
+    avoid:'Early morning', sure:'weaker evidence',
+    note:'Separate algorithm from long-form. Your 200 Shorts pulled 952K views but the median is 815 — that is autoplay reach, not an audience. Treat Shorts as spillover from IG/TikTok, not a channel to plan around.' },
+  { tag:'XHS', name:'XHS 小红书', best:'8–10 PM', day:'Sunday evening',
+    avoid:'Office hours', sure:'weakest evidence',
+    note:'⚠️ Account restricted May 2026 — compliance matters far more than timing here. Chinese diary tone only. Never links, never GPX mentions, never "comment X to get Y", never like/follow/save CTAs.' },
+];
+
+/* Mon–Sun at a glance. rank: 2 = best day, 1 = solid, 0 = weakest.
+   Day is the smallest lever of all — never hold a finished post for a
+   "better" day, posting twice beats posting once by more than 30%. */
+const WEEK = [
+  ['Mon', '8–10 PM',        0, 'Weakest day — post anyway'],
+  ['Tue', '2–5 PM · 8–10 PM',1, 'Reliable · trail reels'],
+  ['Wed', '2–5 PM · 8–10 PM',1, 'Reliable · carousels, GPX guides'],
+  ['Thu', '4–9 PM',          1, 'Weekend planning starts'],
+  ['Fri', '3–5 PM',          1, 'People check out early'],
+  ['Sat', '4–9 PM',          1, 'Strong on TikTok, weaker on IG'],
+  ['Sun', '2–6 PM',          2, 'BEST — save your strongest video'],
+];
+
+function renderWeekStrip() {
+  const el = document.getElementById('weekStrip'); if (!el) return;
+  const { day } = mytNow();
+  el.innerHTML = WEEK.map(([d, time, rank, why]) => {
+    const today = d === day;
+    const bg = rank === 2 ? 'rgba(29,138,171,.16)' : rank === 1 ? 'rgba(255,255,255,.04)' : 'transparent';
+    const bd = today ? '1.5px solid var(--primary)' : '1px solid rgba(255,255,255,.08)';
+    return `<div title="${why}" style="background:${bg};border:${bd};border-radius:10px;padding:8px 4px;text-align:center">
+      <div style="font-size:10px;letter-spacing:.08em;opacity:${today ? 1 : .6};font-weight:${today ? 800 : 600}">${d.toUpperCase()}${rank === 2 ? ' ★' : ''}</div>
+      <div style="font-size:10px;margin-top:4px;opacity:.9;line-height:1.3">${time.replace(' · ', '<br>')}</div>
+    </div>`;
+  }).join('');
+}
+
 function renderPostingTable() {
   const el = document.getElementById('postWindows'); if (!el) return;
   const { day, hour } = mytNow();
   const fmt = h => h === 12 ? '12 PM' : h > 12 ? (h-12)+' PM' : h+' AM';
-  const rows = [
-    ['Instagram', '2–5 PM · 8–10 PM', 'Sunday 2–6 PM', '8–9 AM (worst slot)'],
-    ['TikTok',    '4–9 PM',           'Day barely matters', '4–8 AM'],
-    ['YT Shorts', '4–7 PM',           'Thu–Sat', 'Early morning'],
-    ['XHS 小红书', '8–10 PM',          'Sun evening', 'Office hours'],
-  ];
-  el.innerHTML = rows.map(([p, best, peak, avoid]) =>
-    `<div class="mission-item"><div class="mission-check" style="font-size:11px;font-weight:700">${p.slice(0,2)}</div>
-     <div><div class="mission-copy">${p} · <strong>${best}</strong></div>
-     <div class="mission-meta">Peak: ${peak} · Avoid: ${avoid}</div></div></div>`).join('');
+  el.innerHTML = PLATFORMS.map(p =>
+    `<div class="mission-item" style="align-items:flex-start">
+       <div class="mission-check" style="font-size:10px;font-weight:800;letter-spacing:.04em">${p.tag}</div>
+       <div>
+         <div class="mission-copy">${p.name} · <strong>${p.best}</strong></div>
+         <div class="mission-meta" style="margin-top:3px">
+           Best day: ${p.day}<br>Avoid: ${p.avoid}
+         </div>
+         <div class="mission-meta" style="margin-top:6px;opacity:.85;line-height:1.5">${p.note}</div>
+       </div>
+       <div class="mission-status">${p.sure}</div>
+     </div>`).join('');
   const s = document.getElementById('postWindowsNow');
   if (s) {
     const w = currentWindow(day, hour);
@@ -1172,6 +1222,7 @@ function renderTodaysPlan(data) {
 }
 renderTodaysPlan(null);
 renderPostingTable();
+renderWeekStrip();
 
 // IG Monthly Chart
 const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
