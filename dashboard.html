@@ -1076,23 +1076,27 @@ function mytNow() {
   return { day: get('weekday'), hour: +get('hour') };
 }
 /* ── Posting windows (MYT) ─────────────────────────────────────────
-   Evidence, not folk wisdom. Researched Aug 2026:
-   · buzzabout study, ~1M IG+TikTok posts ranked by VIEWS (Jul 2026):
-     IG afternoon ≈ 2x the 8–9 AM trough, which is IG's WORST slot;
-     Sunday runs +30–38% over the weekday plateau.
-     TikTok 4–9 PM is worth up to +77% median views vs the 5–7 AM trough.
-   · Adam Mosseri (Head of Instagram): timing "doesn't matter much" —
-     the small win is posting just BEFORE followers peak.
-   · TikTok's published For You docs never list publish time as a
-     ranking input. Treat all of this as a nudge, not a law.
-   Replace with Kay's own IG "Most active times" when he screenshots it. */
+   ✅ FIRST-PARTY DATA. Replaced the generic industry study Aug 7 2026 with
+   Kay's own IG "Most active times", all 7 days, 30d window, 4,333 followers.
+   7-day average followers online per 3-hour bucket:
+     3 AM 1,967 · 6 AM 1,916 · 12 AM 1,791 · 9 PM 1,790
+     6 PM 1,607 · 3 PM 1,151 · 9 AM 934 · 12 PM 402
+   Two findings that INVERT the old generic advice:
+   · 12 PM is the dead zone (402), not the early morning. The old table
+     said avoid 4–10 AM — but 6 AM is Kay's 2nd best bucket (1,916).
+     His followers are hikers genuinely awake pre-dawn for trailheads.
+   · Day of week is noise: Mon–Fri sit within 3% of each other at every
+     hour. Sat/Sun 9 PM (1,814 / 1,806) are the only real day edge.
+   ⚠️ Caveat: this measures FOLLOWERS, but 77.4% of Kay's views come from
+   non-followers via recommendations. Timing is a minor lever — hook and
+   retention decide the outcome. Never hold a finished post for a slot. */
 const POST_WINDOWS = [
-  { days:['Sun'],                            from:14, to:18, label:'Sunday afternoon · best slot of the week', why:'Sunday runs +30–38% on Instagram; weekend trip-planning mindset' },
-  { days:['Mon','Tue','Wed','Thu','Fri','Sat'], from:14, to:17, label:'afternoon band', why:'Instagram afternoon is worth ~2x the morning trough' },
-  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:20, to:22, label:'evening prime', why:'Highest watch-time as the audience unwinds' },
-  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:16, to:21, label:'TikTok prime', why:'TikTok 4–9 PM is worth up to +77% median views' },
+  { days:['Sat','Sun'],                      from:20, to:22, label:'weekend evening prime · best slot of the week', why:'Sat 9 PM 1,814 · Sun 9 PM 1,806 — the two highest readings of the week. Post 8:30 PM' },
+  { days:['Mon','Tue','Wed','Thu','Fri'],    from:20, to:22, label:'evening prime · post 8:30 PM', why:'9 PM bucket averages 1,790 online — your best reachable peak. Fri (1,791) edges every other weekday' },
+  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:5, to:7, label:'pre-dawn test slot · post 5:30 AM', why:'6 AM bucket = 1,916, and almost nobody posts then. Catches hikers driving to trailheads. Sunday 6 AM (1,948) is the best morning of the week' },
+  { days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], from:17, to:19, label:'early evening backup', why:'6 PM bucket = 1,607 — the fallback if you miss 8:30 PM. Never drop to midday instead' },
 ];
-const DEAD_ZONE = { from:4, to:10, why:'8–9 AM is Instagram\'s single worst slot; 4–8 AM is TikTok\'s' };
+const DEAD_ZONE = { from:9, to:15, why:'12 PM is Kay\'s single worst hour (402 online — 5x below peak) and 9 AM–12 PM is second worst (934). Midday is dead every single day, weekends included' };
 const DAY_ORDER = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 function currentWindow(day, hour) {
@@ -1112,9 +1116,9 @@ function currentWindow(day, hour) {
 /* Per-platform detail. `sure` marks how good the underlying evidence is —
    IG/TikTok come from a ~1M-post study, Shorts and XHS are weaker inference. */
 const PLATFORMS = [
-  { tag:'IG', name:'Instagram', best:'2–5 PM · 8–10 PM', day:'Sunday 2–6 PM  (+30–38%)',
-    avoid:'8–9 AM — the worst slot on the platform', sure:'solid',
-    note:'Reels earn ~70% of views in 3 days but keep pulling for 14+ days and stay searchable for months — a Reel outlives a carousel. Mosseri\'s advice: post just <em>before</em> your followers peak, so it is fresh when they arrive.' },
+  { tag:'IG', name:'Instagram', best:'8:30 PM · test 5:30 AM', day:'Sat / Sun 8:30 PM — but day barely matters',
+    avoid:'9 AM–3 PM — 12 PM is dead (402 online)', sure:'your own data',
+    note:'From Kay\'s own Most active times, all 7 days, Aug 2026. <strong>Carousels get 0.0% of non-follower views</strong> — Reels carry 95.4% of cold reach, so carousels are nurture and saves only, never a reach tool. Post just <em>before</em> the 9 PM peak so it is fresh when they arrive. Real bottleneck is not timing: 97,352 viewers → 1,295 profile visits → 24 link taps.' },
   { tag:'TT', name:'TikTok', best:'4–9 PM  (up to +77% vs morning)', day:'Any day — the day barely matters',
     avoid:'4–8 AM', sure:'solid',
     note:'72% of views land on day 1, 95% within ~35 days. Publish time is <em>not</em> a ranking input — the window simply puts you in front of more awake people while the algorithm runs its first test.' },
@@ -1126,17 +1130,18 @@ const PLATFORMS = [
     note:'⚠️ Account restricted May 2026 — compliance matters far more than timing here. Chinese diary tone only. Never links, never GPX mentions, never "comment X to get Y", never like/follow/save CTAs.' },
 ];
 
-/* Mon–Sun at a glance. rank: 2 = best day, 1 = solid, 0 = weakest.
-   Day is the smallest lever of all — never hold a finished post for a
-   "better" day, posting twice beats posting once by more than 30%. */
+/* Mon–Sun at a glance — Kay's OWN follower-activity numbers (Aug 2026).
+   rank: 2 = best day, 1 = solid. Day is the smallest lever of all: the
+   spread from best day to worst is 2.4%. Never hold a finished post for
+   a "better" day — posting twice beats posting once by more than 30%. */
 const WEEK = [
-  ['Mon', '8–10 PM',        0, 'Weakest day — post anyway'],
-  ['Tue', '2–5 PM · 8–10 PM',1, 'Reliable · trail reels'],
-  ['Wed', '2–5 PM · 8–10 PM',1, 'Reliable · carousels, GPX guides'],
-  ['Thu', '4–9 PM',          1, 'Weekend planning starts'],
-  ['Fri', '3–5 PM',          1, 'People check out early'],
-  ['Sat', '4–9 PM',          1, 'Strong on TikTok, weaker on IG'],
-  ['Sun', '2–6 PM',          2, 'BEST — save your strongest video'],
+  ['Mon', '8:30 PM',           1, '9 PM = 1,780 online'],
+  ['Tue', '8:30 PM',           1, '9 PM = 1,772 — lowest, but inside the noise'],
+  ['Wed', '8:30 PM',           1, '9 PM = 1,777 online'],
+  ['Thu', '8:30 PM',           1, '9 PM = 1,789 online'],
+  ['Fri', '8:30 PM',           1, '9 PM = 1,791 — best weekday'],
+  ['Sat', '8:30 PM',           2, 'BEST · 9 PM = 1,814, week peak'],
+  ['Sun', '8:30 PM · 5:30 AM', 2, '9 PM = 1,806 · 6 AM = 1,948, best morning'],
 ];
 
 function renderWeekStrip() {
