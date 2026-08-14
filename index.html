@@ -712,6 +712,7 @@ nav{
   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:1.1rem;
   margin-top:2rem;
+  align-items:start; /* natural card heights — stretching to the tallest sibling opened voids inside shorter cards */
 }
 .trail-card{
   background:var(--surface);border:1px solid var(--line);
