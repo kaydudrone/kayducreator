@@ -217,6 +217,29 @@
   .update-btn:hover { opacity: 0.85; }
   .update-saved { display: none; font-size: 12px; color: var(--cc-green); margin-left: 12px; }
 
+  /* Post → GPX Tracker */
+  .ptrack { background: var(--cc-panel); border: 1px solid var(--cc-border); border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,.05); margin-bottom: 24px; }
+  .ptrack h3 { font-size: 13px; color: var(--cc-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .ptrack-note { font-size: 12px; color: var(--cc-muted); margin-bottom: 16px; line-height: 1.55; max-width: 70ch; }
+  .ptrack-form { display: grid; grid-template-columns: 2fr 1.1fr repeat(4, .8fr) auto; gap: 8px; align-items: end; }
+  .ptrack-form label { font-size: 10px; color: var(--cc-muted); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ptrack-form input { width: 100%; background: #ffffff08; border: 1px solid #1d8aab30; border-radius: 8px; padding: 8px 10px; color: var(--cc-text); font-size: 13px; font-weight: 600; outline: none; }
+  .ptrack-form input:focus { border-color: #1d8aab; }
+  .ptrack-add { background: linear-gradient(90deg, #145f76, #1d8aab); color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .ptrack-add:hover { opacity: .85; }
+  .ptrack-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 18px; }
+  .ptrack-table { width: 100%; border-collapse: collapse; min-width: 660px; }
+  .ptrack-table th { font-size: 10px; color: var(--cc-muted); text-transform: uppercase; letter-spacing: .5px; padding: 8px 10px; text-align: left; border-bottom: 1px solid #ffffff10; white-space: nowrap; }
+  .ptrack-table td { font-size: 13px; padding: 10px; border-bottom: 1px solid #ffffff08; color: var(--cc-muted); white-space: nowrap; }
+  .ptrack-table td.pt-post { color: var(--cc-text); font-weight: 600; white-space: normal; min-width: 150px; }
+  .ptrack-table tr.pt-best td { background: #1d8aab12; }
+  .ptrack-table td.ptrack-rate { font-weight: 800; color: var(--cc-accent); }
+  .ptrack-del { background: none; border: none; color: var(--cc-muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 6px; }
+  .ptrack-del:hover { color: var(--cc-red); }
+  .ptrack-verdict { margin-top: 16px; font-size: 13px; color: var(--cc-text); background: #1d8aab12; border: 1px solid #1d8aab30; border-radius: 10px; padding: 13px 15px; line-height: 1.6; }
+  .ptrack-empty { font-size: 13px; color: var(--cc-muted); padding: 18px 2px; }
+  @media (max-width: 900px) { .ptrack-form { grid-template-columns: 1fr 1fr; } .ptrack-add { grid-column: 1 / -1; } }
+
   /* Content Calendar */
   .calendar-card { background: var(--cc-panel); border: 1px solid var(--cc-border); border-radius: 14px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,.05); margin-bottom: 24px; }
   .calendar-card h3 { font-size: 13px; color: var(--cc-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
@@ -323,7 +346,7 @@
     box-shadow: 0 24px 80px rgba(0,0,0,0.28);
   }
   .header h1 { letter-spacing: -0.7px; }
-  .badge, .card, .kpi, .challenge-bar, .next-panel, .intelligence-panel, .viral-alert, .up-next, .schedule-card, .update-panel, .calendar-card, .mc-card, .insight, .mountains-card {
+  .badge, .card, .kpi, .challenge-bar, .next-panel, .intelligence-panel, .viral-alert, .up-next, .schedule-card, .update-panel, .calendar-card, .mc-card, .insight, .mountains-card, .ptrack {
     backdrop-filter: blur(14px);
     box-shadow: inset 0 1px 0 rgba(0,0,0,0.025), 0 18px 60px rgba(0,0,0,0.18);
   }
@@ -866,6 +889,23 @@
       </table>
       </div>
     </div>
+  </div>
+
+  <!-- Post → GPX Tracker: which post actually converts, not which one got views -->
+  <div class="ptrack" id="postTracker">
+    <h3>🎯 Post → GPX Tracker</h3>
+    <div class="ptrack-note">Views tell you reach. GPX sends tell you who actually wanted something. Log each post and the table re-sorts by <strong>GPX per 1,000 views</strong>, so the post that converts best rises to the top no matter how small it was.</div>
+    <div class="ptrack-form">
+      <div><label>Post</label><input id="ptPost" type="text" placeholder="Sungai Long carousel"></div>
+      <div><label>Date</label><input id="ptDate" type="date"></div>
+      <div><label>Views</label><input id="ptViews" type="number" min="0" placeholder="0"></div>
+      <div><label>Saves</label><input id="ptSaves" type="number" min="0" placeholder="0"></div>
+      <div><label>Shares</label><input id="ptShares" type="number" min="0" placeholder="0"></div>
+      <div><label>GPX sent</label><input id="ptGpx" type="number" min="0" placeholder="0"></div>
+      <button class="ptrack-add" onclick="addPostRow()">Add</button>
+    </div>
+    <div class="ptrack-wrap"><table class="ptrack-table" id="ptTable"></table></div>
+    <div class="ptrack-verdict" id="ptVerdict" style="display:none"></div>
   </div>
 
   <!-- Content Calendar -->
@@ -1576,6 +1616,76 @@ function applyManualStats(stats) {
 // Load saved stats on open
 const savedStats = localStorage.getItem('kaydu_manual_stats');
 if (savedStats) applyManualStats(JSON.parse(savedStats));
+
+// ─── Post → GPX Tracker — localStorage, no API (Vercel is at its 12-function cap)
+const PT_KEY = 'kaydu_post_tracker';
+function ptLoad() { try { return JSON.parse(localStorage.getItem(PT_KEY) || '[]'); } catch (e) { return []; } }
+function ptStore(rows) { localStorage.setItem(PT_KEY, JSON.stringify(rows)); }
+function ptRate(r) { return r.views > 0 ? (r.gpx / r.views) * 1000 : 0; }
+function ptEsc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function addPostRow() {
+  const nameEl = document.getElementById('ptPost');
+  const post = nameEl.value.trim();
+  if (!post) { nameEl.focus(); return; }
+  const num = id => Math.max(0, parseInt(document.getElementById(id).value, 10) || 0);
+  const rows = ptLoad();
+  rows.push({
+    // Date.now() alone collides when two rows land in the same millisecond,
+    // which made one delete remove both. Suffix keeps ids unique.
+    id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+    post,
+    date: document.getElementById('ptDate').value || new Date().toISOString().slice(0, 10),
+    views: num('ptViews'), saves: num('ptSaves'), shares: num('ptShares'), gpx: num('ptGpx')
+  });
+  ptStore(rows);
+  ['ptPost','ptViews','ptSaves','ptShares','ptGpx'].forEach(id => document.getElementById(id).value = '');
+  renderPostTracker();
+}
+
+function deletePostRow(id) {
+  ptStore(ptLoad().filter(r => String(r.id) !== String(id)));
+  renderPostTracker();
+}
+
+function renderPostTracker() {
+  const table = document.getElementById('ptTable');
+  const verdict = document.getElementById('ptVerdict');
+  if (!table) return;
+  const rows = ptLoad().sort((a, b) => ptRate(b) - ptRate(a));
+  const n = v => v.toLocaleString('en-MY');
+
+  if (!rows.length) {
+    table.innerHTML = '<tr><td class="ptrack-empty">Nothing logged yet. Add your last three posts to start comparing.</td></tr>';
+    verdict.style.display = 'none';
+    return;
+  }
+
+  table.innerHTML =
+    '<thead><tr><th>Post</th><th>Date</th><th>Views</th><th>Saves</th><th>Shares</th><th>GPX</th><th>GPX / 1K views</th><th></th></tr></thead><tbody>' +
+    rows.map((r, i) => {
+      const top = i === 0 && ptRate(r) > 0;
+      return `<tr class="${top ? 'pt-best' : ''}">
+        <td class="pt-post">${top ? '🏆 ' : ''}${ptEsc(r.post)}</td>
+        <td>${r.date}</td><td>${n(r.views)}</td><td>${n(r.saves)}</td><td>${n(r.shares)}</td><td>${n(r.gpx)}</td>
+        <td class="ptrack-rate">${ptRate(r).toFixed(2)}</td>
+        <td><button class="ptrack-del" onclick="deletePostRow('${r.id}')" title="Delete">×</button></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+
+  // Verdict: the post that converts best vs the post that simply got the most views
+  const best = rows[0];
+  const biggest = rows.slice().sort((a, b) => b.views - a.views)[0];
+  if (rows.length >= 2 && ptRate(best) > 0) {
+    verdict.style.display = 'block';
+    verdict.innerHTML = best.id === biggest.id
+      ? `<strong>${ptEsc(best.post)}</strong> is both your biggest reach and your best converter. Make more like it.`
+      : `<strong>${ptEsc(best.post)}</strong> converts best at <strong>${ptRate(best).toFixed(2)} GPX per 1,000 views</strong> — even though <strong>${ptEsc(biggest.post)}</strong> pulled ${n(biggest.views)} views at only ${ptRate(biggest).toFixed(2)}. Reach and conversion are not the same thing.`;
+  } else {
+    verdict.style.display = 'none';
+  }
+}
+renderPostTracker();
 
 // 3. Token expiry warning (60 days from May 7 = July 6)
 const tokenExpiry = new Date('2026-07-06');
