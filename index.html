@@ -82,7 +82,7 @@
         "@id": "https://kayducreator.com/#trails",
         "name": "60 Mountains Challenge — Malaysia Hiking Trails with Free GPX",
         "description": "Curated hiking trails across Malaysia documented by Kay Du, each with a free downloadable GPX file, distance, elevation gain and difficulty.",
-        "numberOfItems": 23,
+        "numberOfItems": 24,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -357,6 +357,18 @@
               "address": "Cheras, Selangor, Malaysia",
               "isAccessibleForFree": true,
               "url": "https://kayducreator.com/gpx/Sungai_Long_Hill_By_KayDu.gpx"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 24,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Ketumbar Hill",
+              "description": "Easy hiking trail in Cheras, Kuala Lumpur, Malaysia. Distance: 2.7 km, Elev. Gain: 300 m, Peak: 329 m. Two routes: an easy mapped route and an extended moderate loop. Permit required. Free GPX trail file available.",
+              "address": "Cheras, Kuala Lumpur, Malaysia",
+              "isAccessibleForFree": true,
+              "url": "https://kayducreator.com/gpx/Ketumbar_Hill_By_KayDu.gpx"
             }
           }
         ]
@@ -834,6 +846,17 @@ nav{
 .route-label-name{ font-weight:700;font-size:.875rem;color:var(--text); }
 .route-row .trail-stats{ padding:0 0 .55rem;border-bottom:none;margin-bottom:.55rem;margin-top:0; }
 .route-row .trail-actions{ padding:0;margin-top:0; }
+
+/* Inline route options on a trail card (a trail with more than one route) */
+.trail-routes{ border-top:1px solid var(--border);margin-top:auto; }
+.trail-routes .route-row{ display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap; }
+.route-name{ display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.85rem;color:var(--text); }
+.route-tag{
+  font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
+  padding:.16rem .5rem;border-radius:999px;font-weight:400;
+  background:#e8f6fa;color:#146c85;border:1px solid #bfe3ee;
+}
+.route-tag-mod{ background:#fff5e8;color:#8a5a13;border-color:#f0d9b5; }
 
 /* Permit badge */
 .permit-badge{
@@ -1588,7 +1611,7 @@ footer{
         <div class="progress-label">38% of the journey complete</div>
         <div class="progress-sub">23 mountains and hidden gems documented across Malaysia — each with a free GPX file and trail story for the hiking community.</div>
         <div class="bar-track"><div class="bar-fill" id="progress-bar"></div></div>
-        <div class="progress-meta"><span>Start</span><span>23 of 60 documented</span><span>Goal: 60 peaks</span></div>
+        <div class="progress-meta"><span>Start</span><span>24 of 60 documented</span><span>Goal: 60 peaks</span></div>
       </div>
     </div>
   </div>
@@ -2575,6 +2598,38 @@ footer{
           <a class="btn btn-outline btn-sm" href="https://www.instagram.com/p/Db-t9VtBq14/" target="_blank" rel="noopener noreferrer">Watch Video</a>
         </div>
       </article>
+      <!-- 24 Ketumbar Hill -->
+      <article class="trail-card">
+        <div class="trail-header">
+          <div class="trail-num">24 · Completed</div>
+          <div class="trail-name">Ketumbar Hill</div>
+          <div class="trail-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cheras, Kuala Lumpur</div>
+          <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+          <span class="permit-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Permit Required
+          </span>
+        </div>
+        <div class="trail-stats">
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">2.7 km</span><span class="s-lbl">Distance</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">300 m</span><span class="s-lbl">Elev. Gain</span></div>
+          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">329 m</span><span class="s-lbl">Peak</span></div>
+        </div>
+        <div class="trail-routes">
+          <div class="route-row">
+            <span class="route-name">Easy route <span class="route-tag">Mapped</span></span>
+            <a class="btn btn-primary btn-sm" href="/gpx/Ketumbar_Hill_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+          </div>
+          <div class="route-row">
+            <span class="route-name">Extended Loop <span class="route-tag route-tag-mod">Moderate</span></span>
+            <span class="btn btn-disabled btn-sm">Coming Soon</span>
+          </div>
+        </div>
+        <div class="trail-actions">
+          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/NTgWwX6CAH9CMt7y8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+          <a class="btn btn-outline btn-sm" href="https://www.instagram.com/p/DcBQ4HIBo0p/" target="_blank" rel="noopener noreferrer">Watch Video</a>
+        </div>
+      </article>
 
     </div>
     <p class="trail-empty" id="trailEmpty">No trails match your search — try a different name.</p>
@@ -2782,7 +2837,7 @@ footer{
           <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Reach &amp; Proof</div>
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem">
             <div><div style="font-size:1.35rem;font-weight:800;color:var(--primary);line-height:1">4.8M+</div><div style="font-size:.72rem;color:var(--muted)">Total Views</div></div>
-            <div><div style="font-size:1.35rem;font-weight:800;color:var(--primary);line-height:1">23/60</div><div style="font-size:.72rem;color:var(--muted)">Mountains Climbed</div></div>
+            <div><div style="font-size:1.35rem;font-weight:800;color:var(--primary);line-height:1">24/60</div><div style="font-size:.72rem;color:var(--muted)">Mountains Climbed</div></div>
             <div><div style="font-size:1.35rem;font-weight:800;color:var(--primary);line-height:1">22</div><div style="font-size:.72rem;color:var(--muted)">Free GPX Trails</div></div>
           </div>
         </div>
