@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# Admin + dashboard sit behind edge auth and redirect to /admin/login.
+# Excluding them here keeps them out of Search Console's indexing report
+# as a deliberate choice rather than a recurring "Page with redirect" error.
+Disallow: /admin/
+Disallow: /dashboard.html
+Disallow: /dashboard
+
 Sitemap: https://kayducreator.com/sitemap.xml
