@@ -847,17 +847,6 @@ nav{
 .route-row .trail-stats{ padding:0 0 .55rem;border-bottom:none;margin-bottom:.55rem;margin-top:0; }
 .route-row .trail-actions{ padding:0;margin-top:0; }
 
-/* Inline route options on a trail card (a trail with more than one route) */
-.trail-routes{ border-top:1px solid var(--border);margin-top:auto; }
-.trail-routes .route-row{ display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap; }
-.route-name{ display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.85rem;color:var(--text); }
-.route-tag{
-  font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
-  padding:.16rem .5rem;border-radius:999px;font-weight:400;
-  background:#e8f6fa;color:#146c85;border:1px solid #bfe3ee;
-}
-.route-tag-mod{ background:#fff5e8;color:#8a5a13;border-color:#f0d9b5; }
-
 /* Permit badge */
 .permit-badge{
   display:inline-flex;align-items:center;gap:.3rem;
@@ -2604,32 +2593,72 @@ footer{
           <div class="trail-num">24 · Completed</div>
           <div class="trail-name">Ketumbar Hill</div>
           <div class="trail-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cheras, Kuala Lumpur</div>
-          <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+          <div class="route-diff-row">
+            <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+            <span class="difficulty diff-moderate"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Moderate</span>
+          </div>
           <span class="permit-badge">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             Permit Required
           </span>
         </div>
-        <div class="trail-stats">
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">2.7 km</span><span class="s-lbl">Distance</span></div>
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">300 m</span><span class="s-lbl">Elev. Gain</span></div>
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">329 m</span><span class="s-lbl">Peak</span></div>
-        </div>
-        <div class="trail-routes">
-          <div class="route-row">
-            <span class="route-name">Easy route <span class="route-tag">Mapped</span></span>
-            <a class="btn btn-primary btn-sm" href="/gpx/Ketumbar_Hill_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          </div>
-          <div class="route-row">
-            <span class="route-name">Extended Loop <span class="route-tag route-tag-mod">Moderate</span></span>
-            <span class="btn btn-disabled btn-sm">Coming Soon</span>
-          </div>
-        </div>
-        <div class="trail-actions">
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/NTgWwX6CAH9CMt7y8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
-          <a class="btn btn-outline btn-sm" href="https://www.instagram.com/p/DcBQ4HIBo0p/" target="_blank" rel="noopener noreferrer">Watch Video</a>
-        </div>
+        <button class="btn-choose-route" onclick="document.getElementById('routeModalKetumbar').classList.add('open')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+          Choose a Route ›
+        </button>
       </article>
+
+      <!-- Ketumbar Hill Route Modal -->
+      <div class="route-modal-overlay" id="routeModalKetumbar" role="dialog" aria-modal="true" aria-label="Choose a route" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="route-modal">
+          <div class="route-modal-head">
+            <div>
+              <div class="route-modal-title">Ketumbar Hill</div>
+              <div class="route-modal-sub">Cheras, Kuala Lumpur · 2 Routes available</div>
+            </div>
+            <button class="route-modal-close" onclick="document.getElementById('routeModalKetumbar').classList.remove('open')">✕</button>
+          </div>
+          <div class="route-modal-body">
+
+            <!-- Easy Route -->
+            <div class="route-row">
+              <div class="route-label">
+                <span class="route-label-name">Easy Route</span>
+                <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+              </div>
+              <div class="trail-stats">
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">2.7 km</span><span class="s-lbl">Distance</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">300 m</span><span class="s-lbl">Elev. Gain</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">329 m</span><span class="s-lbl">Peak</span></div>
+              </div>
+              <div class="trail-actions">
+                <a class="btn btn-primary btn-sm" href="/gpx/Ketumbar_Hill_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/NTgWwX6CAH9CMt7y8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DcBQ4HIBo0p/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+              </div>
+            </div>
+
+            <!-- Extended Loop -->
+            <div class="route-row">
+              <div class="route-label">
+                <span class="route-label-name">Extended Loop</span>
+                <span class="difficulty diff-moderate"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Moderate</span>
+              </div>
+              <div class="trail-stats">
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">—</span><span class="s-lbl">Distance</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">—</span><span class="s-lbl">Elev. Gain</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">329 m</span><span class="s-lbl">Peak</span></div>
+              </div>
+              <div class="trail-actions">
+                <span class="btn btn-disabled btn-sm">GPX Coming Soon</span>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/NTgWwX6CAH9CMt7y8" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DcBQ4HIBo0p/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
     </div>
     <p class="trail-empty" id="trailEmpty">No trails match your search — try a different name.</p>
