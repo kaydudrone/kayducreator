@@ -2495,19 +2495,67 @@ footer{
           <div class="trail-num">19 · Completed</div>
           <div class="trail-name">Bukit Gasing</div>
           <div class="trail-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Petaling Jaya, Selangor</div>
-          <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+          <div class="route-diff-row">
+            <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+          </div>
         </div>
-        <div class="trail-stats">
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">4.8 km</span><span class="s-lbl">Distance</span></div>
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">329 m</span><span class="s-lbl">Elev. Gain</span></div>
-          <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">155 m</span><span class="s-lbl">Peak</span></div>
-        </div>
-        <div class="trail-actions">
-          <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Gasing_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
-          <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/dAHTZvHudBaAUoCw9" target="_blank" rel="noopener noreferrer">Meeting Point</a>
-          <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DaSXeGqyXeQ/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
-        </div>
+        <button class="btn-choose-route" onclick="document.getElementById('routeModalGasing').classList.add('open')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+          Choose a Route ›
+        </button>
       </article>
+
+      <!-- Bukit Gasing Route Modal -->
+      <div class="route-modal-overlay" id="routeModalGasing" role="dialog" aria-modal="true" aria-label="Choose a route" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="route-modal">
+          <div class="route-modal-head">
+            <div>
+              <div class="route-modal-title">Bukit Gasing</div>
+              <div class="route-modal-sub">Petaling Jaya, Selangor · 2 Routes available</div>
+            </div>
+            <button class="route-modal-close" onclick="document.getElementById('routeModalGasing').classList.remove('open')">✕</button>
+          </div>
+          <div class="route-modal-body">
+
+            <!-- Main Trail -->
+            <div class="route-row">
+              <div class="route-label">
+                <span class="route-label-name">Main Trail</span>
+                <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+              </div>
+              <div class="trail-stats">
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">4.8 km</span><span class="s-lbl">Distance</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">329 m</span><span class="s-lbl">Elev. Gain</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">155 m</span><span class="s-lbl">Peak</span></div>
+              </div>
+              <div class="trail-actions">
+                <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Gasing_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/dAHTZvHudBaAUoCw9" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <a class="btn btn-ig btn-sm" href="https://www.instagram.com/p/DaSXeGqyXeQ/" target="_blank" rel="noopener noreferrer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Video</a>
+              </div>
+            </div>
+
+            <!-- KEM T-Rock -->
+            <div class="route-row">
+              <div class="route-label">
+                <span class="route-label-name">KEM T-Rock — Free Snack &amp; Coffee</span>
+                <span class="difficulty diff-easy"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Easy</span>
+              </div>
+              <div class="trail-stats">
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="s-val">3.9 km</span><span class="s-lbl">Distance</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span class="s-val">318 m</span><span class="s-lbl">Elev. Gain</span></div>
+                <div class="trail-stat"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span class="s-val">149 m</span><span class="s-lbl">Peak</span></div>
+              </div>
+              <div class="trail-actions">
+                <a class="btn btn-primary btn-sm" href="/gpx/Bukit_Gasing_KEM_T_Rock_By_KayDu.gpx" download><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> GPX</a>
+                <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/3xyYwqNfbFbQowyu5" target="_blank" rel="noopener noreferrer">Meeting Point</a>
+                <span class="btn btn-disabled btn-sm">Video Coming Soon</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
       <!-- 20 Gunung Kerunai -->
       <article class="trail-card">
