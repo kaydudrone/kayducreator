@@ -1,5 +1,8 @@
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard.html'],
+  // '/dashboard' must be listed alongside '/dashboard.html': Vercel 308-redirects the
+  // .html form to the clean URL, and a matcher covering only '/dashboard.html' never
+  // runs on the destination — which left the dashboard publicly readable.
+  matcher: ['/admin/:path*', '/dashboard', '/dashboard.html'],
 };
 
 export default function middleware(req) {

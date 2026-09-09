@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor / OS junk
+Thumbs.db
+*.swp
+*~
+
+# Local env — never commit secrets (ADMIN_SECRET, GITHUB_PAT, BLOB_READ_WRITE_TOKEN)
+.env
+.env.local
+.env*.local
+
+# Vercel
+.vercel
