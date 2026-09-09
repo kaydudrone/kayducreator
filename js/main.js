@@ -310,12 +310,25 @@ document.addEventListener('keydown', e => {
   const emptyMsg = document.getElementById('trailEmpty');
   let activeFilter = 'all';
 
+  // Multi-route trails carry more than one .difficulty badge, so match against all of them.
+  function hasDifficulty(card, diff) {
+    return [...card.querySelectorAll('.difficulty')].some(b => b.classList.contains('diff-' + diff));
+  }
+
+  // Label each filter with its live count — a hardcoded number goes stale on every new trail.
+  btns.forEach(btn => {
+    const diff = btn.dataset.filter;
+    const n = diff === 'all'
+      ? cards.length
+      : [...cards].filter(card => hasDifficulty(card, diff)).length;
+    btn.textContent = btn.textContent.replace(/\s*\(\d+\)\s*$/, '').trim() + ' (' + n + ')';
+  });
+
   function applyFilters() {
     const query = (searchInput?.value || '').trim().toLowerCase();
     let shown = 0;
     cards.forEach(card => {
-      const badge = card.querySelector('.difficulty');
-      const matchesDifficulty = activeFilter === 'all' || (badge && badge.classList.contains('diff-' + activeFilter));
+      const matchesDifficulty = activeFilter === 'all' || hasDifficulty(card, activeFilter);
       const name = card.querySelector('.trail-name')?.textContent.toLowerCase() || '';
       const loc = card.querySelector('.trail-loc')?.textContent.toLowerCase() || '';
       const matchesSearch = !query || name.includes(query) || loc.includes(query);
