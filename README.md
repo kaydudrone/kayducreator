@@ -7,7 +7,7 @@ Plain HTML/CSS/JS, hosted on Vercel. No framework, no build step.
 ## What is here
 
 - `index.html`, `free-gpx.html`, `*.html` — public pages and trail stories
-- `gpx/` — free GPX files for Malaysian trails (download and use them)
+- `gpx/` — free GPX files for Malaysian trails (the canonical open dataset with validator and contribution guide is [malaysia-trails-gpx](https://github.com/kaydudrone/malaysia-trails-gpx))
 - `admin/` — GPX trail builder, blog editor, login (protected by `middleware.js`)
 - `api/` — Vercel serverless endpoints: publish trail/blog via GitHub API, stats, auth
 - `scripts/gpxLogic.js` — GPX parsing: distance, elevation gain, peak
@@ -29,4 +29,4 @@ Trail corrections (distance, meeting point, closed trails) are welcome as issues
 
 ## Licence
 
-Code: MIT. GPX files and photos: free for personal use, credit kayducreator.com.
+Code: [MIT](LICENSE). The GPX trail files are published as an open dataset under CC BY 4.0 at [kaydudrone/malaysia-trails-gpx](https://github.com/kaydudrone/malaysia-trails-gpx); photos remain © Kay Du, credit kayducreator.com for personal use.
